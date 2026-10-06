@@ -1,0 +1,163 @@
+{
+  "status": "numerical agreement passed; branch requirements unresolved",
+  "analytic_checks": {
+    "closed_form_step": true,
+    "asymmetric_slew_ramps": true,
+    "zero_dt_hold": true,
+    "reset_precedes_hold_and_update": true,
+    "equilibrium": true,
+    "invalid_inputs_rejected": 8
+  },
+  "development_sequences": 16,
+  "evaluated_steps": 1486,
+  "independent_ports": null,
+  "c_float32_bit_exact": true,
+  "max_isolated_error_rad_s": 5.924450685456281e-08,
+  "max_stateful_error_rad_s": 9.79953269958053e-08,
+  "max_horizon_bound_rad_s": 0.00048828125,
+  "branch_disagreements": 0,
+  "branch_requirement_issues": [
+    {
+      "variant": "zero_reset",
+      "trace": "positive_saturation",
+      "step": 15,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "negative_saturation",
+      "step": 31,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "reversal",
+      "step": 63,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "reversal",
+      "step": 159,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "near_slew_branch",
+      "step": 0,
+      "issues": [
+        "slew branch interval touches threshold"
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "positive_saturation",
+      "step": 15,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "negative_saturation",
+      "step": 31,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "reversal",
+      "step": 63,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "reversal",
+      "step": 159,
+      "issues": [
+        "rate clamp interval touches threshold"
+      ]
+    }
+  ],
+  "integration_qualified": false,
+  "withheld_executed": false,
+  "px4_replay_executed": false,
+  "elapsed_generation_excluded_s": 0.5489877500222065,
+  "environment": {
+    "python": "3.13.7 (v3.13.7:bcee1c32211, Aug 14 2025, 19:10:51) [Clang 16.0.0 (clang-1600.0.26.6)]",
+    "numpy": "2.5.3",
+    "casadi": "3.8.1",
+    "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
+    "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)\nTarget: arm64-apple-darwin23.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
+  },
+  "builds": {
+    "zero_reset": {
+      "source_sha256": "97a046c5e2bf0ed936ad4e7c699dfa64375c715e7c0a3c6c130b7d5bd02b1755",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/pivot-v2-20261006/workspaces/control-code-verification/generated/zero_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/pivot-v2-20261006/workspaces/control-code-verification/build/zero_reset.so"
+      ],
+      "binary_sha256": "1faae3eba891b3ff4d6a984e2ba37ba6bdda6a5377596f4a1ed498114fc3a5ab",
+      "llvm_sha256": "84af57e9eb1743d3f85d8e6853463dbc9481708859fc64b8660b3da999e27e12",
+      "float_arithmetic_ops": 11,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    },
+    "tracking_reset": {
+      "source_sha256": "98bcfbce57df7b9f8c894c567a899f16be7902a2b3f0ab04a550447b8a208776",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/pivot-v2-20261006/workspaces/control-code-verification/generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/pivot-v2-20261006/workspaces/control-code-verification/build/tracking_reset.so"
+      ],
+      "binary_sha256": "b667f7ce45a4a2a042102f672c58196f7a26880d59c0aa7dcb7eeff2652249c4",
+      "llvm_sha256": "8fcc114fbb6752075239a7c832c5212cbbb81f162c5ddef7993f691aacfe10fd",
+      "float_arithmetic_ops": 12,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    }
+  },
+  "sha256": {
+    "spec.json": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+    "traces.json": "6319c8d5768e5be61cd166d81f795c6f76dfda9491454ecb224e9a204dcc6697",
+    "registration.json": "89a278bde0f18ac9aba94f919f3a97d0b4a3c85b4844e6a14a5af29298bc38d9",
+    "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
+    "generate.py": "9860e790f567c77aac9f267e5d374b214adaec32315723a2aa113c8dffecb9a0",
+    "qualify.py": "2603435791b36b7de56b96597e2574940b3b8e6e92dbf3281e7b8534190b2fd0",
+    "evidence/traces.csv": "951c987e2d0143e64776f24b441b92b10a05592f9c75b561eb9fdc1c86f71908"
+  }
+}
