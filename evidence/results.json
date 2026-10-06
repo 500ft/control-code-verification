@@ -93,7 +93,7 @@
   "integration_qualified": false,
   "withheld_executed": false,
   "px4_replay_executed": false,
-  "elapsed_generation_excluded_s": 0.5489877500222065,
+  "elapsed_generation_excluded_s": 0.5390696249669418,
   "environment": {
     "python": "3.13.7 (v3.13.7:bcee1c32211, Aug 14 2025, 19:10:51) [Clang 16.0.0 (clang-1600.0.26.6)]",
     "numpy": "2.5.3",
@@ -103,7 +103,7 @@
   },
   "builds": {
     "zero_reset": {
-      "source_sha256": "97a046c5e2bf0ed936ad4e7c699dfa64375c715e7c0a3c6c130b7d5bd02b1755",
+      "source_sha256": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
       "command": [
         "cc",
         "-std=c99",
@@ -127,7 +127,7 @@
       "fast_math_or_contraction": false
     },
     "tracking_reset": {
-      "source_sha256": "98bcfbce57df7b9f8c894c567a899f16be7902a2b3f0ab04a550447b8a208776",
+      "source_sha256": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be",
       "command": [
         "cc",
         "-std=c99",
@@ -156,8 +156,8 @@
     "traces.json": "6319c8d5768e5be61cd166d81f795c6f76dfda9491454ecb224e9a204dcc6697",
     "registration.json": "89a278bde0f18ac9aba94f919f3a97d0b4a3c85b4844e6a14a5af29298bc38d9",
     "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
-    "generate.py": "9860e790f567c77aac9f267e5d374b214adaec32315723a2aa113c8dffecb9a0",
-    "qualify.py": "2603435791b36b7de56b96597e2574940b3b8e6e92dbf3281e7b8534190b2fd0",
-    "evidence/traces.csv": "951c987e2d0143e64776f24b441b92b10a05592f9c75b561eb9fdc1c86f71908"
+    "generate.py": "475a6700574249e579e5ea2e18b7f59fc6fc1e130c0a9c8e0fd1a104d33e70d8",
+    "qualify.py": "bb027fe1240936128d0564b85415d52475f40e705bdb8c3dab027e3dda9bc231",
+    "evidence/traces.csv": "1c0cbb27f83d761e15b4202ee8a40722fb2ba98324b89c0aa8d6f10107ebf028"
   }
 }

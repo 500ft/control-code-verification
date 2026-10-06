@@ -20,7 +20,7 @@ for col,(variant,cfg) in enumerate(spec['variants'].items()):
     issues=[r for r in trajectory if r['branch_issue']=='True']
     top.scatter([float(r['time_s']) for r in issues],[float(r['c_rad_s']) for r in issues],marker='x',s=55,color='#ae2012',zorder=4,label='Branch issue')
     top.set(title=f"{variant.replace('_',' ')} | tau={cfg['tau']} s",xlabel='Elapsed time (s)',ylabel='Rate (rad/s)')
-    top.legend(fontsize=8,loc='upper center')
+    top.legend(fontsize=8,loc='lower right')
     selected=[r for r in rows if r['variant']==variant and r['trace']=='constant_unsaturated']
     bottom=axes[1,col]
     bottom.plot([float(r['time_s']) for r in selected],[float(r['abs_error_rad_s']) for r in selected],label='Absolute state error',color='#005f73')

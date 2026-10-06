@@ -28,6 +28,10 @@ def generate():
             y = ca.vertcat(state, ca.if_else(ca.logic_or(reset, dt == 0), 0, flag(delta, lo, hi)),
                           ca.if_else(ca.logic_or(reset, dt == 0), 0, flag(reached, -limit, limit)))
             ca.Function(name, [v], [y]).generate(name+'.c', {'casadi_real':'float', 'with_header':True})
+            # Normalize generator whitespace only; arithmetic stays untouched.
+            for suffix in ('.c', '.h'):
+                path = out/(name+suffix)
+                path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
     finally:
         os.chdir(previous)
 

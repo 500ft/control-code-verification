@@ -138,7 +138,7 @@ def main():
                 max_step=max(max_step,float(err_step)); max_sequence=max(max_sequence,float(err_sequence))
                 exact,ref,cstate=expected[0],actual[0],sequence[0]
     with (evidence/'traces.csv').open('w') as f:
-        writer=csv.DictWriter(f,fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
+        writer=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n'); writer.writeheader(); writer.writerows(rows)
     result={'status':'numerical agreement passed; branch requirements unresolved',
             'analytic_checks':analytic,'development_sequences':len(traces)*len(spec['variants']),
             'evaluated_steps':len(rows),'independent_ports':None,'c_float32_bit_exact':True,

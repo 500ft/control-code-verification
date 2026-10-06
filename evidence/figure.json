@@ -1,9 +1,9 @@
 {
   "source": "evidence/traces.csv",
-  "source_sha256": "951c987e2d0143e64776f24b441b92b10a05592f9c75b561eb9fdc1c86f71908",
+  "source_sha256": "1c0cbb27f83d761e15b4202ee8a40722fb2ba98324b89c0aa8d6f10107ebf028",
   "config_sha256": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
-  "generator_sha256": "12a336b7b2b92b9008a84261fc2bee09c0c815f3220c0d2d5a1ffa682e897754",
+  "generator_sha256": "9d8ce216dadbc810bab75dc0d3272891f26d3b3fc7cf0a4f9f2f3b42861412d5",
   "command": "python3 plot.py",
   "matplotlib": "3.11.2",
-  "figure_sha256": "21e27c4fb314454a596b096c8a39b043d683fcfe67b59dcc42b7eea2b3a65a1b"
+  "figure_sha256": "178ae27431de6914dbb23adaadcebe024c6436a4b65a10961e26b6dc551cffd4"
 }
