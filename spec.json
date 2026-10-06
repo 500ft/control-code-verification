@@ -1,0 +1,13 @@
+{
+  "module": "asymmetric slew-limited angular-rate filter",
+  "units": {"state": "rad/s", "input": "rad/s", "dt": "s", "tau": "s", "slew_up": "rad/s^2", "slew_down": "rad/s^2"},
+  "domain": {"state_abs_max": 2.0, "input_abs_max": 8.0, "dt_min_positive": 0.0000152587890625, "dt_max": 0.0625, "steps_max": 256},
+  "variants": {
+    "zero_reset": {"tau": 0.125, "slew_up": 4.0, "slew_down": 2.0, "reset_tracks_input": false},
+    "tracking_reset": {"tau": 0.25, "slew_up": 4.0, "slew_down": 2.0, "reset_tracks_input": true}
+  },
+  "numerics": {"unit_roundoff": 5.960464477539063e-08, "local_error_coefficient": 32, "intent": "exact rational arithmetic on the frozen binary32 input values", "implementation": "IEEE binary32 round-to-nearest ties-to-even, no FMA or fast math", "functional_tolerance": null},
+  "compiler_flags": ["-std=c99", "-O2", "-fno-fast-math", "-ffp-contract=off", "-Wall", "-Wextra", "-Wno-unused-parameter", "-Werror", "-shared", "-fPIC"],
+  "withheld_policy": "Final cases are frozen locally, ignored by git and unexecuted. Development cases are not confirmatory samples.",
+  "factors": {"generation": "CasADi deterministic symbolic generator, one artifact per semantic variant", "verification": ["independent analytic identities", "exact rational intent", "binary32 reference", "isolated-step B2B", "stateful B2B", "branch uncertainty inspection"], "llm_ports": "not run", "integration": "not qualified", "px4_replay": "not run"}
+}
