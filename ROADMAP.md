@@ -13,7 +13,7 @@ introduced to favor another check. This roadmap does not authorize a campaign.
 
 ## Verified starting point
 
-Local setup, CasADi float C generation and the isolated/stateful numerical
+Published source, CasADi float C generation and the isolated/stateful numerical
 comparisons have executed. The [result](evidence/results.json) and
 [trace table](evidence/traces.csv) preserve agreement, errors and unresolved
 branch-threshold cases. [Registration](registration.json) predates the
@@ -25,16 +25,18 @@ These are development results, with integration still unqualified.
 ## Current blockers
 
 Assign the second reviewer and resolve branch-use requirements before qualifying
-a wrapper. Name approval separately blocks a public repository. The original
+a wrapper. The existing staging name is now used for the public repository
+under the owner's delegated implementation instruction. The original
 failsafe repository remains paused pending its owner's release/closure choice;
 that choice does not block local core review. No physical, funding, purchase or
-publication decision has been supplied.
+paper-publication decision has been supplied.
 
 ## Dependency order
 
 Setup and numerical requirements → reference-qualified core → reviewed wrapper
 and comparison boundaries → independently motivated defect corpus → pilot →
-registered confirmation. Public naming and remote CI are a parallel setup branch.
+registered confirmation. Public source setup is complete; hosted reproduction
+is the next setup check.
 A blocked PX4 replay path does not erase the completed core result.
 
 ### Setup and generator qualification
@@ -43,8 +45,11 @@ Prerequisites: the local source/register and an available compiler environment.
 
 - Done: local git, explicit float32 reference, inspected CasADi float output and
   compiler flags, analytic checks and reproducible development comparisons.
-- Conditional: create a public remote only after name authorization; configure
-  CI to reproduce the qualified core. Keep final cases private.
+- Done: publish the reviewed source and development evidence at
+  [control-code-verification](https://github.com/500ft/control-code-verification).
+  Final cases remain private.
+- Current: execute hosted CI that regenerates C, compiles it and checks the
+  frozen development comparisons against the retained result.
 - Future: qualify another precision or generator only when its comparison needs
   it. Inspect constants, casts, math calls and compiler behavior separately.
 - Inspect any reused failsafe runner/parameter transport before adapting it.

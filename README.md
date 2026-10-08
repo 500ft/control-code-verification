@@ -1,4 +1,4 @@
-# Control code verification (local staging)
+# Control code verification
 
 Compiled CasADi C and the binary32 reference agree on the frozen development
 traces for the stateful angular-rate filter. The exact-rational intent checks
@@ -8,8 +8,10 @@ locations have one result home: [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at
 numerical, stateful and integration boundaries, and which additional checks
-reduce them. This local result starts that work. The public successor name is
-pending; this directory has local git and no remote. The
+reduce them. This development result starts that work. Source is published at
+[500ft/control-code-verification](https://github.com/500ft/control-code-verification).
+The existing staging name was used under the owner's delegated implementation
+instruction; it was not a separate naming decision. The
 [dependency roadmap](ROADMAP.md) separates completed numerical work, current requirement review and conditional
 wrapper/corpus/pilot/confirmation work. It contains no execution schedule.
 
@@ -18,8 +20,8 @@ wrapper/corpus/pilot/confirmation work. It contains no execution schedule.
 
 ## Reproduce
 
-Use Python with the pinned [dependencies](requirements.txt) and Clang on the
-recorded platform. Reproduce in a separate checkout so the retained evidence
+Use Python 3.13.7 with the pinned [dependencies](requirements.txt) and Clang.
+The retained result records its original macOS environment. Reproduce in a separate checkout so the retained evidence
 is not overwritten. For example, create an empty sibling worktree with
 `git worktree add --detach ../control-core-reproduction HEAD`, then from that
 worktree:
@@ -65,7 +67,8 @@ uses the owner's enclosure scientific reference at commit
 ## Scope and provenance
 
 This is the owner's authorized software pivot from
-`500ft/uav-failsafe-composition`, following the v2 plan and objections review.
+[500ft/px4-failsafe-differential-testing](https://github.com/500ft/px4-failsafe-differential-testing),
+following the v2 plan and objections review.
 The old project's PR #50, typed parameter transport and SITL harness are useful
 future integration sources. Their implemented boundaries must be checked
 before reuse; no harness is copied as a setup prerequisite.
@@ -79,3 +82,7 @@ failsafe firmware pin is not inherited automatically. It needs every consumed
 topic at required rate, timestamp and zero-stamp semantics, initialized state, controlled
 publishers and a known-good repeat. No replay, SITL integration, hardware
 measurement, release or deployment-readiness claim is made here.
+
+[Source and redistribution records](SOURCES.md) describe the published history,
+generated-code notices and dependency boundary. Source publication is separate
+from a paper release or integration qualification.
