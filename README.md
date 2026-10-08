@@ -9,7 +9,9 @@ locations have one result home: [evidence/results.json](evidence/results.json).
 The adopted question asks which defects remain after a costed B2B baseline at
 numerical, stateful and integration boundaries, and which additional checks
 reduce them. This local result starts that work. The public successor name is
-pending; this directory has local git and no remote.
+pending; this directory has local git and no remote. The
+[dependency roadmap](ROADMAP.md) separates completed numerical work, current requirement review and conditional
+wrapper/corpus/pilot/confirmation work. It contains no execution schedule.
 
 [Specification and bounds](NUMERICS.md) · [Roadmap](ROADMAP.md) ·
 [Frozen registration](registration.json) · [Parameters and units](spec.json)
@@ -17,7 +19,10 @@ pending; this directory has local git and no remote.
 ## Reproduce
 
 Use Python with the pinned [dependencies](requirements.txt) and Clang on the
-recorded platform. From this directory:
+recorded platform. Reproduce in a separate checkout so the retained evidence
+is not overwritten. For example, create an empty sibling worktree with
+`git worktree add --detach ../control-core-reproduction HEAD`, then from that
+worktree:
 
 ```sh
 python3 -m venv .venv
@@ -55,13 +60,15 @@ cases remain in the linked CSV; the plotted subset is not an extra experiment.
 This is the owner's authorized software pivot from
 `500ft/uav-failsafe-composition`, following the v2 plan and objections review.
 The old project's PR #50, typed parameter transport and SITL harness are useful
-future integration sources. No harness was copied before an integration need.
+future integration sources. Their implemented boundaries must be checked
+before reuse; no harness is copied as a setup prerequisite.
 Study A remains unfinished and paused in the original repository. Existing
 failsafe results do not qualify this module.
 
 The local filter boundary includes explicit state, reset and dt. A second
 reviewer and branch requirements remain pending before a reviewed wrapper.
-PX4 replay additionally needs a pinned build, every consumed topic at required
-rate, timestamp and zero-stamp semantics, initialized state, controlled
+PX4 replay additionally needs an actually qualified supported build; the old
+failsafe firmware pin is not inherited automatically. It needs every consumed
+topic at required rate, timestamp and zero-stamp semantics, initialized state, controlled
 publishers and a known-good repeat. No replay, SITL integration, hardware
 measurement, release or deployment-readiness claim is made here.
