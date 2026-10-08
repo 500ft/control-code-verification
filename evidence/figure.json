@@ -2,8 +2,17 @@
   "source": "evidence/traces.csv",
   "source_sha256": "1c0cbb27f83d761e15b4202ee8a40722fb2ba98324b89c0aa8d6f10107ebf028",
   "config_sha256": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
-  "generator_sha256": "9d8ce216dadbc810bab75dc0d3272891f26d3b3fc7cf0a4f9f2f3b42861412d5",
+  "generator_sha256": "b98f2510d1a3214f4cd247363694ade385ced68cdf4d5d4c64ee1131a6e78eaa",
   "command": "python3 plot.py",
   "matplotlib": "3.11.2",
-  "figure_sha256": "178ae27431de6914dbb23adaadcebe024c6436a4b65a10961e26b6dc551cffd4"
+  "figure_sha256": "83f35d715fcd10267d6f66e2a1e452e05ccff2fb3489fcba19c5ad687de95de2",
+  "outputs": {
+    "core-qualification.png": "83f35d715fcd10267d6f66e2a1e452e05ccff2fb3489fcba19c5ad687de95de2",
+    "core-qualification.svg": "cabe3cebce534eec58f1e7d5eb543f884b7927b9b2636a70a6bd355a280b14b7"
+  },
+  "selected_traces": [
+    "reversal",
+    "constant_unsaturated"
+  ],
+  "reference_commit": "bad572fc0902437445a5446bb5bc43098cc6211f"
 }

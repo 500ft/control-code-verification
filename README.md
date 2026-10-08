@@ -49,11 +49,18 @@ not independent generated ports or confirmatory evidence.
 
 ![Executed filter trajectories and numerical errors for both semantic variants](evidence/core-qualification.png)
 
-The figure reads the trace CSV and the parameter register. Rate, time and error
-axes carry units; lines show deterministic development output, with threshold
-issues marked. The caption names the configuration and data hash. Regenerate
-with `python3 plot.py` in an environment with Matplotlib. Exact values and all
-cases remain in the linked CSV; the plotted subset is not an extra experiment.
+The panels use shared rate and log-error scales across variants. Circles identify
+compiled output and absolute state error; dashed purple lines show exact intent
+or the analytical bound. Crosses mark threshold uncertainty, not observed branch
+failures. Bounds are deterministic and are not confidence intervals. The selected
+reversal and constant-input traces remain unchanged.
+
+[Download SVG](evidence/core-qualification.svg) · [Full trace CSV](evidence/traces.csv) ·
+[Figure inputs, output hashes and Matplotlib version](evidence/figure.json).
+Regenerate only the figure with `python3 plot.py` in an environment with
+Matplotlib. No qualification runner or withheld cases are read. This restyling
+uses the owner's enclosure scientific reference at commit
+`bad572fc0902437445a5446bb5bc43098cc6211f`. Numerical values and bounds are unchanged.
 
 ## Scope and provenance
 
