@@ -47,6 +47,21 @@ implementation commit and have not been loaded by the runner. Reproduction
 needs only the public development traces. Time samples and repeated runs are
 not independent generated ports or confirmatory evidence.
 
+## Hosted reproduction
+
+The [CI workflow](.github/workflows/qualify.yml) uses Python 3.13.7, the pinned
+numerical dependencies and the macOS runner's Clang. It regenerates both C
+variants, compiles them, inspects LLVM and executes the registered development
+traces. Generated sources and trace CSV must match the retained files exactly;
+all scientific result fields, source hashes and branch-requirement findings
+must match. Compiler/binary identity and elapsed time describe each run and
+are retained in its downloadable `development-evidence` artifact.
+
+CI runs on pushes and pull requests. It uses no repository secrets or private
+inputs. A green result reproduces numerical development agreement; it does not
+resolve branch-sensitive requirements or qualify integration. The original
+[evidence/results.json](evidence/results.json) remains unchanged.
+
 ## Figure
 
 ![Executed filter trajectories and numerical errors for both semantic variants](evidence/core-qualification.png)

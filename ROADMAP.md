@@ -36,7 +36,8 @@ paper-publication decision has been supplied.
 Setup and numerical requirements → reference-qualified core → reviewed wrapper
 and comparison boundaries → independently motivated defect corpus → pilot →
 registered confirmation. Public source setup is complete; hosted reproduction
-is the next setup check.
+is configured in the [CI workflow](.github/workflows/qualify.yml); its executed
+result must pass before this setup check is complete.
 A blocked PX4 replay path does not erase the completed core result.
 
 ### Setup and generator qualification

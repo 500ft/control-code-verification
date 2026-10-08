@@ -1,0 +1,52 @@
+name: Numerical development reproduction
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.13.7'
+          cache: pip
+      - name: Install pinned numerical dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Regenerate, compile and compare the frozen development corpus
+        run: |
+          cp evidence/results.json "$RUNNER_TEMP/baseline.json"
+          python generate.py
+          git diff --exit-code -- generated
+          python qualify.py
+          mkdir -p build/ci-evidence
+          cp evidence/results.json evidence/traces.csv build/ci-evidence/
+          git diff --exit-code -- evidence/traces.csv
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          baseline = json.loads((Path(os.environ['RUNNER_TEMP']) / 'baseline.json').read_text())
+          observed = json.loads(Path('evidence/results.json').read_text())
+          # Toolchain identity, compiled bytes and elapsed time describe this run.
+          # Everything scientific, including source hashes and branch issues, must match.
+          environment_fields = {'environment', 'builds', 'elapsed_generation_excluded_s'}
+          assert {k: v for k, v in observed.items() if k not in environment_fields} == {
+              k: v for k, v in baseline.items() if k not in environment_fields
+          }, 'development result changed'
+          assert all(b['float_arithmetic_ops'] > 0 for b in observed['builds'].values()), 'missing float IR'
+          print('Recorded numerical result, trace CSV and generated C reproduced; integration remains unqualified.')
+          PY
+      - name: Retain this run's numerical evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: development-evidence
+          path: build/ci-evidence/
+          if-no-files-found: warn
