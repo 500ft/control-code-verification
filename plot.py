@@ -57,6 +57,8 @@ outputs={}
 for ext in ['png','svg']:
     p=root/f'evidence/core-qualification.{ext}'
     fig.savefig(p,dpi=170,metadata={'Date':None} if ext=='svg' else None)
+    if ext == 'svg':
+        p.write_text('\n'.join(line.rstrip() for line in p.read_text().splitlines()) + '\n')
     outputs[p.name]=hashlib.sha256(p.read_bytes()).hexdigest()
 plt.close(fig)
 (root/'evidence/figure.json').write_text(json.dumps({
