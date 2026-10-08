@@ -35,9 +35,8 @@ paper-publication decision has been supplied.
 
 Setup and numerical requirements → reference-qualified core → reviewed wrapper
 and comparison boundaries → independently motivated defect corpus → pilot →
-registered confirmation. Public source setup is complete; hosted reproduction
-is configured in the [CI workflow](.github/workflows/qualify.yml); its executed
-result must pass before this setup check is complete.
+registered confirmation. Public source setup and
+[hosted development reproduction](https://github.com/500ft/control-code-verification/actions/runs/37854170219) are complete.
 A blocked PX4 replay path does not erase the completed core result.
 
 ### Setup and generator qualification
@@ -49,8 +48,9 @@ Prerequisites: the local source/register and an available compiler environment.
 - Done: publish the reviewed source and development evidence at
   [control-code-verification](https://github.com/500ft/control-code-verification).
   Final cases remain private.
-- Current: execute hosted CI that regenerates C, compiles it and checks the
-  frozen development comparisons against the retained result.
+- Done: [hosted CI](https://github.com/500ft/control-code-verification/actions/runs/37854170219)
+  regenerated C, compiled it and reproduced the retained numerical result and
+  trace CSV. The [workflow](.github/workflows/qualify.yml) remains under PR review.
 - Future: qualify another precision or generator only when its comparison needs
   it. Inspect constants, casts, math calls and compiler behavior separately.
 - Inspect any reused failsafe runner/parameter transport before adapting it.

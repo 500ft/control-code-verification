@@ -49,6 +49,9 @@ not independent generated ports or confirmatory evidence.
 
 ## Hosted reproduction
 
+The [executed hosted run](https://github.com/500ft/control-code-verification/actions/runs/37854170219)
+reproduced the retained development result and trace CSV.
+
 The [CI workflow](.github/workflows/qualify.yml) uses Python 3.13.7, the pinned
 numerical dependencies and the macOS runner's Clang. It regenerates both C
 variants, compiles them, inspects LLVM and executes the registered development
