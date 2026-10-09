@@ -111,3 +111,19 @@ measurement, release or deployment-readiness claim is made here.
 [Source and redistribution records](SOURCES.md) describe the published history,
 generated-code notices and dependency boundary. Source publication is separate
 from a paper release or integration qualification.
+
+## Prior work and positioning (2026-10-09)
+
+Conrad (2009) describes testing-based translation validation of generated
+code under IEC 61508. Stürmer, Weinberg and Conrad (2005) survey safeguarding
+techniques for automatically generated code. Both already list, qualitatively,
+the checks that should follow back-to-back testing of generated code. This
+repository cites both and does not present that check list as new. Entries are
+in [references.bib](references.bib).
+
+What this repository adds is counting the defects that survive a costed
+back-to-back baseline and pricing each extra check. A study of that kind was
+not found in the 2026-10-09 review (abstract-level, web search only, forward
+citations not searched). An equivalence study of CasADi-generated C was
+likewise not found in the 2026-10-09 review (abstract-level, web search only,
+forward citations not searched).
