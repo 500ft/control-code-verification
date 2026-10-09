@@ -2,13 +2,15 @@
   "source": "evidence/traces.csv",
   "source_sha256": "1c0cbb27f83d761e15b4202ee8a40722fb2ba98324b89c0aa8d6f10107ebf028",
   "config_sha256": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
-  "generator_sha256": "5a9b0c67885384020495b8d518859682a8e7624ba9458b8c77a7da6fb39200af",
+  "generator_sha256": "1f0a79c7793bcd2dcad63ab761e1a608bcc0caf16770ec310e0a8d6bfa7bb835",
+  "style_helper": "figure_style.py",
+  "style_helper_sha256": "83a6600d25cea9afa82104d3204bfa05ff91f0772b7b3401cc7a5a931e702516",
   "command": "python3 plot.py",
   "matplotlib": "3.11.2",
-  "figure_sha256": "83f35d715fcd10267d6f66e2a1e452e05ccff2fb3489fcba19c5ad687de95de2",
+  "figure_sha256": "fe0b180dede90ab937318956d0567214166e447eb00f478d73f0ebe5d24a14e6",
   "outputs": {
-    "core-qualification.png": "83f35d715fcd10267d6f66e2a1e452e05ccff2fb3489fcba19c5ad687de95de2",
-    "core-qualification.svg": "ff3c204711680c80f9a382a4c8157f75691bcc0d2eb72dcc630e17c28c7e06e8"
+    "core-qualification.png": "fe0b180dede90ab937318956d0567214166e447eb00f478d73f0ebe5d24a14e6",
+    "core-qualification.svg": "474ea470f60c23a5c4f605f97be3231d83ee26734bae7ae8de4e9cfd71ca43b7"
   },
   "selected_traces": [
     "reversal",
