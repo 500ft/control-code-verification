@@ -21,7 +21,7 @@ paused in [px4-failsafe-differential-testing](https://github.com/500ft/px4-fails
 | Generated C and headers | CasADi notices retained in every generated file: runtime content, MIT-0 template code and user-owned code are distinguished. [Code-generation documentation](https://web.casadi.org/docs/#generating-c-code). |
 | CasADi and NumPy | Installed from the versions in [requirements.txt](requirements.txt), not vendored or redistributed here. [CasADi package record](https://pypi.org/project/casadi/3.8.1/), [NumPy package record](https://pypi.org/project/numpy/2.5.3/). |
 | Numerical result and traces | Original [result](evidence/results.json) identifies compiler, package versions, generated source, binary and trace hashes. Original compiler paths are retained as execution provenance; those host directories are not included. |
-| Scientific figures | [Manifest](evidence/figure.json) records data/config/generator hashes. The owner's enclosure reference informs styling; no enclosure data is included. |
+| Scientific figures | [Manifest](evidence/figure.json) records data, config, generator and style-helper hashes. [figure_style.py](figure_style.py) sets the shared figure rules. The owner's enclosure reference informed the earlier styling. No enclosure data is included. |
 
 No PX4 source, public flight logs, credentials or third-party datasets are
 included in this successor. The generated artifacts compile independently of
