@@ -1,0 +1,17 @@
+{
+  "exposure": "development only; no final or new reserved corpus",
+  "domain": "spec.json unchanged; both variants; exactly binary32 finite x/u/dt; reset boolean; max 256 steps",
+  "horizon": 256,
+  "seeds": {"pilot": 11011000, "campaign": 22022000},
+  "pilot_random_traces_per_stratum_per_variant": 2,
+  "campaign_random_traces_per_stratum_per_variant": 512,
+  "strata": ["variable_dt", "saturation", "slew_threshold", "reset_precedence", "smooth_growth", "tiny_values"],
+  "exact_reference_policy": "all executed steps, both isolated and stateful; no subset selected after seeing outcomes",
+  "comparison": "exact binary32 tuple bits between reference and host C; exact state errors bounded by unchanged NUMERICS.md recurrence; exact-vs-binary32 branch disagreements retained as unresolved requirements",
+  "metrics": ["attempted/invalid/executed traces and steps", "C/reference bit disagreements including signed zero", "exact/reference branch disagreements", "local/stateful numeric error", "bound violations", "rational numerator/denominator bit length", "elapsed time", "peak RSS", "artifact bytes"],
+  "scale_gate": "Pilot admission and arithmetic controls must pass; no C/reference bit disagreement or bound violation. Estimate full exact runtime from pilot plus worst rational growth benchmark. Start full registered budget only if conservative 2x projected runtime fits remaining four hours and projected storage fits 5 GiB; otherwise cap per-stratum count prospectively from those projections and record before running.",
+  "stop": "Stop comparisons at first C/reference bit disagreement or bound violation; retain failing trace and prefix and minimize before any broader campaign. Invalid generator inputs stop for repair with original attempts retained. Exact/reference branch disagreements within bound do not imply implementation defects or stop alone. Check resources at each trace and stop with checkpoint before four hours, 2 GiB RSS or 5 GiB artifacts.",
+  "resources": {"workers": 1, "blas_openmp_threads": 1, "max_seconds": 14400, "target_rss_bytes": 2147483648, "max_new_artifact_bytes": 5368709120},
+  "evidence_unit": "a generated trace; steps and deterministic builds are not independent ports; seeds are input-generation identifiers",
+  "exclusions": "wrapper, messages, PX4, SITL, hardware timing, Cortex-M qualification, unsupported inputs, reserved outcomes"
+}
