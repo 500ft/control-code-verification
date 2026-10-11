@@ -19,6 +19,13 @@ jobs:
           cache: pip
       - name: Install pinned numerical dependencies
         run: python -m pip install -r requirements.txt
+      - name: Characterize the known signed-zero discrepancy and check host arithmetic
+        run: |
+          mkdir -p build/ci-evidence
+          cc -std=c99 -O2 -fno-fast-math -ffp-contract=off -Wall -Wextra -Wno-unused-parameter -Werror campaign/arithmetic_controls.c -o build/arithmetic-controls
+          build/arithmetic-controls > build/ci-evidence/arithmetic-controls.json
+          cc -std=c99 -O2 -fno-fast-math -ffp-contract=off -Wall -Wextra -Wno-unused-parameter -Werror campaign/replay_zero_hold.c generated/zero_reset.c generated/tracking_reset.c -o build/zero-hold-replay
+          build/zero-hold-replay > build/ci-evidence/zero-hold-replay.json
       - name: Replay and explain the retained branch issues
         run: |
           python review_branch_use.py

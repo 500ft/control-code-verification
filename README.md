@@ -67,6 +67,21 @@ inputs. A green result reproduces numerical development agreement; it does not
 resolve branch-sensitive requirements or qualify integration. The original
 [evidence/results.json](evidence/results.json) remains unchanged.
 
+## Development pilot
+
+The [bounded pilot](evidence/development/README.md) stopped on a signed-zero
+representation mismatch: a hold from `-0.0` returns `+0.0` in generated C,
+while the explicit binary32 reference preserves the sign. State values and
+flags agree in the minimal reproducer. This new result limits bitwise agreement
+to the original exercised corpus; it does not invalidate its retained outputs.
+The original branch contacts remain conservative requirement findings.
+
+The pilot includes a measured rational-reference benchmark and independent
+host arithmetic controls. Large comparisons stopped at the registered gate.
+ARM Linux/QEMU execution was unavailable. No representation contract was
+changed, and wrapper qualification remains blocked on functional requirements
+and independent human review.
+
 ## Branch-use review
 
 [Executed review](BRANCH_USE.md) · [Per-step table](evidence/branch-use-table.md) ·

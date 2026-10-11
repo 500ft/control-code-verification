@@ -1,0 +1,20 @@
+{
+  "command": [
+    "cc",
+    "-std=c99",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter",
+    "-Werror",
+    "/Users/redhose/Projects/control-numerical-campaign/campaign/arithmetic_controls.c",
+    "-o",
+    "/Users/redhose/Projects/critical-audit-20261002/implementation/compute-tasks-20261011/receipts/control-pilot-run/controls"
+  ],
+  "binary_sha256": "f8a2e3b67349bdfde54b37b06f3d29dae2953133f7b18593f47b9c1de3e8f52b",
+  "exit_code": 0,
+  "output": "{\"tie_bits\":\"3f800000\",\"subnormal_bits\":\"00400000\",\"contraction_bits\":\"00000000\",\"fpcr\":0,\"round_nearest\":true}\n",
+  "stderr": ""
+}

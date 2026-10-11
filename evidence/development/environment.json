@@ -1,0 +1,77 @@
+{
+  "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "tools": {
+    "qemu-aarch64": null,
+    "qemu-aarch64-static": null,
+    "qemu-arm": null,
+    "aarch64-linux-gnu-gcc": null,
+    "arm-linux-gnueabihf-gcc": null,
+    "docker": "/usr/local/bin/docker",
+    "podman": null
+  },
+  "commands": [
+    {
+      "command": [
+        "cc",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "Apple clang version 16.0.0 (clang-1600.0.26.6)\nTarget: arm64-apple-darwin23.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "Apple clang version 16.0.0 (clang-1600.0.26.6)\nTarget: arm64-apple-darwin23.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "clang",
+        "-print-target-triple"
+      ],
+      "exit_code": 0,
+      "stdout": "arm64-apple-darwin23.6.0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "xcrun",
+        "--show-sdk-version"
+      ],
+      "exit_code": 0,
+      "stdout": "15.2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/local/bin/docker",
+        "version"
+      ],
+      "exit_code": 1,
+      "stdout": "Client:\n Version:           29.5.3\n API version:       1.54\n Go version:        go1.26.4\n Git commit:        d1c06ef\n Built:             Wed Jun  3 17:59:08 2026\n OS/Arch:           darwin/arm64\n Context:           desktop-linux\n",
+      "stderr": "Cannot connect to the Docker daemon at unix:///Users/redhose/.docker/run/docker.sock. Is the docker daemon running?\n"
+    },
+    {
+      "command": [
+        "/usr/local/bin/docker",
+        "image",
+        "ls",
+        "--format",
+        "{{.Repository}}:{{.Tag}} {{.ID}} {{.Size}}"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Cannot connect to the Docker daemon at unix:///Users/redhose/.docker/run/docker.sock. Is the docker daemon running?\n"
+    }
+  ],
+  "arm_linux_status": "not executed: QEMU and ARM Linux cross-compiler absent from PATH; Docker daemon unavailable",
+  "native_scope": "Apple Clang 16, arm64-apple-darwin23.6.0, native macOS executable; not an independent ARM Linux/QEMU build",
+  "compiler_flags_source": "spec.json",
+  "arithmetic_controls": "controls.json",
+  "freeze_hashes_verified": true
+}

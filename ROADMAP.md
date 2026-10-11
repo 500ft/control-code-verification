@@ -24,6 +24,13 @@ These are development results, with integration still unqualified.
 
 ## Current blockers
 
+The [development pilot](evidence/development/README.md) found a signed-zero
+representation discrepancy between generated C and the explicit binary32
+reference. Resolve the required zero representation and review any repair
+before resuming that comparison domain. The pilot stopped before the large
+run. ARM Linux/QEMU additionally needs a runnable pinned compiler/sysroot and
+emulator; the installed container client has no accessible daemon.
+
 Assign the second reviewer and resolve branch-use requirements before qualifying
 a wrapper. The existing staging name is now used for the public repository
 under the owner's delegated implementation instruction. The original
@@ -72,6 +79,10 @@ and horizon domain and numerical error bounds before running comparisons.
   result and maps each flagged step to its comparison, interval, rounding and
   emitted output. The exposed cases are threshold ties with matching flags.
   Returned flags currently feed verification; clipping predicates affect state.
+- Done: the bounded development pilot measured rational-reference cost and
+  passed host arithmetic controls, then stopped on its first bitwise
+  discrepancy. A minimized direct C replay preserves the finding; state values
+  and flags agree there. Original inputs and results remain unchanged.
 - Current: specify the external consumer and its branch-identity requirements,
   and assign the independent human reviewer. Diagnostic-only use remains a
   possible proposal, not an adopted contract. Any required margin or hysteresis

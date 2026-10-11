@@ -95,6 +95,16 @@ uses these flags, its margin or hysteresis must be specified and checked.
 Widening numerical tolerance cannot answer that question. The current result
 keeps integration unqualified, with final cases withheld.
 
+## Zero representation finding
+
+The [development pilot](evidence/development/README.md) found that a hold from
+negative zero returns positive zero in generated C. The explicit reference
+preserves negative zero. Exact rational intent cannot distinguish these values;
+zero real-valued error does not establish bitwise equality. The selection sums
+in generated C explain the discrepancy in a direct C replay. The bound and
+original corpus result remain valid for their stated observations. No zero
+canonicalization or sign-preservation contract has been adopted.
+
 ## Generated artifact inspection
 
 CasADi emits `casadi_real float` and float temporaries. Unsuffixed literals are
