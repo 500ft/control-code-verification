@@ -19,6 +19,12 @@ jobs:
           cache: pip
       - name: Install pinned numerical dependencies
         run: python -m pip install -r requirements.txt
+      - name: Replay and explain the retained branch issues
+        run: |
+          python review_branch_use.py
+          git diff --exit-code -- evidence/branch-use.json evidence/branch-use-table.md
+          mkdir -p build/ci-evidence
+          cp build/branch-use/run.json build/ci-evidence/branch-use-run.json
       - name: Regenerate, compile and compare the frozen development corpus
         run: |
           cp evidence/results.json "$RUNNER_TEMP/baseline.json"

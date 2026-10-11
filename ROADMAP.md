@@ -50,7 +50,7 @@ Prerequisites: the local source/register and an available compiler environment.
   Final cases remain private.
 - Done: [hosted CI](https://github.com/500ft/control-code-verification/actions/runs/37854170219)
   regenerated C, compiled it and reproduced the retained numerical result and
-  trace CSV. The [workflow](.github/workflows/qualify.yml) remains under PR review.
+  trace CSV. The [workflow](.github/workflows/qualify.yml) is merged.
 - Future: qualify another precision or generator only when its comparison needs
   it. Inspect constants, casts, math calls and compiler behavior separately.
 - Inspect any reused failsafe runner/parameter transport before adapting it.
@@ -68,9 +68,14 @@ and horizon domain and numerical error bounds before running comparisons.
 
 - Done: the filter variants pass independent analytic limits and common frozen
   development traces against exact intent, explicit float32 and compiled C.
-- Current: review the functional use of flags whose uncertainty interval touches
-  a branch. Specify any required margin or hysteresis; do not widen a numerical
-  tolerance to resolve a functional ambiguity.
+- Done: [executed branch-use review](BRANCH_USE.md) reproduces the retained
+  result and maps each flagged step to its comparison, interval, rounding and
+  emitted output. The exposed cases are threshold ties with matching flags.
+  Returned flags currently feed verification; clipping predicates affect state.
+- Current: specify the external consumer and its branch-identity requirements,
+  and assign the independent human reviewer. Diagnostic-only use remains a
+  possible proposal, not an adopted contract. Any required margin or hysteresis
+  needs a functional basis; numerical tolerance remains unchanged.
 - Future: freeze any necessary semantic repair and fresh verification cases.
   Cases exposed during development cannot become final cases.
 

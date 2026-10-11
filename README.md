@@ -2,9 +2,11 @@
 
 Compiled CasADi C and the binary32 reference agree on the frozen development
 traces for the stateful angular-rate filter. The exact-rational intent checks
-pass within the derived numerical bounds. Branch-near cases remain requirement
-issues, so integration is unqualified. Counts, errors, build identity and case
-locations have one result home: [evidence/results.json](evidence/results.json).
+pass within the derived numerical bounds. The
+[executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
+threshold ties with no observed flag disagreement. External consumer requirements
+and independent human review remain open, so integration is unqualified. The
+original corpus summary remains in [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at
 numerical, stateful and integration boundaries, and which additional checks
@@ -64,6 +66,18 @@ CI runs on pushes and pull requests. It uses no repository secrets or private
 inputs. A green result reproduces numerical development agreement; it does not
 resolve branch-sensitive requirements or qualify integration. The original
 [evidence/results.json](evidence/results.json) remains unchanged.
+
+## Branch-use review
+
+[Executed review](BRANCH_USE.md) · [Per-step table](evidence/branch-use-table.md) ·
+[Exact intervals, rounding and native outputs](evidence/branch-use.json)
+
+Returned flags currently feed verification only. The underlying clipping
+comparisons determine the next state. No wrapper or external flag consumer
+has been supplied. The conservative issue markers remain; no functional
+contract, numerical bound or final case changed. Reproduce the branch detail
+with `python review_branch_use.py` before running the qualification command.
+CI checks the detail and retains each execution's compiler/binary identity.
 
 ## Figure
 
