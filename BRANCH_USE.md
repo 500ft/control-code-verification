@@ -71,14 +71,16 @@ on them. This review neither adopts that proposal nor removes flag checking.
 
 ## Remaining decision and reproduction
 
-The owner adopted functional-consumer resolution and an independent numerics
-review as prerequisites to wrapper qualification. Reviewer identity is pending
-with the owner. No flag-use contract or semantic repair has been approved.
+The owner adopted functional-consumer resolution and Claude AI technical review
+of the numerical core as prerequisites to wrapper qualification. The Claude
+review assignment is underway; its completed report is not yet available.
+Human review is deferred for this scoped development gate. No flag-use contract
+or semantic repair has been approved.
 
 ### Review scope and decision record
 
-The reviewer should inspect the frozen [specification](spec.json), including
-the admissible input domain and variants; the [binary32 error
+Claude AI technical review should inspect the frozen [specification](spec.json),
+including the admissible input domain and variants; the [binary32 error
 argument](NUMERICS.md#error-bound); and the [reset and hold
 precedence](NUMERICS.md#core-specification-and-numerical-argument). Check the
 argument against the original [threshold-contact result](evidence/results.json)
@@ -87,8 +89,15 @@ intervals touch thresholds, while the executed flags agree. Then inspect the
 separately minimized [exact-versus-rounded examples](evidence/observational/independent-review.json)
 and the direct [signed-zero reproducer](evidence/development/replay.json).
 The [observational account](evidence/observational/README.md) states the
-development corpus and environment limits. Review comments, required changes
-and their resolutions should be recorded before this gate is closed.
+development corpus and environment limits. Admission requires a pinned report
+identifying the reviewed commit and source hashes, model and session provenance
+where known, and prior exposure to expected results. It must show independently
+derived checks, commands and results, and per-claim findings classified as
+supported within scope, correction required or unresolved. Record the
+resolution of each required correction or unresolved claim. Assignment
+alone does not complete review. A separate AI session and a separate
+calculation provide different kinds of independence; neither is human or
+external peer review.
 
 | Decision field | Question to resolve with the actual consumer | Evidence or answer needed |
 | :--- | :--- | :--- |
@@ -97,7 +106,7 @@ and their resolutions should be recorded before this gate is closed.
 | Anti-windup | Does a controller use either flag to freeze, reset or back-calculate another state? | Supply the rule and decide whether an exact-versus-rounded flag change is acceptable. |
 | Logging | Are flags or state bits used for telemetry, alarms, replay keys or acceptance decisions? | State which representation and branch comparisons must match. |
 | Signed zero | Can a downstream calculation or bitwise consumer distinguish negative from positive zero? | Trace sign-sensitive operations or serialization and specify whether sign preservation is required. |
-| Disposition | What functional requirement governs any accepted difference? | Record reviewer identity, comments and resolution; define tests for any adopted contract. |
+| Disposition | What functional requirement governs any accepted difference? | Record Claude report provenance, per-claim disposition and resolutions; define tests for any adopted contract. |
 
 The current repository has no supplied external consumer. Its emitted flags
 feed verification, while clipping predicates affect the next state. The
@@ -106,8 +115,8 @@ later examples show exact-versus-rounded branch differences and a zero-sign
 representation difference. Neither observation decides functional
 acceptability. Diagnostic-only flags, a branch margin and hysteresis remain
 conditional options requiring a supported consumer requirement. Do not run
-more random traces or implement a wrapper until the contract and independent
-review resolve this gate.
+more random traces or implement a wrapper until the contract and Claude AI
+technical review resolve this gate.
 
 From a separate checkout with the pinned dependencies and Clang:
 

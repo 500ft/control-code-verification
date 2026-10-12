@@ -89,9 +89,12 @@ the clipping predicates still affect state. No external consumer is specified,
 and no diagnostic-only contract has been adopted. Original issue markers and
 bounds remain unchanged.
 
-Before integration, a reviewer must decide whether strict branch identity is
-required and how branch-near inputs should be handled. If an external action
-uses these flags, its margin or hysteresis must be specified and checked.
+Before integration, the actual consumer contract must decide whether strict
+branch identity is required and how branch-near inputs should be handled. The
+[Claude AI technical review scope](BRANCH_USE.md#review-scope-and-decision-record)
+also requires a pinned report and resolved per-claim findings before numerical
+core admission. If an external action uses these flags, its margin or
+hysteresis must be specified and checked.
 Widening numerical tolerance cannot answer that question. The current result
 keeps integration unqualified, with final cases withheld.
 

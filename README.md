@@ -5,7 +5,7 @@ traces for the stateful angular-rate filter. The exact-rational intent checks
 pass within the derived numerical bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
 threshold ties with no observed flag disagreement. The adopted
-[functional-consumer and independent-review gate](BRANCH_USE.md#review-scope-and-decision-record)
+[functional-consumer and Claude AI technical review gate](BRANCH_USE.md#review-scope-and-decision-record)
 remains open, so integration is unqualified. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
 
@@ -82,8 +82,9 @@ unchanged. A separately registered descriptive protocol allowed other traces
 to execute without adopting bitwise acceptance or changing controller semantics.
 The executable ARM Linux GCC/QEMU comparison also completed on the original
 registered corpus, with the known zero-sign diagnostic reported separately.
-Functional requirements and independent human review remain open before wrapper
-qualification. No reserved cases or integration campaign ran.
+Functional consumer requirements and the completed Claude AI technical review
+report remain open before wrapper qualification. Human review is deferred for
+this scoped development gate. No reserved cases or integration campaign ran.
 
 ## Branch-use review
 
@@ -132,8 +133,9 @@ before reuse; no harness is copied as a setup prerequisite.
 Study A remains unfinished and paused in the original repository. Existing
 failsafe results do not qualify this module.
 
-The local filter boundary includes explicit state, reset and dt. A second
-reviewer and branch requirements remain pending before a reviewed wrapper.
+The local filter boundary includes explicit state, reset and dt. Claude AI
+technical review findings and branch requirements remain pending before a
+reviewed wrapper.
 PX4 replay additionally needs an actually qualified supported build; the old
 failsafe firmware pin is not inherited automatically. It needs every consumed
 topic at required rate, timestamp and zero-stamp semantics, initialized state, controlled

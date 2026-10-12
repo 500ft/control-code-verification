@@ -30,12 +30,14 @@ ARM Linux GCC/QEMU comparison. Signed-zero representation and exact-versus-round
 branch differences remain observed requirements questions. Specify their
 functional consumers and acceptance requirements before qualifying a wrapper.
 The owner adopted the [review scope and decision fields](BRANCH_USE.md#review-scope-and-decision-record)
-for this gate. The actual consumer behavior and independent reviewer remain
-unprovided; numerical agreement does not decide functional acceptability.
+for this gate. Actual consumer behavior remains unprovided. The owner authorized
+Claude AI technical review for this scoped development gate; its report is
+pending. Human review is deferred and is not required here. Numerical agreement
+does not decide functional acceptability.
 The original first-failure pilot and its bitwise criterion remain preserved;
 its stop no longer prevents descriptive numerical observation.
 
-Assign the second reviewer and resolve branch-use requirements before qualifying
+Resolve the Claude review findings and branch-use requirements before qualifying
 a wrapper. The existing staging name is now used for the public repository
 under the owner's delegated implementation instruction. The original
 failsafe repository remains paused pending its owner's release/closure choice;
@@ -95,24 +97,27 @@ and horizon domain and numerical error bounds before running comparisons.
   this supplies no Cortex-M/PX4 or hardware-timing qualification.
 - Current: resolve the [consumer decision fields](BRANCH_USE.md#review-scope-and-decision-record)
   for state, mode, anti-windup, logging, signed zero and branch identity, then
-  obtain independent review of the frozen specification, binary32 argument,
-  reset precedence and retained counterexamples. Reviewer identity is
-  owner-pending. Diagnostic-only use remains a possible proposal, not an
+  obtain a pinned Claude AI technical review of the frozen specification,
+  binary32 argument, reset precedence and retained counterexamples. The
+  existing reviewers are researching; no completed report or admission is
+  recorded. Diagnostic-only use remains a possible proposal, not an
   adopted contract. Any required margin or hysteresis needs a functional
   basis; numerical tolerance remains unchanged. No further random traces or
   wrapper implementation are authorized while this gate is open.
 - Future: freeze any necessary semantic repair and fresh verification cases.
   Cases exposed during development cannot become final cases.
 
-Completion evidence: a traced consumer contract, independent reviewer comments
-and resolutions, a recorded comparison for the admitted core, and resolved or
+Completion evidence: a traced consumer contract; a pinned Claude AI technical
+review report with model/session provenance where known, prior exposure,
+independently derived checks, per-claim findings and dispositions, and recorded
+resolutions; a recorded comparison for the admitted core; and resolved or
 explicitly excluded branch-sensitive behavior.
 Numerical agreement alone does not complete this milestone.
 
 ### Reviewed wrapper and B2B boundaries
 
-Prerequisites: qualified core semantics and a second reviewer. Write admission,
-initialization, reset/mode, timestamp, stale/absent/reordered-message and
+Prerequisites: qualified core semantics and resolved Claude AI technical review.
+Write admission, initialization, reset/mode, timestamp, stale/absent/reordered-message and
 publisher rules before collecting wrapper results.
 
 - Preserve isolated numerical-step and stateful sequence comparisons, including
@@ -127,7 +132,7 @@ publisher rules before collecting wrapper results.
 - For each admitted boundary, demonstrate detection of a justified known defect
   and record setup and execution cost separately.
 
-Completion evidence: reviewer sign-off, common frozen inputs, known-good and
+Completion evidence: resolved review findings, common frozen inputs, known-good and
 known-defect outcomes, exclusions, reproducible comparison logs and cost records
 for step, state, message and SITL boundaries. None of the latter two has run.
 
