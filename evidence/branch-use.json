@@ -1,0 +1,881 @@
+{
+  "status": "development branch-use replay complete; external consumer requirements unresolved",
+  "evaluated_steps": 1486,
+  "reviewed_issue_steps": 9,
+  "observed_branch_disagreements": 0,
+  "intermediate_values": "source reconstruction; native output tuples directly observed",
+  "nearest_even_checks": "exact rational distances to adjacent binary32 values for each recorded operation",
+  "contract_changed": false,
+  "integration_qualified": false,
+  "withheld_executed": false,
+  "sha256": {
+    "spec.json": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+    "registration.json": "89a278bde0f18ac9aba94f919f3a97d0b4a3c85b4844e6a14a5af29298bc38d9",
+    "traces.json": "6319c8d5768e5be61cd166d81f795c6f76dfda9491454ecb224e9a204dcc6697",
+    "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
+    "generate.py": "475a6700574249e579e5ea2e18b7f59fc6fc1e130c0a9c8e0fd1a104d33e70d8",
+    "qualify.py": "bb027fe1240936128d0564b85415d52475f40e705bdb8c3dab027e3dda9bc231",
+    "review_branch_use.py": "ccee0ebe7153d426e8eb1b6f5b379a69aefbaac823c0663695e2a0f2aa3fba35",
+    "evidence/results.json": "76636493433ab3e098f9019c1f9960b0fab129b544e7726a33f3c8e1e576de2e",
+    "evidence/traces.csv": "1c0cbb27f83d761e15b4202ee8a40722fb2ba98324b89c0aa8d6f10107ebf028",
+    "generated/zero_reset.c": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+    "generated/tracking_reset.c": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be"
+  },
+  "cases": [
+    {
+      "variant": "zero_reset",
+      "trace": "positive_saturation",
+      "step": 15,
+      "input": {
+        "prior_exact_rad_s": "15/8",
+        "prior_c_rad_s": "15/8",
+        "u_rad_s": "8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": ">",
+          "threshold_rad_s": "2",
+          "center_rad_s": "2",
+          "radius_rad_s": "1/32768",
+          "interval_rad_s": [
+            "65535/32768",
+            "65537/32768"
+          ],
+          "binary32_operand_rad_s": "2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "5/32",
+          "binary32": "5/32",
+          "bits_hex": "3e200000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/5",
+          "binary32": "13421773/67108864",
+          "bits_hex": "3e4ccccd",
+          "signed_rounding_error": "1/335544320"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "49/8",
+          "binary32": "49/8",
+          "bits_hex": "40c40000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "657666877/536870912",
+          "binary32": "10276045/8388608",
+          "bits_hex": "3f9ccccd",
+          "signed_rounding_error": "3/536870912"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "2",
+          "binary32": "2",
+          "bits_hex": "40000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "2",
+        "1",
+        "0"
+      ],
+      "native_output": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "40000000",
+        "3f800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "negative_saturation",
+      "step": 31,
+      "input": {
+        "prior_exact_rad_s": "-31/16",
+        "prior_c_rad_s": "-31/16",
+        "u_rad_s": "-8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": "<",
+          "threshold_rad_s": "-2",
+          "center_rad_s": "-2",
+          "radius_rad_s": "1/16384",
+          "interval_rad_s": [
+            "-32769/16384",
+            "-32767/16384"
+          ],
+          "binary32_operand_rad_s": "-2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "5/32",
+          "binary32": "5/32",
+          "bits_hex": "3e200000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/5",
+          "binary32": "13421773/67108864",
+          "bits_hex": "3e4ccccd",
+          "signed_rounding_error": "1/335544320"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "-97/16",
+          "binary32": "-97/16",
+          "bits_hex": "c0c20000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "-1301911981/1073741824",
+          "binary32": "-10171187/8388608",
+          "bits_hex": "bf9b3333",
+          "signed_rounding_error": "45/1073741824"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "-2",
+          "binary32": "-2",
+          "bits_hex": "c0000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "-2",
+        "-1",
+        "0"
+      ],
+      "native_output": [
+        -2.0,
+        -1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "c0000000",
+        "bf800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "reversal",
+      "step": 63,
+      "input": {
+        "prior_exact_rad_s": "-31/16",
+        "prior_c_rad_s": "-31/16",
+        "u_rad_s": "-8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": "<",
+          "threshold_rad_s": "-2",
+          "center_rad_s": "-2",
+          "radius_rad_s": "1/8192",
+          "interval_rad_s": [
+            "-16385/8192",
+            "-16383/8192"
+          ],
+          "binary32_operand_rad_s": "-2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "5/32",
+          "binary32": "5/32",
+          "bits_hex": "3e200000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/5",
+          "binary32": "13421773/67108864",
+          "bits_hex": "3e4ccccd",
+          "signed_rounding_error": "1/335544320"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "-97/16",
+          "binary32": "-97/16",
+          "bits_hex": "c0c20000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "-1301911981/1073741824",
+          "binary32": "-10171187/8388608",
+          "bits_hex": "bf9b3333",
+          "signed_rounding_error": "45/1073741824"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "-2",
+          "binary32": "-2",
+          "bits_hex": "c0000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "-2",
+        "-1",
+        "0"
+      ],
+      "native_output": [
+        -2.0,
+        -1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "c0000000",
+        "bf800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "reversal",
+      "step": 159,
+      "input": {
+        "prior_exact_rad_s": "15/8",
+        "prior_c_rad_s": "15/8",
+        "u_rad_s": "8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": ">",
+          "threshold_rad_s": "2",
+          "center_rad_s": "2",
+          "radius_rad_s": "5/16384",
+          "interval_rad_s": [
+            "32763/16384",
+            "32773/16384"
+          ],
+          "binary32_operand_rad_s": "2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "5/32",
+          "binary32": "5/32",
+          "bits_hex": "3e200000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/5",
+          "binary32": "13421773/67108864",
+          "bits_hex": "3e4ccccd",
+          "signed_rounding_error": "1/335544320"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "49/8",
+          "binary32": "49/8",
+          "bits_hex": "40c40000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "657666877/536870912",
+          "binary32": "10276045/8388608",
+          "bits_hex": "3f9ccccd",
+          "signed_rounding_error": "3/536870912"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "2",
+          "binary32": "2",
+          "bits_hex": "40000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "2",
+        "1",
+        "0"
+      ],
+      "native_output": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "40000000",
+        "3f800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "zero_reset",
+      "trace": "near_slew_branch",
+      "step": 0,
+      "input": {
+        "prior_exact_rad_s": "0",
+        "prior_c_rad_s": "0",
+        "u_rad_s": "5/8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "slew",
+          "operator": ">",
+          "threshold_rad_s": "1/8",
+          "center_rad_s": "1/8",
+          "radius_rad_s": "1/524288",
+          "interval_rad_s": [
+            "65535/524288",
+            "65537/524288"
+          ],
+          "binary32_operand_rad_s": "1/8",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "5/32",
+          "binary32": "5/32",
+          "bits_hex": "3e200000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/5",
+          "binary32": "13421773/67108864",
+          "bits_hex": "3e4ccccd",
+          "signed_rounding_error": "1/335544320"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "5/8",
+          "binary32": "5/8",
+          "bits_hex": "3f200000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "67108865/536870912",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "-1/536870912"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "1/8",
+        "0",
+        "0"
+      ],
+      "native_output": [
+        0.125,
+        0.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "3e000000",
+        "00000000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "positive_saturation",
+      "step": 15,
+      "input": {
+        "prior_exact_rad_s": "15/8",
+        "prior_c_rad_s": "15/8",
+        "u_rad_s": "8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": ">",
+          "threshold_rad_s": "2",
+          "center_rad_s": "2",
+          "radius_rad_s": "1/32768",
+          "interval_rad_s": [
+            "65535/32768",
+            "65537/32768"
+          ],
+          "binary32_operand_rad_s": "2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "9/32",
+          "binary32": "9/32",
+          "bits_hex": "3e900000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/9",
+          "binary32": "14913081/134217728",
+          "bits_hex": "3de38e39",
+          "signed_rounding_error": "1/1207959552"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "49/8",
+          "binary32": "49/8",
+          "bits_hex": "40c40000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "730740969/1073741824",
+          "binary32": "2854457/4194304",
+          "bits_hex": "3f2e38e4",
+          "signed_rounding_error": "23/1073741824"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "2",
+          "binary32": "2",
+          "bits_hex": "40000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "2",
+        "1",
+        "0"
+      ],
+      "native_output": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "40000000",
+        "3f800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "negative_saturation",
+      "step": 31,
+      "input": {
+        "prior_exact_rad_s": "-31/16",
+        "prior_c_rad_s": "-31/16",
+        "u_rad_s": "-8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": "<",
+          "threshold_rad_s": "-2",
+          "center_rad_s": "-2",
+          "radius_rad_s": "1/16384",
+          "interval_rad_s": [
+            "-32769/16384",
+            "-32767/16384"
+          ],
+          "binary32_operand_rad_s": "-2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "9/32",
+          "binary32": "9/32",
+          "bits_hex": "3e900000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/9",
+          "binary32": "14913081/134217728",
+          "bits_hex": "3de38e39",
+          "signed_rounding_error": "1/1207959552"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "-97/16",
+          "binary32": "-97/16",
+          "bits_hex": "c0c20000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "-1446568857/2147483648",
+          "binary32": "-11301319/16777216",
+          "bits_hex": "bf2c71c7",
+          "signed_rounding_error": "25/2147483648"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "-2",
+          "binary32": "-2",
+          "bits_hex": "c0000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "-2",
+        "-1",
+        "0"
+      ],
+      "native_output": [
+        -2.0,
+        -1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "c0000000",
+        "bf800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "reversal",
+      "step": 63,
+      "input": {
+        "prior_exact_rad_s": "-31/16",
+        "prior_c_rad_s": "-31/16",
+        "u_rad_s": "-8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": "<",
+          "threshold_rad_s": "-2",
+          "center_rad_s": "-2",
+          "radius_rad_s": "1/8192",
+          "interval_rad_s": [
+            "-16385/8192",
+            "-16383/8192"
+          ],
+          "binary32_operand_rad_s": "-2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "9/32",
+          "binary32": "9/32",
+          "bits_hex": "3e900000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/9",
+          "binary32": "14913081/134217728",
+          "bits_hex": "3de38e39",
+          "signed_rounding_error": "1/1207959552"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "-97/16",
+          "binary32": "-97/16",
+          "bits_hex": "c0c20000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "-1446568857/2147483648",
+          "binary32": "-11301319/16777216",
+          "bits_hex": "bf2c71c7",
+          "signed_rounding_error": "25/2147483648"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "-2",
+          "binary32": "-2",
+          "bits_hex": "c0000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "-2",
+        "-1",
+        "0"
+      ],
+      "native_output": [
+        -2.0,
+        -1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "c0000000",
+        "bf800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    },
+    {
+      "variant": "tracking_reset",
+      "trace": "reversal",
+      "step": 159,
+      "input": {
+        "prior_exact_rad_s": "15/8",
+        "prior_c_rad_s": "15/8",
+        "u_rad_s": "8",
+        "dt_s": "1/32",
+        "reset": false
+      },
+      "comparisons": [
+        {
+          "kind": "rate clamp",
+          "operator": ">",
+          "threshold_rad_s": "2",
+          "center_rad_s": "2",
+          "radius_rad_s": "5/16384",
+          "interval_rad_s": [
+            "32763/16384",
+            "32773/16384"
+          ],
+          "binary32_operand_rad_s": "2",
+          "exact_predicate": false,
+          "binary32_predicate": false
+        }
+      ],
+      "rounding": [
+        {
+          "operation": "tau + dt",
+          "exact_before_rounding": "9/32",
+          "binary32": "9/32",
+          "bits_hex": "3e900000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "dt / rounded_denominator",
+          "exact_before_rounding": "1/9",
+          "binary32": "14913081/134217728",
+          "bits_hex": "3de38e39",
+          "signed_rounding_error": "1/1207959552"
+        },
+        {
+          "operation": "u - x",
+          "exact_before_rounding": "49/8",
+          "binary32": "49/8",
+          "bits_hex": "40c40000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "rounded_alpha * rounded_difference",
+          "exact_before_rounding": "730740969/1073741824",
+          "binary32": "2854457/4194304",
+          "bits_hex": "3f2e38e4",
+          "signed_rounding_error": "23/1073741824"
+        },
+        {
+          "operation": "-slew_down * dt",
+          "exact_before_rounding": "-1/16",
+          "binary32": "-1/16",
+          "bits_hex": "bd800000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "slew_up * dt",
+          "exact_before_rounding": "1/8",
+          "binary32": "1/8",
+          "bits_hex": "3e000000",
+          "signed_rounding_error": "0"
+        },
+        {
+          "operation": "x + clipped_delta",
+          "exact_before_rounding": "2",
+          "binary32": "2",
+          "bits_hex": "40000000",
+          "signed_rounding_error": "0"
+        }
+      ],
+      "exact_output": [
+        "2",
+        "1",
+        "0"
+      ],
+      "native_output": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "native_output_bits": [
+        "40000000",
+        "3f800000",
+        "00000000"
+      ],
+      "classification": "conservative interval touch; reconstructed threshold tie; no branch disagreement"
+    }
+  ]
+}

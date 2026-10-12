@@ -1,0 +1,57 @@
+{
+  "builds": {
+    "zero_reset": {
+      "source_sha256": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-branch-use/generated/zero_reset.c",
+        "-o",
+        "/Users/redhose/Projects/control-branch-use/build/branch-use/zero_reset.so"
+      ],
+      "binary_sha256": "075f39045469f718d77f7fdc72695c37efc17cfa04a1865e8934639eb2eb1007",
+      "llvm_sha256": "b22692635b8ffb568ac329a9d36aa8ddad4982840201c0e923e6857e2771f978",
+      "float_arithmetic_ops": 11,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    },
+    "tracking_reset": {
+      "source_sha256": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-branch-use/generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/control-branch-use/build/branch-use/tracking_reset.so"
+      ],
+      "binary_sha256": "99f8c493ba44a9306e4ad647782ef6c7d9540e9f4bb27db2b293f198b68f8a85",
+      "llvm_sha256": "e9c176ce6b766ece426482aca38c63720ffb9604c841c345f983e877c1eeaae8",
+      "float_arithmetic_ops": 12,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    }
+  },
+  "python": "3.13.7 (v3.13.7:bcee1c32211, Aug 14 2025, 19:10:51) [Clang 16.0.0 (clang-1600.0.26.6)]",
+  "numpy": "2.5.3",
+  "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)\nTarget: arm64-apple-darwin23.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  "report_sha256": "b54381914bc158b89c55692d6d0679abaab7b358f0104559047dc16d75dcf744"
+}

@@ -82,6 +82,13 @@ touching a branch threshold records a requirement issue, even if the executed
 implementations chose the same branch. These are conservative uncertainty
 flags, not observed failures. No functional tolerance was supplied or inferred.
 
+The [executed branch-use review](BRANCH_USE.md) traces every retained issue to
+a reconstructed tie and records operation rounding, exact intervals and native
+outputs. Returned flags are verification outputs in the current repository;
+the clipping predicates still affect state. No external consumer is specified,
+and no diagnostic-only contract has been adopted. Original issue markers and
+bounds remain unchanged.
+
 Before integration, a reviewer must decide whether strict branch identity is
 required and how branch-near inputs should be handled. If an external action
 uses these flags, its margin or hysteresis must be specified and checked.
