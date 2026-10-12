@@ -19,6 +19,38 @@ jobs:
           cache: pip
       - name: Install pinned numerical dependencies
         run: python -m pip install -r requirements.txt
+      - name: Characterize the known signed-zero discrepancy and check host arithmetic
+        run: |
+          mkdir -p build/ci-evidence
+          cc -std=c99 -O2 -fno-fast-math -ffp-contract=off -Wall -Wextra -Wno-unused-parameter -Werror campaign/arithmetic_controls.c -o build/arithmetic-controls
+          build/arithmetic-controls > build/ci-evidence/arithmetic-controls.json
+          cc -std=c99 -O2 -fno-fast-math -ffp-contract=off -Wall -Wextra -Wno-unused-parameter -Werror campaign/replay_zero_hold.c generated/zero_reset.c generated/tracking_reset.c -o build/zero-hold-replay
+          build/zero-hold-replay > build/ci-evidence/zero-hold-replay.json
+      - name: Reproduce the supplemental observational pilot
+        run: |
+          python campaign/generate_cases.py pilot 2 "$RUNNER_TEMP/observation-inputs.jsonl"
+          python campaign/observe.py "$RUNNER_TEMP/observation-inputs.jsonl" build/observation
+          python campaign/audit_observation.py "$RUNNER_TEMP/observation-inputs.jsonl" build/observation/rows.jsonl.gz > build/ci-evidence/observation-audit.json
+          cp build/observation/summary.json build/ci-evidence/observation-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          baseline = json.loads(Path('evidence/observational/pilot-summary.json').read_text())
+          observed = json.loads(Path('build/observation/summary.json').read_text())
+          run_fields = {'builds', 'elapsed_s', 'peak_rss_bytes', 'sha256', 'artifact_bytes'}
+          assert {k: v for k, v in baseline.items() if k not in run_fields} == {
+              k: v for k, v in observed.items() if k not in run_fields
+          }
+          PY
+          python campaign/cross_inputs.py > "$RUNNER_TEMP/cross-inputs.txt"
+          cc -std=c99 -O2 -fno-fast-math -ffp-contract=off -Wall -Wextra -Wno-unused-parameter -Werror campaign/cross_runner.c generated/zero_reset.c generated/tracking_reset.c -o build/cross-runner
+          build/cross-runner < "$RUNNER_TEMP/cross-inputs.txt" > build/ci-evidence/cross-native.txt
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          expected = json.loads(Path('evidence/observational/cross-summary.json').read_text())
+          assert hashlib.sha256(Path('build/ci-evidence/cross-native.txt').read_bytes()).hexdigest() == expected['output_sha256']
+          PY
       - name: Replay and explain the retained branch issues
         run: |
           python review_branch_use.py

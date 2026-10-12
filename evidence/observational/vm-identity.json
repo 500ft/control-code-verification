@@ -1,0 +1,20 @@
+{
+  "base_image_cache_sha256": "1fc0354f4f99734ce3886628cc7af8b0437c1a1d391b126bd09cba0df35ee53f",
+  "colima": "0.10.3",
+  "lima": "2.1.2",
+  "vm_type": "vz",
+  "cpus": 1,
+  "memory_gib": 1,
+  "root_virtual_disk_gib": 4,
+  "data_virtual_disk_gib": 2,
+  "guest": "Ubuntu 24.04.4 LTS aarch64",
+  "container_image": "alpine@sha256:5291449c3df73caf6ed85e649dec1b9e818b39a5d8c871e97afc13e9cd5e8fa8",
+  "host_mounts": "none",
+  "global_context_changed": false,
+  "final_vm_status": "Stopped",
+  "attempts": [
+    "Initial 2 GiB root failed: cached image requires 3758096384 bytes; failed log preserved externally.",
+    "Retried with 4 GiB virtual root; successful. Packages simulated then pinned and installed in isolated container."
+  ],
+  "settings": "No privileged host changes, security bypass, default VM changes or global context switch. Container and VM stopped after execution."
+}

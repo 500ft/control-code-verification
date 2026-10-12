@@ -1,0 +1,74 @@
+{
+  "classification": "signed-zero representation mismatch; no numerical state or flag disagreement in this reproducer",
+  "minimization": "Deleted the post-failure step, then replaced irrelevant u=-8 by u=0; one hold update with initial negative zero remains. Replayed directly as C under both optimization levels.",
+  "cases": {
+    "-O0": {
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O0",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "campaign/replay_zero_hold.c",
+        "generated/zero_reset.c",
+        "generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/control-numerical-campaign/build/development-replay/replay-O0"
+      ],
+      "binary_sha256": "48385739ac98122ddf079d2b8580f27bbb02682241f30b5195c1ac79a3abe138",
+      "exit_code": 0,
+      "observed": {
+        "input_state_bits": "80000000",
+        "hold_reference_bits": "80000000",
+        "zero_reset_state_bits": "00000000",
+        "tracking_reset_state_bits": "00000000",
+        "zero_reset_flags": [
+          0,
+          0
+        ],
+        "tracking_reset_flags": [
+          0,
+          0
+        ]
+      }
+    },
+    "-O2": {
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "campaign/replay_zero_hold.c",
+        "generated/zero_reset.c",
+        "generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/control-numerical-campaign/build/development-replay/replay-O2"
+      ],
+      "binary_sha256": "74715b0e7c487185bf419dbf1888894997e651df95c11f34fddf9e3edc1adf74",
+      "exit_code": 0,
+      "observed": {
+        "input_state_bits": "80000000",
+        "hold_reference_bits": "80000000",
+        "zero_reset_state_bits": "00000000",
+        "tracking_reset_state_bits": "00000000",
+        "zero_reset_flags": [
+          0,
+          0
+        ],
+        "tracking_reset_flags": [
+          0,
+          0
+        ]
+      }
+    }
+  }
+}

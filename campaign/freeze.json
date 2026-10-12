@@ -1,0 +1,21 @@
+{
+  "registered_at_utc": "2026-10-11T22:43:04.854501+00:00",
+  "status": "pre-execution development freeze",
+  "sha256": {
+    "campaign/generate_cases.py": "8d321947e2a97be23a5c64f28acc694faac01971bfd9b7834f3245664ac1860f",
+    "campaign/run.py": "7ca175034c52b8cd8fe59747debcc8f9c75a00494ad38e567c7b4e7073436196",
+    "campaign/arithmetic_controls.c": "61ce30df7eda7a5080bb15d29b263202d6b4b2ce2a51cf6ead65dd238c46e7b7",
+    "campaign/design.json": "bedabf8ee1d935fbba8ecf8a032849515fd5626a644f35e2e111595e05ac2273",
+    "spec.json": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+    "registration.json": "89a278bde0f18ac9aba94f919f3a97d0b4a3c85b4844e6a14a5af29298bc38d9",
+    "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
+    "generate.py": "475a6700574249e579e5ea2e18b7f59fc6fc1e130c0a9c8e0fd1a104d33e70d8",
+    "qualify.py": "bb027fe1240936128d0564b85415d52475f40e705bdb8c3dab027e3dda9bc231",
+    "generated/zero_reset.c": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+    "generated/tracking_reset.c": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be"
+  },
+  "pilot_corpus_sha256": "c2bd06a58e05df4c84abcb4c597b18683488def690f18a4c2bc9ec502b4eb4a4",
+  "pilot_traces": 160,
+  "pilot_steps": 6528,
+  "skill_deviation": "No reserved generation or execution: owner explicitly restricts to development."
+}

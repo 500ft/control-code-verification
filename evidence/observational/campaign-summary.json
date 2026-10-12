@@ -1,0 +1,176 @@
+{
+  "status": "completed",
+  "input_sha256": "b654ab973ded6498b1d92490cf8fc1d3fb3684f28bfdeb38c988c212f9c3ec0c",
+  "attempted_traces": 6144,
+  "completed_traces": 6144,
+  "invalid_traces": 0,
+  "evaluated_steps": 1572864,
+  "exact_stateful_steps": 1572864,
+  "ordinary_rounding_steps": 1076306,
+  "step_classes": {
+    "branch_requirement": 8316
+  },
+  "trace_classes": {
+    "branch_requirement": 1016
+  },
+  "per_stratum": {
+    "zero_reset/variable_dt": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "zero_reset/saturation": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {
+        "branch_requirement": 680
+      },
+      "trace_classes": {
+        "branch_requirement": 312
+      }
+    },
+    "zero_reset/slew_threshold": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "zero_reset/reset_precedence": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "zero_reset/smooth_growth": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "zero_reset/tiny_values": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "tracking_reset/variable_dt": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "tracking_reset/saturation": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {
+        "branch_requirement": 325
+      },
+      "trace_classes": {
+        "branch_requirement": 190
+      }
+    },
+    "tracking_reset/slew_threshold": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {
+        "branch_requirement": 7309
+      },
+      "trace_classes": {
+        "branch_requirement": 512
+      }
+    },
+    "tracking_reset/reset_precedence": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {
+        "branch_requirement": 2
+      },
+      "trace_classes": {
+        "branch_requirement": 2
+      }
+    },
+    "tracking_reset/smooth_growth": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    },
+    "tracking_reset/tiny_values": {
+      "traces": 512,
+      "steps": 131072,
+      "step_classes": {},
+      "trace_classes": {}
+    }
+  },
+  "max_local_error_rad_s": 8.04021389413402e-08,
+  "max_stateful_error_rad_s": 1.573824974302423e-06,
+  "max_rational_bits": 8715,
+  "builds": {
+    "zero_reset": {
+      "source_sha256": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-numerical-campaign/generated/zero_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/goal-compute-20261011/campaign-observation/zero_reset.so"
+      ],
+      "binary_sha256": "2362a59690e15d7b680c818442acee33314502201a0f44a51c3417e650ad3aba",
+      "llvm_sha256": "3d388b3994db036b226cfc0096f355ffffc2249588939a76c92127da1e4cd6c8",
+      "float_arithmetic_ops": 11,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    },
+    "tracking_reset": {
+      "source_sha256": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-numerical-campaign/generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/goal-compute-20261011/campaign-observation/tracking_reset.so"
+      ],
+      "binary_sha256": "457f4a23c1ed72fb0b94c6b260620761d2356cc39c6175ed30089026d976e34c",
+      "llvm_sha256": "1450cc57074f327be2ea99c93d9ac7c8bd17a4a81009d7045a8fae8789a7f973",
+      "float_arithmetic_ops": 12,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    }
+  },
+  "source_sha256": {
+    "campaign/observe.py": "0fda0a78a167e3aa5af8e2afed07559390b82d71fa9facab65400d5ea34a2617",
+    "campaign/observational-design.json": "21fe14549f7449575d5c2010c16f358653e71b79ad44afc4c10a25b5096dfdc1",
+    "campaign/generate_cases.py": "8d321947e2a97be23a5c64f28acc694faac01971bfd9b7834f3245664ac1860f",
+    "spec.json": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+    "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
+    "generated/zero_reset.c": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+    "generated/tracking_reset.c": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be"
+  },
+  "elapsed_s": 227.6192364579765,
+  "peak_rss_bytes": 135020544,
+  "sha256": {
+    "rows.jsonl.gz": "8abb11cc0fbe3c56dfd69e85d0008872098c40847ebc4a0f75bc0619a4bf175a",
+    "discrepancies.jsonl.gz": "e17100255b876e36aff8e29a2de8b91bd8f9473e7e4c6a888be8bb7279bb6897",
+    "traces.jsonl": "31c3d677ffe10d8c7641bffb7b6204e1aa8871979b40be3ca5927b5e769d9513"
+  },
+  "artifact_bytes": 85360602
+}

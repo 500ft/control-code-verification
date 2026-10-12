@@ -1,0 +1,53 @@
+{
+  "case": {
+    "id": "zero_reset/hold-reset/80000000/False",
+    "initial": -0.0,
+    "seed": null,
+    "steps": [
+      {
+        "dt": 0.0,
+        "reset": false,
+        "u": -8.0
+      },
+      {
+        "dt": 0.03125,
+        "reset": false,
+        "u": 8.0
+      }
+    ],
+    "stratum": "directed_hold_reset",
+    "variant": "zero_reset"
+  },
+  "failing_step": 0,
+  "prefix": [
+    {
+      "dt": 0.0,
+      "reset": false,
+      "u": -8.0
+    }
+  ],
+  "observation": {
+    "id": "zero_reset/hold-reset/80000000/False",
+    "step": 0,
+    "input": {
+      "dt": 0.0,
+      "reset": false,
+      "u": -8.0
+    },
+    "prior_c": -0.0,
+    "intent": 0.0,
+    "exact_flags": [
+      0,
+      0
+    ],
+    "reference_bits": "800000000000000000000000",
+    "isolated_c_bits": "000000000000000000000000",
+    "stateful_c_bits": "000000000000000000000000",
+    "local_error": 0.0,
+    "stateful_error": 0.0,
+    "bound": 0.0,
+    "branch_disagreement": false
+  },
+  "exact_state": "0",
+  "classification": "unclassified implementation/representation disagreement"
+}

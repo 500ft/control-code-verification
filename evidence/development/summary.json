@@ -1,0 +1,96 @@
+{
+  "status": "stopped_at_first_disagreement",
+  "input_sha256": "c2bd06a58e05df4c84abcb4c597b18683488def690f18a4c2bc9ec502b4eb4a4",
+  "input_traces": 160,
+  "input_steps": 6528,
+  "attempted_traces": 3,
+  "executed_traces": 2,
+  "executed_steps": 5,
+  "invalid_inputs": 0,
+  "branch_disagreement_steps": 0,
+  "c_reference_bit_disagreements": 1,
+  "numeric_bound_violations": 0,
+  "nonzero_state_error_steps": 0,
+  "max_local_error_rad_s": 0.0,
+  "max_stateful_error_rad_s": 0.0,
+  "max_rational_bits": 4,
+  "per_stratum": {
+    "directed_hold_reset": {
+      "traces": 3,
+      "steps": 5,
+      "branch_disagreements": 0
+    }
+  },
+  "analytic_checks": {
+    "closed_form_step": true,
+    "asymmetric_slew_ramps": true,
+    "zero_dt_hold": true,
+    "reset_precedes_hold_and_update": true,
+    "equilibrium": true,
+    "invalid_inputs_rejected": 8
+  },
+  "benchmark": {
+    "steps": 1024,
+    "seconds": 0.23960529098985717,
+    "max_rational_bits": 8632,
+    "peak_rss_bytes": 44187648
+  },
+  "builds": {
+    "zero_reset": {
+      "source_sha256": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-numerical-campaign/generated/zero_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/compute-tasks-20261011/receipts/control-pilot-run/zero_reset.so"
+      ],
+      "binary_sha256": "c90aca7501112515c2044abf03cac24e3beef105dd49a86e8ba649ef5bcd934c",
+      "llvm_sha256": "3d388b3994db036b226cfc0096f355ffffc2249588939a76c92127da1e4cd6c8",
+      "float_arithmetic_ops": 11,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    },
+    "tracking_reset": {
+      "source_sha256": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-numerical-campaign/generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/compute-tasks-20261011/receipts/control-pilot-run/tracking_reset.so"
+      ],
+      "binary_sha256": "4b89ddbdda05128c18b3f56e1c73b34291f7454604c69aeb94936e4866799e38",
+      "llvm_sha256": "1450cc57074f327be2ea99c93d9ac7c8bd17a4a81009d7045a8fae8789a7f973",
+      "float_arithmetic_ops": 12,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    }
+  },
+  "exact_policy": "all executed steps; isolated and stateful",
+  "withheld_executed": false,
+  "integration_qualified": false,
+  "elapsed_s": 0.908694917045068,
+  "peak_rss_bytes": 44466176,
+  "raw_sha256": "3663dc74821461d749ef71e879c0ee22f6645c417843ce036a87439f9ebc3a9b",
+  "artifact_bytes": 91908,
+  "next_trace_index": 2
+}

@@ -24,6 +24,14 @@ These are development results, with integration still unqualified.
 
 ## Current blockers
 
+The [observational continuation](evidence/observational/README.md) completed the
+registered development budget with exact-reference coverage and an executable
+ARM Linux GCC/QEMU comparison. Signed-zero representation and exact-versus-rounded
+branch differences remain observed requirements questions. Specify their
+functional consumers and acceptance requirements before qualifying a wrapper.
+The original first-failure pilot and its bitwise criterion remain preserved;
+its stop no longer prevents descriptive numerical observation.
+
 Assign the second reviewer and resolve branch-use requirements before qualifying
 a wrapper. The existing staging name is now used for the public repository
 under the owner's delegated implementation instruction. The original
@@ -72,6 +80,16 @@ and horizon domain and numerical error bounds before running comparisons.
   result and maps each flagged step to its comparison, interval, rounding and
   emitted output. The exposed cases are threshold ties with matching flags.
   Returned flags currently feed verification; clipping predicates affect state.
+- Done: the bounded development pilot measured rational-reference cost and
+  passed host arithmetic controls, then stopped on its first bitwise
+  discrepancy. A minimized direct C replay preserves the finding; state values
+  and flags agree there. Original inputs and results remain unchanged.
+- Done: a separately registered observational continuation completed every
+  eligible pilot and randomized development trace with independent histories,
+  exact-reference coverage, independent rounding audit and minimized branch
+  examples. No observed numerical-bound violation occurred. ARM Linux GCC and
+  QEMU executed the original registered corpus and the known-zero diagnostic;
+  this supplies no Cortex-M/PX4 or hardware-timing qualification.
 - Current: specify the external consumer and its branch-identity requirements,
   and assign the independent human reviewer. Diagnostic-only use remains a
   possible proposal, not an adopted contract. Any required margin or hysteresis

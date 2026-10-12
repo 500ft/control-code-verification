@@ -1,0 +1,1 @@
+{"audited_steps": 768, "status": "passed", "analytic_checks": {"closed_form_step": true, "asymmetric_slew_ramps": true, "zero_dt_hold": true, "reset_precedes_hold_and_update": true, "equilibrium": true, "invalid_inputs_rejected": 8}}

@@ -1,0 +1,35 @@
+{
+  "status": "executed agreement on original registered development corpus",
+  "steps": 1486,
+  "traces": 16,
+  "common_input_tuples": 1486,
+  "stateful_tuples": 1486,
+  "output_sha256": "6899bc32cd2f7f649e6802b2df846e9431466e7785a2fbf71c02489d7f859d45",
+  "inputs_sha256": "9d82e73966f622307d96ac705eb5e2afae17308388d9e50d965bbb7b30ca7704",
+  "host_binary_sha256": "ff0f126201762ed60cfe1d96723a7f152ece72b5828b70244865bcba1e757002",
+  "controls": {
+    "native": {
+      "tie_bits": "3f800000",
+      "subnormal_bits": "00400000",
+      "contraction_bits": "00000000",
+      "fpcr": 0,
+      "round_nearest": true
+    },
+    "qemu": {
+      "tie_bits": "3f800000",
+      "subnormal_bits": "00400000",
+      "contraction_bits": "00000000",
+      "fpcr": 0,
+      "round_nearest": true
+    }
+  },
+  "independent_rounding_audit_steps": 1486,
+  "scope": "Apple Clang macOS ARM64 versus GCC ARMv8-A Linux musl, native VM and QEMU user mode cortex-a53; no Cortex-M/PX4/timing qualification",
+  "known_zero_diagnostics": {
+    "steps": 2,
+    "variants": "both",
+    "observed": "QEMU C returns positive-zero state from negative-zero hold; flags zero",
+    "output_sha256": "602d459b1349943b6d4c326ae8251f34c552a557ca81bb4bd4bdc42d10b868e9",
+    "included_in_registered_corpus_denominator": false
+  }
+}

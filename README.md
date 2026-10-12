@@ -1,6 +1,6 @@
 # Control code verification
 
-Compiled CasADi C and the binary32 reference agree on the frozen development
+Compiled CasADi C and the binary32 reference agree on the original frozen development
 traces for the stateful angular-rate filter. The exact-rational intent checks
 pass within the derived numerical bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
@@ -66,6 +66,23 @@ CI runs on pushes and pull requests. It uses no repository secrets or private
 inputs. A green result reproduces numerical development agreement; it does not
 resolve branch-sensitive requirements or qualify integration. The original
 [evidence/results.json](evidence/results.json) remains unchanged.
+
+## Supplemental development observation
+
+The [observational continuation](evidence/observational/README.md) completed
+1,572,864 randomized development steps with exact-reference coverage and no
+numerical-bound violations. It recorded exact-versus-rounded branch differences;
+the supplemental pilot retained the signed-zero mismatch. The
+[result table](evidence/observational/table.md) separates steps, traces,
+mechanisms and comparison types. Both rounded histories were retained throughout.
+
+The original [first-failure pilot](evidence/development/README.md) remains
+unchanged. A separately registered descriptive protocol allowed other traces
+to execute without adopting bitwise acceptance or changing controller semantics.
+The executable ARM Linux GCC/QEMU comparison also completed on the original
+registered corpus, with the known zero-sign diagnostic reported separately.
+Functional requirements and independent human review remain open before wrapper
+qualification. No reserved cases or integration campaign ran.
 
 ## Branch-use review
 

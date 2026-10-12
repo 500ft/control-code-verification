@@ -95,6 +95,25 @@ uses these flags, its margin or hysteresis must be specified and checked.
 Widening numerical tolerance cannot answer that question. The current result
 keeps integration unqualified, with final cases withheld.
 
+## Zero representation finding
+
+The [development pilot](evidence/development/README.md) found that a hold from
+negative zero returns positive zero in generated C. The explicit reference
+preserves negative zero. Exact rational intent cannot distinguish these values;
+zero real-valued error does not establish bitwise equality. The selection sums
+in generated C explain the discrepancy in a direct C replay. The bound and
+original corpus result remain valid for their stated observations. No zero
+canonicalization or sign-preservation contract has been adopted.
+
+The [supplemental observational result](evidence/observational/README.md) keeps
+this discrepancy while running independent trace histories to completion.
+Common-input calls distinguish immediate implementation differences from
+accumulated state-history differences. Every executed step retains an exact
+oracle and the original bounds. Observed exact-versus-rounded flag differences
+have minimized reproducers; their functional significance is unspecified.
+The ARM Linux GCC/QEMU result covers the original registered corpus and a
+separately counted known-zero diagnostic.
+
 ## Generated artifact inspection
 
 CasADi emits `casadi_real float` and float temporaries. Unsuffixed literals are
