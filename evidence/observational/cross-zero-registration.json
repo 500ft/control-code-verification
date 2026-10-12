@@ -1,0 +1,5 @@
+{
+  "registered_at_utc": "2026-10-12T02:23:17.150617+00:00",
+  "purpose": "carry preserved known minimal signed-zero case to executable target; separately counted from original corpus",
+  "inputs_sha256": "e6d3e0c5e3860af96cb3682c65689e2fc2a4da4e93c43dc0cf42bb7709ab89a8"
+}

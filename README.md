@@ -1,6 +1,6 @@
 # Control code verification
 
-Compiled CasADi C and the binary32 reference agree on the frozen development
+Compiled CasADi C and the binary32 reference agree on the original frozen development
 traces for the stateful angular-rate filter. The exact-rational intent checks
 pass within the derived numerical bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
@@ -67,20 +67,22 @@ inputs. A green result reproduces numerical development agreement; it does not
 resolve branch-sensitive requirements or qualify integration. The original
 [evidence/results.json](evidence/results.json) remains unchanged.
 
-## Development pilot
+## Supplemental development observation
 
-The [bounded pilot](evidence/development/README.md) stopped on a signed-zero
-representation mismatch: a hold from `-0.0` returns `+0.0` in generated C,
-while the explicit binary32 reference preserves the sign. State values and
-flags agree in the minimal reproducer. This new result limits bitwise agreement
-to the original exercised corpus; it does not invalidate its retained outputs.
-The original branch contacts remain conservative requirement findings.
+The [observational continuation](evidence/observational/README.md) completed
+1,572,864 randomized development steps with exact-reference coverage and no
+numerical-bound violations. It recorded exact-versus-rounded branch differences;
+the supplemental pilot retained the signed-zero mismatch. The
+[result table](evidence/observational/table.md) separates steps, traces,
+mechanisms and comparison types. Both rounded histories were retained throughout.
 
-The pilot includes a measured rational-reference benchmark and independent
-host arithmetic controls. Large comparisons stopped at the registered gate.
-ARM Linux/QEMU execution was unavailable. No representation contract was
-changed, and wrapper qualification remains blocked on functional requirements
-and independent human review.
+The original [first-failure pilot](evidence/development/README.md) remains
+unchanged. A separately registered descriptive protocol allowed other traces
+to execute without adopting bitwise acceptance or changing controller semantics.
+The executable ARM Linux GCC/QEMU comparison also completed on the original
+registered corpus, with the known zero-sign diagnostic reported separately.
+Functional requirements and independent human review remain open before wrapper
+qualification. No reserved cases or integration campaign ran.
 
 ## Branch-use review
 

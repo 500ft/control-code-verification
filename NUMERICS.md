@@ -105,6 +105,15 @@ in generated C explain the discrepancy in a direct C replay. The bound and
 original corpus result remain valid for their stated observations. No zero
 canonicalization or sign-preservation contract has been adopted.
 
+The [supplemental observational result](evidence/observational/README.md) keeps
+this discrepancy while running independent trace histories to completion.
+Common-input calls distinguish immediate implementation differences from
+accumulated state-history differences. Every executed step retains an exact
+oracle and the original bounds. Observed exact-versus-rounded flag differences
+have minimized reproducers; their functional significance is unspecified.
+The ARM Linux GCC/QEMU result covers the original registered corpus and a
+separately counted known-zero diagnostic.
+
 ## Generated artifact inspection
 
 CasADi emits `casadi_real float` and float temporaries. Unsuffixed literals are

@@ -1,0 +1,367 @@
+{
+  "independent_recount": {
+    "pilot": {
+      "rows": 6528,
+      "step_classes": {
+        "signed_zero_common": 2,
+        "signed_zero_rollout": 2,
+        "branch_requirement": 46
+      },
+      "trace_classes": {
+        "signed_zero_common": 2,
+        "signed_zero_rollout": 2,
+        "branch_requirement": 8
+      },
+      "branch_transitions": {
+        "slew:1->0": 29,
+        "clamp:1->0": 5,
+        "slew:-1->0": 12
+      }
+    },
+    "campaign": {
+      "rows": 1572864,
+      "step_classes": {
+        "branch_requirement": 8316
+      },
+      "trace_classes": {
+        "branch_requirement": 1016
+      },
+      "branch_transitions": {
+        "clamp:1->0": 1002,
+        "clamp:-1->0": 5,
+        "slew:-1->0": 3643,
+        "slew:1->0": 3666
+      }
+    }
+  },
+  "minimal_branch_examples": [
+    {
+      "transition": "slew:1->0",
+      "original_phase": "pilot",
+      "original_id": "tracking_reset/threshold/-1.9375/1.52587890625e-05/1/-0x1.dff7fe0000000p-1",
+      "original_step": 0,
+      "original_prefix_steps": 1,
+      "case": {
+        "id": "tracking_reset/threshold/-1.9375/1.52587890625e-05/1/-0x1.dff7fe0000000p-1",
+        "initial": -1.9375,
+        "seed": null,
+        "steps": [
+          {
+            "dt": 1.52587890625e-05,
+            "reset": false,
+            "u": -0.9374389052391052
+          }
+        ],
+        "stratum": "directed_threshold",
+        "variant": "tracking_reset"
+      },
+      "observation": {
+        "step": 0,
+        "prior_reference": -1.9375,
+        "prior_native": -1.9375,
+        "exact_state": -1.93743896484375,
+        "exact_flags": [
+          1,
+          0
+        ],
+        "reference_bits": "bff7fe000000000000000000",
+        "common_c_bits": "bff7fe000000000000000000",
+        "native_bits": "bff7fe000000000000000000",
+        "local_errors": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_errors": [
+          0.0,
+          0.0
+        ],
+        "bound": 1.9073486328125e-06,
+        "rational_bits": 15,
+        "classes": [
+          "branch_requirement"
+        ]
+      },
+      "replay_count": 2,
+      "method": "contiguous deletion ddmin; single-deletion minimal; exact-rounding oracle independently replayed; no scalar optimization",
+      "operand_explanation": {
+        "predicate": "slew > threshold",
+        "exact_operand_rad_s": "16778241/274894684160",
+        "threshold_rad_s": "1/16384",
+        "rounded_operand_rad_s": "1/16384",
+        "exact_signed_gap_rad_s": "1/274894684160",
+        "interpretation": "exact operand strictly beyond threshold; binary32 operand equals threshold; strict rounded predicate false; external functional consequence unspecified"
+      }
+    },
+    {
+      "transition": "clamp:1->0",
+      "original_phase": "pilot",
+      "original_id": "pilot/zero_reset/saturation/0",
+      "original_step": 200,
+      "original_prefix_steps": 201,
+      "case": {
+        "id": "pilot/zero_reset/saturation/0",
+        "initial": 1.9519376754760742,
+        "seed": 11111000,
+        "steps": [
+          {
+            "dt": 0.0625,
+            "reset": false,
+            "u": 8.0
+          },
+          {
+            "dt": 0.03125,
+            "reset": false,
+            "u": 2.000000238418579
+          }
+        ],
+        "stratum": "saturation",
+        "variant": "zero_reset"
+      },
+      "observation": {
+        "step": 1,
+        "prior_reference": 2.0,
+        "prior_native": 2.0,
+        "exact_state": 2.0,
+        "exact_flags": [
+          0,
+          1
+        ],
+        "reference_bits": "400000000000000000000000",
+        "common_c_bits": "400000000000000000000000",
+        "native_bits": "400000000000000000000000",
+        "local_errors": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_errors": [
+          0.0,
+          0.0
+        ],
+        "bound": 3.814697265625e-06,
+        "rational_bits": 2,
+        "classes": [
+          "branch_requirement"
+        ]
+      },
+      "replay_count": 15,
+      "method": "contiguous deletion ddmin; single-deletion minimal; exact-rounding oracle independently replayed; no scalar optimization",
+      "operand_explanation": {
+        "predicate": "clamp > threshold",
+        "exact_operand_rad_s": "41943041/20971520",
+        "threshold_rad_s": "2",
+        "rounded_operand_rad_s": "2",
+        "exact_signed_gap_rad_s": "1/20971520",
+        "interpretation": "exact operand strictly beyond threshold; binary32 operand equals threshold; strict rounded predicate false; external functional consequence unspecified"
+      }
+    },
+    {
+      "transition": "slew:-1->0",
+      "original_phase": "pilot",
+      "original_id": "pilot/tracking_reset/slew_threshold/0",
+      "original_step": 3,
+      "original_prefix_steps": 4,
+      "case": {
+        "id": "pilot/tracking_reset/slew_threshold/0",
+        "initial": -1.1080251932144165,
+        "seed": 21211000,
+        "steps": [
+          {
+            "dt": 0.03125,
+            "reset": true,
+            "u": 1.0
+          },
+          {
+            "dt": 0.03125,
+            "reset": false,
+            "u": 0.4374999701976776
+          }
+        ],
+        "stratum": "slew_threshold",
+        "variant": "tracking_reset"
+      },
+      "observation": {
+        "step": 1,
+        "prior_reference": 1.0,
+        "prior_native": 1.0,
+        "exact_state": 0.9375,
+        "exact_flags": [
+          -1,
+          0
+        ],
+        "reference_bits": "3f7000000000000000000000",
+        "common_c_bits": "3f7000000000000000000000",
+        "native_bits": "3f7000000000000000000000",
+        "local_errors": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_errors": [
+          0.0,
+          0.0
+        ],
+        "bound": 1.9073486328125e-06,
+        "rational_bits": 5,
+        "classes": [
+          "branch_requirement"
+        ]
+      },
+      "replay_count": 6,
+      "method": "contiguous deletion ddmin; single-deletion minimal; exact-rounding oracle independently replayed; no scalar optimization",
+      "operand_explanation": {
+        "predicate": "slew < threshold",
+        "exact_operand_rad_s": "-18874369/301989888",
+        "threshold_rad_s": "-1/16",
+        "rounded_operand_rad_s": "-1/16",
+        "exact_signed_gap_rad_s": "-1/301989888",
+        "interpretation": "exact operand strictly beyond threshold; binary32 operand equals threshold; strict rounded predicate false; external functional consequence unspecified"
+      }
+    },
+    {
+      "transition": "clamp:-1->0",
+      "original_phase": "campaign",
+      "original_id": "campaign/zero_reset/saturation/341",
+      "original_step": 35,
+      "original_prefix_steps": 36,
+      "case": {
+        "id": "campaign/zero_reset/saturation/341",
+        "initial": -1.365037202835083,
+        "seed": 22122341,
+        "steps": [
+          {
+            "dt": 0.0625,
+            "reset": false,
+            "u": -2.0
+          },
+          {
+            "dt": 0.03125,
+            "reset": false,
+            "u": -8.0
+          },
+          {
+            "dt": 0.03125,
+            "reset": false,
+            "u": -8.0
+          },
+          {
+            "dt": 0.0625,
+            "reset": false,
+            "u": -2.0
+          },
+          {
+            "dt": 0.0625,
+            "reset": false,
+            "u": -8.0
+          },
+          {
+            "dt": 0.0625,
+            "reset": false,
+            "u": -1.9999998807907104
+          },
+          {
+            "dt": 0.0625,
+            "reset": false,
+            "u": -8.0
+          },
+          {
+            "dt": 0.03125,
+            "reset": false,
+            "u": -2.000000238418579
+          }
+        ],
+        "stratum": "saturation",
+        "variant": "zero_reset"
+      },
+      "observation": {
+        "step": 7,
+        "prior_reference": -2.0,
+        "prior_native": -2.0,
+        "exact_state": -2.0,
+        "exact_flags": [
+          0,
+          -1
+        ],
+        "reference_bits": "c00000000000000000000000",
+        "common_c_bits": "c00000000000000000000000",
+        "native_bits": "c00000000000000000000000",
+        "local_errors": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "state_errors": [
+          0.0,
+          0.0
+        ],
+        "bound": 1.52587890625e-05,
+        "rational_bits": 2,
+        "classes": [
+          "branch_requirement"
+        ]
+      },
+      "replay_count": 64,
+      "method": "contiguous deletion ddmin; single-deletion minimal; exact-rounding oracle independently replayed; no scalar optimization",
+      "operand_explanation": {
+        "predicate": "clamp < threshold",
+        "exact_operand_rad_s": "-41943041/20971520",
+        "threshold_rad_s": "-2",
+        "rounded_operand_rad_s": "-2",
+        "exact_signed_gap_rad_s": "-1/20971520",
+        "interpretation": "exact operand strictly beyond threshold; binary32 operand equals threshold; strict rounded predicate false; external functional consequence unspecified"
+      }
+    }
+  ],
+  "builds": {
+    "zero_reset": {
+      "source_sha256": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-numerical-campaign/generated/zero_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/goal-compute-20261011/minimize-build/zero_reset.so"
+      ],
+      "binary_sha256": "fefb18bbc3354b71bbeb1364ab38d124c85ef2a0752e718c9927677c5ab12dd2",
+      "llvm_sha256": "3d388b3994db036b226cfc0096f355ffffc2249588939a76c92127da1e4cd6c8",
+      "float_arithmetic_ops": 11,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    },
+    "tracking_reset": {
+      "source_sha256": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be",
+      "command": [
+        "cc",
+        "-std=c99",
+        "-O2",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-Wall",
+        "-Wextra",
+        "-Wno-unused-parameter",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/Users/redhose/Projects/control-numerical-campaign/generated/tracking_reset.c",
+        "-o",
+        "/Users/redhose/Projects/critical-audit-20261002/implementation/goal-compute-20261011/minimize-build/tracking_reset.so"
+      ],
+      "binary_sha256": "9f9b9d59ffc2d3e922ce053cb862f3d1cb7c4750285457072ab7b1bc043be56d",
+      "llvm_sha256": "1450cc57074f327be2ea99c93d9ac7c8bd17a4a81009d7045a8fae8789a7f973",
+      "float_arithmetic_ops": 12,
+      "double_arithmetic": false,
+      "fast_math_or_contraction": false
+    }
+  },
+  "signed_zero_reproducer": "existing evidence/development/replay.json retained unchanged"
+}
