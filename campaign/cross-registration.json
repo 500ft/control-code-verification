@@ -1,0 +1,42 @@
+{
+  "registered_at_utc": "2026-10-12T02:21:00.554251+00:00",
+  "scope": "original registered public development traces; independent native and common-input rollouts; compare complete tuple bits",
+  "input_rows": 1486,
+  "inputs_sha256": "9d82e73966f622307d96ac705eb5e2afae17308388d9e50d965bbb7b30ca7704",
+  "image": "alpine@sha256:5291449c3df73caf6ed85e649dec1b9e818b39a5d8c871e97afc13e9cd5e8fa8",
+  "packages": {
+    "gcc": "14.2.0-r6",
+    "musl-dev": "1.2.5-r12",
+    "qemu-aarch64": "10.0.0-r1"
+  },
+  "target": "aarch64-alpine-linux-musl; ARMv8-A; QEMU user mode -cpu cortex-a53",
+  "flags": [
+    "-std=c99",
+    "-O2",
+    "-march=armv8-a",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter",
+    "-Werror"
+  ],
+  "source_sha256": {
+    "campaign/cross_runner.c": "83633ef0dff44046c83abea11db960531f5aa2c3241d7f88452e005043606e9d",
+    "campaign/cross_inputs.py": "8b20d2f1fe863ae784682d487fab655d3943c85bee8e0a16cef2dd32fc899e29",
+    "campaign/arithmetic_controls.c": "61ce30df7eda7a5080bb15d29b263202d6b4b2ce2a51cf6ead65dd238c46e7b7",
+    "generated/zero_reset.c": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+    "generated/tracking_reset.c": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be",
+    "generated/zero_reset.h": "1dcd23bd5234b808b115bf7bdcea9badf34827eac20142e8d18d3d3d64f27e93",
+    "generated/tracking_reset.h": "6f4f58f3d36558d10423fdb280c1dd7e13885edf684418977cd358922aceb96a",
+    "spec.json": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+    "traces.json": "6319c8d5768e5be61cd166d81f795c6f76dfda9491454ecb224e9a204dcc6697"
+  },
+  "controls": "nearest-even, gradual underflow, non-contraction, FPCR before generated runner",
+  "not_qualified": [
+    "Cortex-M",
+    "PX4",
+    "hardware timing",
+    "wrapper"
+  ]
+}
