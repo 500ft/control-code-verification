@@ -1,0 +1,25 @@
+{
+  "registered_at_utc": "2026-10-12T02:14:05.276955+00:00",
+  "manifest": {
+    "corpus_sha256": "b654ab973ded6498b1d92490cf8fc1d3fb3684f28bfdeb38c988c212f9c3ec0c",
+    "traces": 6144,
+    "steps": 1572864
+  },
+  "projected_seconds_2x": 731.3666809306426,
+  "projected_bytes_2x": 296855372.9411765,
+  "decision": "execute complete existing campaign budget observationally; all exact",
+  "pilot_summary_sha256": "4d7cedcbe3f3c4b89369c2277401149e2c9ef89cbaeeeec419999e0b445df2a2",
+  "pilot_audit": {
+    "audited_steps": 768,
+    "status": "passed",
+    "analytic_checks": {
+      "closed_form_step": true,
+      "asymmetric_slew_ramps": true,
+      "zero_dt_hold": true,
+      "reset_precedes_hold_and_update": true,
+      "equilibrium": true,
+      "invalid_inputs_rejected": 8
+    }
+  },
+  "observational_freeze_sha256": "c634424718602ad7af3509cc3042b3777ea32c56a5e0477d1374a2b4d83b3088"
+}
