@@ -1,0 +1,44 @@
+{
+  "reviewed_report_sha256": "667ae4732fdf8a3045633871b79d9c5bc93d38ed752303ed0986f764e3b69b9a",
+  "reviewed_technical_sha": "64b8887ff84d4625d2369737dbbd1aae8710ca47",
+  "review_script_sha256": {
+    "reverse_flip.py": "bd7054dee4d145527a17582e8c5f9c27d640a196c144ddacbccfe85c95fa3e1f",
+    "zero_grid.py": "4f7c86404aa47745159604637975f793a353bda71734f7b3479eff667437cd55",
+    "compare_outputs.py": "4c8d26d0a12867156d5f7c7867319e856fc95831f4c689030d979776fc3e7c2b",
+    "build_strict.sh": "b5872a7fc8406cd71d5e1f6c75483f2eeb6561bfe42e32768b04115118876e73"
+  },
+  "raw_output_sha256": {
+    "results/cases.txt": "648ffea3b24db89a2652d568e71ce995c05ab7532e1934aeb05a5253e19f84b2",
+    "results/out_clang_strict.txt": "ee6639a4a28dea05c89377c817cd65f5e5d48f1825ffedee151b965468642f29",
+    "results/out_clang_px4.txt": "b106274498ce3c024b7f1e22120761b837ad3edb33d26cd166822a74bf7016ed",
+    "results/gcc/out_gcc_strict.txt": "ee6639a4a28dea05c89377c817cd65f5e5d48f1825ffedee151b965468642f29",
+    "results/gcc/out_gcc_px4.txt": "ee6639a4a28dea05c89377c817cd65f5e5d48f1825ffedee151b965468642f29"
+  },
+  "reviewer_recount": {
+    "out_clang_px4": {
+      "lines": 4103,
+      "differ_zero_sign_only": 108,
+      "differ_value_or_flag": 0,
+      "examples": []
+    },
+    "gcc/out_gcc_strict": {
+      "lines": 4103,
+      "differ_zero_sign_only": 0,
+      "differ_value_or_flag": 0,
+      "examples": []
+    },
+    "gcc/out_gcc_px4": {
+      "lines": 4103,
+      "differ_zero_sign_only": 0,
+      "differ_value_or_flag": 0,
+      "examples": []
+    }
+  },
+  "compiler_versions_recorded": [
+    "gcc (Alpine 14.2.0) 14.2.0",
+    "arm-none-eabi-gcc (Alpine Linux) 15.1.0",
+    "3.22.6"
+  ],
+  "reviewer_px4_source_commit": "c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17",
+  "copied_px4_cmake_sha256": "20de4da22f4f639f2f27c7a0af6aaf374b6d7a9ca2a6c82245a01cf48255cdca"
+}

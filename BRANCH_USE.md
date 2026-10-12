@@ -71,11 +71,13 @@ on them. This review neither adopts that proposal nor removes flag checking.
 
 ## Remaining decision and reproduction
 
-The owner adopted functional-consumer resolution and Claude AI technical review
-of the numerical core as prerequisites to wrapper qualification. The Claude
-review assignment is underway; its completed report is not yet available.
-Human review is deferred for this scoped development gate. No flag-use contract
-or semantic repair has been approved.
+The [Claude AI technical review reconciliation](evidence/review/README.md)
+admits the numerical next-state-value claim within its declared domain, strict
+arithmetic and registered trace horizon. It reproduces reverse-direction slew
+flag differences and additional negative-zero paths. Branch and bit identity,
+consumer behavior and wrapper qualification remain unresolved. Human review
+is deferred for this scoped development gate. No flag-use contract or semantic
+repair has been approved.
 
 ### Review scope and decision record
 
@@ -89,15 +91,12 @@ intervals touch thresholds, while the executed flags agree. Then inspect the
 separately minimized [exact-versus-rounded examples](evidence/observational/independent-review.json)
 and the direct [signed-zero reproducer](evidence/development/replay.json).
 The [observational account](evidence/observational/README.md) states the
-development corpus and environment limits. Admission requires a pinned report
-identifying the reviewed commit and source hashes, model and session provenance
-where known, and prior exposure to expected results. It must show independently
-derived checks, commands and results, and per-claim findings classified as
-supported within scope, correction required or unresolved. Record the
-resolution of each required correction or unresolved claim. Assignment
-alone does not complete review. A separate AI session and a separate
-calculation provide different kinds of independence; neither is human or
-external peer review.
+development corpus and environment limits. The received report's hash,
+reviewed commit, model/session provenance, non-blind exposure, separately
+derived checks, commands and per-claim dispositions are recorded in the
+[reconciliation](evidence/review/README.md). Assignment alone did not complete
+review. Same-model helper sessions and a separate calculation are different
+from independent authorship; neither is human or external peer review.
 
 | Decision field | Question to resolve with the actual consumer | Evidence or answer needed |
 | :--- | :--- | :--- |
@@ -111,12 +110,15 @@ external peer review.
 The current repository has no supplied external consumer. Its emitted flags
 feed verification, while clipping predicates affect the next state. The
 original result records numerical agreement in its exercised corpus; the
-later examples show exact-versus-rounded branch differences and a zero-sign
-representation difference. Neither observation decides functional
-acceptability. Diagnostic-only flags, a branch margin and hysteresis remain
+later examples show exact-active to rounded-inactive flags. The
+[reviewed reverse-slew cases](evidence/review/reproduced.json) show the opposite
+direction for slew flags in both variants. The [zero-sign cases](evidence/review/reproduced.json)
+also extend the original hold reproducer to tracking reset and an underflowing
+update. Neither observation decides functional acceptability. Diagnostic-only
+flags, a branch margin and hysteresis remain
 conditional options requiring a supported consumer requirement. Do not run
-more random traces or implement a wrapper until the contract and Claude AI
-technical review resolve this gate.
+more random traces or implement a wrapper until the consumer contract and
+warning-set build requirement resolve their gates.
 
 From a separate checkout with the pinned dependencies and Clang:
 
