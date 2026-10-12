@@ -41,9 +41,8 @@ its stop no longer prevents descriptive numerical observation.
 
 Resolve branch-use requirements and the generated-C warning-set compile blocker
 before qualifying a wrapper. The existing staging name is now used for the
-public repository
-under the owner's delegated implementation instruction. The original
-failsafe repository remains paused pending its owner's release/closure choice;
+public repository under the owner's delegated implementation instruction. The
+original failsafe repository remains paused pending its owner's release/closure choice;
 that choice does not block local core review. No physical, funding, purchase or
 paper-publication decision has been supplied.
 

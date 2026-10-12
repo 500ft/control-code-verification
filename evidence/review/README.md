@@ -51,6 +51,18 @@ development material; the held-out directory was not opened.
 The existing branch replay reproduced its retained issue locations without
 changing its committed detail or table.
 
+The parent's separate focused verification is preserved externally as
+`implementation/claude-review-20261012/parent-verification/control-focused.json`
+(SHA-256 `3003d72b204a6f9091667362e856c0c45bd458be14e3f8228047beda057c72c5`)
+and `float-equal.stderr` (SHA-256
+`10cad238fd9f8ae58a1c17a4628656ec04de85f4afb06cc1b6b8dd7fd147b08a`).
+Its copied generated C hashes match this repository. I recalculated exact
+errors from its four recorded bit inputs and matched its C outputs to the
+[focused replay](reproduced.json). Its three representative negative-zero
+inputs returned positive zero in C, and the warning log confirms the same
+local compile failure. This is additional case-level verification. It does
+not prove a tighter universal bound or rule out reverse clamp flips.
+
 ## Findings and disposition
 
 | Finding | Verified disposition |
