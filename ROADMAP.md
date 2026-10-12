@@ -29,6 +29,9 @@ registered development budget with exact-reference coverage and an executable
 ARM Linux GCC/QEMU comparison. Signed-zero representation and exact-versus-rounded
 branch differences remain observed requirements questions. Specify their
 functional consumers and acceptance requirements before qualifying a wrapper.
+The owner adopted the [review scope and decision fields](BRANCH_USE.md#review-scope-and-decision-record)
+for this gate. The actual consumer behavior and independent reviewer remain
+unprovided; numerical agreement does not decide functional acceptability.
 The original first-failure pilot and its bitwise criterion remain preserved;
 its stop no longer prevents descriptive numerical observation.
 
@@ -90,15 +93,20 @@ and horizon domain and numerical error bounds before running comparisons.
   examples. No observed numerical-bound violation occurred. ARM Linux GCC and
   QEMU executed the original registered corpus and the known-zero diagnostic;
   this supplies no Cortex-M/PX4 or hardware-timing qualification.
-- Current: specify the external consumer and its branch-identity requirements,
-  and assign the independent human reviewer. Diagnostic-only use remains a
-  possible proposal, not an adopted contract. Any required margin or hysteresis
-  needs a functional basis; numerical tolerance remains unchanged.
+- Current: resolve the [consumer decision fields](BRANCH_USE.md#review-scope-and-decision-record)
+  for state, mode, anti-windup, logging, signed zero and branch identity, then
+  obtain independent review of the frozen specification, binary32 argument,
+  reset precedence and retained counterexamples. Reviewer identity is
+  owner-pending. Diagnostic-only use remains a possible proposal, not an
+  adopted contract. Any required margin or hysteresis needs a functional
+  basis; numerical tolerance remains unchanged. No further random traces or
+  wrapper implementation are authorized while this gate is open.
 - Future: freeze any necessary semantic repair and fresh verification cases.
   Cases exposed during development cannot become final cases.
 
-Completion evidence: reviewed requirements, a recorded comparison for the
-admitted core, and resolved or explicitly excluded branch-sensitive behavior.
+Completion evidence: a traced consumer contract, independent reviewer comments
+and resolutions, a recorded comparison for the admitted core, and resolved or
+explicitly excluded branch-sensitive behavior.
 Numerical agreement alone does not complete this milestone.
 
 ### Reviewed wrapper and B2B boundaries

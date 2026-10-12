@@ -71,10 +71,43 @@ on them. This review neither adopts that proposal nor removes flag checking.
 
 ## Remaining decision and reproduction
 
-A human reviewer must specify the intended consumer and whether exact flag
-identity is required at thresholds, then review any necessary semantic change.
-The independent second reviewer is still unassigned. Wrapper qualification
-remains blocked; numerical agreement does not qualify integration.
+The owner adopted functional-consumer resolution and an independent numerics
+review as prerequisites to wrapper qualification. Reviewer identity is pending
+with the owner. No flag-use contract or semantic repair has been approved.
+
+### Review scope and decision record
+
+The reviewer should inspect the frozen [specification](spec.json), including
+the admissible input domain and variants; the [binary32 error
+argument](NUMERICS.md#error-bound); and the [reset and hold
+precedence](NUMERICS.md#core-specification-and-numerical-argument). Check the
+argument against the original [threshold-contact result](evidence/results.json)
+and its [nine-step replay](evidence/branch-use.json): those conservative
+intervals touch thresholds, while the executed flags agree. Then inspect the
+separately minimized [exact-versus-rounded examples](evidence/observational/independent-review.json)
+and the direct [signed-zero reproducer](evidence/development/replay.json).
+The [observational account](evidence/observational/README.md) states the
+development corpus and environment limits. Review comments, required changes
+and their resolutions should be recorded before this gate is closed.
+
+| Decision field | Question to resolve with the actual consumer | Evidence or answer needed |
+| :--- | :--- | :--- |
+| State | Is the returned rate/state used only as the next numerical state, or does its threshold-side value select another action? | Identify the consuming interface and behavior for equality and nearby values. |
+| Mode | Do either returned slew/clamp flags change a mode, guard or safety action? | Trace the consumer and specify the required branch identity at and near each threshold. |
+| Anti-windup | Does a controller use either flag to freeze, reset or back-calculate another state? | Supply the rule and decide whether an exact-versus-rounded flag change is acceptable. |
+| Logging | Are flags or state bits used for telemetry, alarms, replay keys or acceptance decisions? | State which representation and branch comparisons must match. |
+| Signed zero | Can a downstream calculation or bitwise consumer distinguish negative from positive zero? | Trace sign-sensitive operations or serialization and specify whether sign preservation is required. |
+| Disposition | What functional requirement governs any accepted difference? | Record reviewer identity, comments and resolution; define tests for any adopted contract. |
+
+The current repository has no supplied external consumer. Its emitted flags
+feed verification, while clipping predicates affect the next state. The
+original result records numerical agreement in its exercised corpus; the
+later examples show exact-versus-rounded branch differences and a zero-sign
+representation difference. Neither observation decides functional
+acceptability. Diagnostic-only flags, a branch margin and hysteresis remain
+conditional options requiring a supported consumer requirement. Do not run
+more random traces or implement a wrapper until the contract and independent
+review resolve this gate.
 
 From a separate checkout with the pinned dependencies and Clang:
 

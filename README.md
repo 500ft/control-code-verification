@@ -4,8 +4,9 @@ Compiled CasADi C and the binary32 reference agree on the original frozen develo
 traces for the stateful angular-rate filter. The exact-rational intent checks
 pass within the derived numerical bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
-threshold ties with no observed flag disagreement. External consumer requirements
-and independent human review remain open, so integration is unqualified. The
+threshold ties with no observed flag disagreement. The adopted
+[functional-consumer and independent-review gate](BRANCH_USE.md#review-scope-and-decision-record)
+remains open, so integration is unqualified. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at
