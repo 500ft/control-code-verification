@@ -1,11 +1,15 @@
 # Control code verification
 
-Compiled CasADi C and the binary32 reference agree on the original frozen development
-traces for the stateful angular-rate filter. The exact-rational intent checks
-pass within the derived numerical bounds. The
+The numerical next-state-value claim is admitted for the declared domain,
+strict arithmetic and registered trace horizon after [Claude AI technical
+review reconciliation](evidence/review/README.md). Compiled CasADi C and the
+binary32 reference agree on the original frozen development traces for the
+stateful angular-rate filter; exact-rational intent checks pass within the
+registered bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
-threshold ties with no observed flag disagreement. External consumer requirements
-and independent human review remain open, so integration is unqualified. The
+threshold ties with no observed flag disagreement. The adopted
+[functional-consumer decision](BRANCH_USE.md#review-scope-and-decision-record)
+and generated-C warning-set build remain open, so integration is unqualified. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at
@@ -81,8 +85,13 @@ unchanged. A separately registered descriptive protocol allowed other traces
 to execute without adopting bitwise acceptance or changing controller semantics.
 The executable ARM Linux GCC/QEMU comparison also completed on the original
 registered corpus, with the known zero-sign diagnostic reported separately.
-Functional requirements and independent human review remain open before wrapper
-qualification. No reserved cases or integration campaign ran.
+
+The completed [Claude AI technical review](evidence/review/README.md) adds
+targeted reverse-slew and negative-zero reproducers without changing the
+campaign counts or bound. Functional consumer requirements and a warning-set
+build resolution remain open before wrapper qualification. Human review is
+deferred for this scoped development gate. No reserved cases or integration
+campaign ran.
 
 ## Branch-use review
 
@@ -131,8 +140,10 @@ before reuse; no harness is copied as a setup prerequisite.
 Study A remains unfinished and paused in the original repository. Existing
 failsafe results do not qualify this module.
 
-The local filter boundary includes explicit state, reset and dt. A second
-reviewer and branch requirements remain pending before a reviewed wrapper.
+The local filter boundary includes explicit state, reset and dt. The numerical
+value review is reconciled; branch, zero-sign and consumer requirements remain
+pending before a reviewed wrapper.
+
 PX4 replay additionally needs an actually qualified supported build; the old
 failsafe firmware pin is not inherited automatically. It needs every consumed
 topic at required rate, timestamp and zero-stamp semantics, initialized state, controlled

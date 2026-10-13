@@ -29,13 +29,20 @@ registered development budget with exact-reference coverage and an executable
 ARM Linux GCC/QEMU comparison. Signed-zero representation and exact-versus-rounded
 branch differences remain observed requirements questions. Specify their
 functional consumers and acceptance requirements before qualifying a wrapper.
+The [Claude AI technical review reconciliation](evidence/review/README.md)
+admits the numerical next-state-value claim for the declared domain, strict
+arithmetic and registered trace horizon. Its targeted cases add reverse-slew
+flag differences and negative-zero paths. Actual consumer behavior remains
+unprovided. Human review is deferred and is not required for this scoped
+development admission. Numerical agreement does not decide functional
+acceptability.
 The original first-failure pilot and its bitwise criterion remain preserved;
 its stop no longer prevents descriptive numerical observation.
 
-Assign the second reviewer and resolve branch-use requirements before qualifying
-a wrapper. The existing staging name is now used for the public repository
-under the owner's delegated implementation instruction. The original
-failsafe repository remains paused pending its owner's release/closure choice;
+Resolve branch-use requirements and the generated-C warning-set compile blocker
+before qualifying a wrapper. The existing staging name is now used for the
+public repository under the owner's delegated implementation instruction. The
+original failsafe repository remains paused pending its owner's release/closure choice;
 that choice does not block local core review. No physical, funding, purchase or
 paper-publication decision has been supplied.
 
@@ -90,20 +97,32 @@ and horizon domain and numerical error bounds before running comparisons.
   examples. No observed numerical-bound violation occurred. ARM Linux GCC and
   QEMU executed the original registered corpus and the known-zero diagnostic;
   this supplies no Cortex-M/PX4 or hardware-timing qualification.
-- Current: specify the external consumer and its branch-identity requirements,
-  and assign the independent human reviewer. Diagnostic-only use remains a
-  possible proposal, not an adopted contract. Any required margin or hysteresis
-  needs a functional basis; numerical tolerance remains unchanged.
+- Done within scope: the [pinned Claude AI technical review](evidence/review/README.md)
+  and focused reproduction admit only the numerical next-state-value claim
+  under strict arithmetic and the registered trace horizon. The original
+  numerical budget and historical results remain unchanged. The review's
+  tighter-bound estimate and universal reverse-clamp exclusion are unestablished.
+- Current: resolve the [consumer decision fields](BRANCH_USE.md#review-scope-and-decision-record)
+  for state, mode, anti-windup, logging, signed zero and branch identity.
+  Diagnostic-only use remains a possible proposal, not an
+  adopted contract. Any required margin or hysteresis needs a functional
+  basis; numerical tolerance remains unchanged. No further random traces or
+  wrapper implementation are authorized while this gate is open. The local
+  `-Wfloat-equal -Werror` compile failure also needs a documented resolution
+  before integration.
 - Future: freeze any necessary semantic repair and fresh verification cases.
   Cases exposed during development cannot become final cases.
 
-Completion evidence: reviewed requirements, a recorded comparison for the
-admitted core, and resolved or explicitly excluded branch-sensitive behavior.
+Completion evidence: a traced consumer contract, the [reconciled review](evidence/review/README.md),
+the recorded comparison for the admitted value claim, and resolved or
+explicitly excluded branch-sensitive behavior.
 Numerical agreement alone does not complete this milestone.
 
 ### Reviewed wrapper and B2B boundaries
 
-Prerequisites: qualified core semantics and a second reviewer. Write admission,
+Prerequisites: qualified core semantics, a consumer contract and a resolved
+generated-C warning-set build requirement. The scoped Claude AI technical
+review is complete for the numerical value claim. Write admission,
 initialization, reset/mode, timestamp, stale/absent/reordered-message and
 publisher rules before collecting wrapper results.
 
@@ -119,7 +138,7 @@ publisher rules before collecting wrapper results.
 - For each admitted boundary, demonstrate detection of a justified known defect
   and record setup and execution cost separately.
 
-Completion evidence: reviewer sign-off, common frozen inputs, known-good and
+Completion evidence: resolved review findings, common frozen inputs, known-good and
 known-defect outcomes, exclusions, reproducible comparison logs and cost records
 for step, state, message and SITL boundaries. None of the latter two has run.
 

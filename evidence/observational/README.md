@@ -64,6 +64,10 @@ differences, distinct from the earlier conservative contacts where flags agreed.
 C and binary32 agree on branch flags in this exercised corpus. Functional
 consequences depend on a consumer requirement that remains unspecified.
 
+The later [Claude AI technical review reconciliation](../review/README.md)
+reproduced reverse-direction slew flips in separate targeted development
+cases. Those cases are outside this frozen corpus and do not alter its counts.
+
 Signed-zero differences remain those in the preserved
 [one-step reproducer](../development/replay.json). Source inspection found no
 signbit, copysign, reciprocal-state, or other sign-sensitive functional consumer
@@ -72,6 +76,10 @@ update domain, and branch predicates treat either zero sign equally. Bitwise
 verification observes the sign difference. Exact fractions identify both zeros
 as the same rational value. No external application has been supplied, so this
 source audit does not establish that future consumers can discard zero signs.
+
+The later [focused review replay](../review/reproduced.json) also found a
+tracking-reset and underflowing-update path to the same reference/C zero-sign
+difference. The original first-failure record remains the hold case.
 
 ## Executed ARM Linux compiler/emulator comparison
 

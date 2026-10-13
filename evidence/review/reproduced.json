@@ -1,0 +1,186 @@
+{
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
+  "compiler_flags": [
+    "-std=c99",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter",
+    "-Werror"
+  ],
+  "source_sha256": {
+    "generated/zero_reset.c": "dd8d0095e4f7d0b548410d69f2da2cad4c3a0f3d1cc50e2fae3fd7a043d34333",
+    "generated/tracking_reset.c": "19411d66fa6fbb46f7e6e4430d5e2ba68bd92ba6e194e714edee45429e3ac9be"
+  },
+  "reverse_slew": [
+    {
+      "variant": "zero_reset",
+      "x": "bfd9ebe2",
+      "u": "bf834628",
+      "dt": "3d352dd2",
+      "exact_flags": [
+        0,
+        0
+      ],
+      "reference_flags": [
+        1,
+        0
+      ],
+      "c_flags": [
+        1,
+        0
+      ],
+      "c_state": "bfc34628"
+    },
+    {
+      "variant": "zero_reset",
+      "x": "3f9f8df1",
+      "u": "3f65de22",
+      "dt": "3d49ee01",
+      "exact_flags": [
+        0,
+        0
+      ],
+      "reference_flags": [
+        -1,
+        0
+      ],
+      "c_flags": [
+        -1,
+        0
+      ],
+      "c_state": "3f92ef11"
+    },
+    {
+      "variant": "tracking_reset",
+      "x": "3c06e32d",
+      "u": "3f9758b2",
+      "dt": "3d32575f",
+      "exact_flags": [
+        0,
+        0
+      ],
+      "reference_flags": [
+        1,
+        0
+      ],
+      "c_flags": [
+        1,
+        0
+      ],
+      "c_state": "3e3ac592"
+    },
+    {
+      "variant": "tracking_reset",
+      "x": "3f8f3bf2",
+      "u": "3f03e1aa",
+      "dt": "3d54b1d4",
+      "exact_flags": [
+        0,
+        0
+      ],
+      "reference_flags": [
+        -1,
+        0
+      ],
+      "c_flags": [
+        -1,
+        0
+      ],
+      "c_state": "3f81f0d5"
+    }
+  ],
+  "negative_zero": [
+    {
+      "variant": "zero_reset",
+      "path": "hold",
+      "x": "80000000",
+      "u": "00000000",
+      "dt": "00000000",
+      "reset": false,
+      "exact_state": "0",
+      "reference_state": "80000000",
+      "c_state": "00000000",
+      "flags": [
+        0,
+        0
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "path": "hold",
+      "x": "80000000",
+      "u": "00000000",
+      "dt": "00000000",
+      "reset": false,
+      "exact_state": "0",
+      "reference_state": "80000000",
+      "c_state": "00000000",
+      "flags": [
+        0,
+        0
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "path": "reset",
+      "x": "00000000",
+      "u": "80000000",
+      "dt": "3d800000",
+      "reset": true,
+      "exact_state": "0",
+      "reference_state": "80000000",
+      "c_state": "00000000",
+      "flags": [
+        0,
+        0
+      ]
+    },
+    {
+      "variant": "zero_reset",
+      "path": "update",
+      "x": "80000000",
+      "u": "80000001",
+      "dt": "37800000",
+      "reset": false,
+      "exact_state": "-1/5846720173169964652755268473849856826191921545216",
+      "reference_state": "80000000",
+      "c_state": "00000000",
+      "flags": [
+        0,
+        0
+      ]
+    },
+    {
+      "variant": "tracking_reset",
+      "path": "update",
+      "x": "80000000",
+      "u": "80000001",
+      "dt": "37800000",
+      "reset": false,
+      "exact_state": "-1/11692726722493576325570007804714988904815651717120",
+      "reference_state": "80000000",
+      "c_state": "00000000",
+      "flags": [
+        0,
+        0
+      ]
+    }
+  ],
+  "float_equal_werror": [
+    {
+      "source": "generated/zero_reset.c",
+      "exit_code": 1,
+      "error_count": 3,
+      "first_error": "generated/zero_reset.c:62:11: error: comparing floating point with == or != is unsafe [-Werror,-Wfloat-equal]"
+    },
+    {
+      "source": "generated/tracking_reset.c",
+      "exit_code": 1,
+      "error_count": 3,
+      "first_error": "generated/tracking_reset.c:76:11: error: comparing floating point with == or != is unsafe [-Werror,-Wfloat-equal]"
+    }
+  ]
+}

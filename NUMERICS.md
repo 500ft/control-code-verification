@@ -69,6 +69,12 @@ update. Reset returns the bound to zero; hold preserves it. The runner checks
 this recurrence against exact rational trajectories and reports the
 registered worst-horizon bound in [results](evidence/results.json).
 
+The [specification](spec.json) limits a trace to 256 steps. The runner resets
+its bound accumulator when a reset occurs inside that trace. It does not admit
+an indefinite run merely because the last reset was recent. The registered
+`32*epsilon` local bound remains unchanged; a tighter informal estimate from
+the [Claude review](evidence/review/README.md) has not replaced it.
+
 Independent analytic checks use the geometric closed-form constant-input
 response, linear positive and negative slew ramps through the clamp,
 equilibrium, hold and reset precedence. They prevent agreement between the
@@ -89,21 +95,31 @@ the clipping predicates still affect state. No external consumer is specified,
 and no diagnostic-only contract has been adopted. Original issue markers and
 bounds remain unchanged.
 
-Before integration, a reviewer must decide whether strict branch identity is
-required and how branch-near inputs should be handled. If an external action
-uses these flags, its margin or hysteresis must be specified and checked.
+Before integration, the actual consumer contract must decide whether strict
+branch identity is required and how branch-near inputs should be handled. The
+[Claude AI technical review reconciliation](evidence/review/README.md)
+admits only the numerical next-state-value claim within the declared domain,
+strict arithmetic and registered trace horizon. Its [reverse-slew reproducers](evidence/review/reproduced.json)
+show exact-inactive to rounded/C-active flags as well as the previously retained
+opposite direction. This does not qualify branch identity. If an external
+action uses these flags, its margin or hysteresis must be specified and checked.
 Widening numerical tolerance cannot answer that question. The current result
 keeps integration unqualified, with final cases withheld.
 
 ## Zero representation finding
 
 The [development pilot](evidence/development/README.md) found that a hold from
-negative zero returns positive zero in generated C. The explicit reference
-preserves negative zero. Exact rational intent cannot distinguish these values;
+negative zero returns positive zero in generated C. The [focused review replay](evidence/review/reproduced.json)
+also reproduces the difference for tracking reset from a negative-zero input
+and an update whose binary32 increment underflows to negative zero. The
+explicit reference preserves the negative sign on these paths. Exact rational
+intent cannot distinguish the two zero representations;
 zero real-valued error does not establish bitwise equality. The selection sums
 in generated C explain the discrepancy in a direct C replay. The bound and
 original corpus result remain valid for their stated observations. No zero
 canonicalization or sign-preservation contract has been adopted.
+For the underflowing update, exact intent is a tiny negative nonzero value;
+the two rounded outputs have the same numerical value and different zero signs.
 
 The [supplemental observational result](evidence/observational/README.md) keeps
 this discrepancy while running independent trace histories to completion.
@@ -113,6 +129,11 @@ oracle and the original bounds. Observed exact-versus-rounded flag differences
 have minimized reproducers; their functional significance is unspecified.
 The ARM Linux GCC/QEMU result covers the original registered corpus and a
 separately counted known-zero diagnostic.
+
+The review's saved cross-build comparison is limited to its exercised cases;
+its Cortex-M7 evidence is compile-only. The generated C also fails a local
+`-Wfloat-equal -Werror` syntax build on its zero-dt comparisons. These
+[review findings](evidence/review/README.md) remain integration requirements.
 
 ## Generated artifact inspection
 

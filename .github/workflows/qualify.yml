@@ -57,6 +57,9 @@ jobs:
           git diff --exit-code -- evidence/branch-use.json evidence/branch-use-table.md
           mkdir -p build/ci-evidence
           cp build/branch-use/run.json build/ci-evidence/branch-use-run.json
+      - name: Replay reviewed counterexamples
+        run: |
+          python campaign/review_cases.py > build/ci-evidence/review-cases.json
       - name: Regenerate, compile and compare the frozen development corpus
         run: |
           cp evidence/results.json "$RUNNER_TEMP/baseline.json"
