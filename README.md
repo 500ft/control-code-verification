@@ -7,9 +7,11 @@ binary32 reference agree on the original frozen development traces for the
 stateful angular-rate filter; exact-rational intent checks pass within the
 registered bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
-threshold ties with no observed flag disagreement. The adopted
-[functional-consumer decision](BRANCH_USE.md#review-scope-and-decision-record)
-and generated-C warning-set build remain open, so integration is unqualified. The
+threshold ties with no observed flag disagreement. The functional consumer is chosen and
+[source-traced](CONSUMER.md). Its remaining functional decisions and pinned PX4
+build and wrapper checks stay open. A [host build-only probe](evidence/consumer-build/README.md)
+demonstrates the selected isolated-library compiler approach, but does not
+qualify target execution or integration. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at
@@ -88,8 +90,8 @@ registered corpus, with the known zero-sign diagnostic reported separately.
 
 The completed [Claude AI technical review](evidence/review/README.md) adds
 targeted reverse-slew and negative-zero reproducers without changing the
-campaign counts or bound. Functional consumer requirements and a warning-set
-build resolution remain open before wrapper qualification. Human review is
+campaign counts or bound. Functional consumer requirements and a pinned target
+build remain open before wrapper qualification. Human review is
 deferred for this scoped development gate. No reserved cases or integration
 campaign ran.
 

@@ -107,8 +107,14 @@ from independent authorship; neither is human or external peer review.
 | Signed zero | Can a downstream calculation or bitwise consumer distinguish negative from positive zero? | Trace sign-sensitive operations or serialization and specify whether sign preservation is required. |
 | Disposition | What functional requirement governs any accepted difference? | Record Claude report provenance, per-claim disposition and resolutions; define tests for any adopted contract. |
 
-The current repository has no supplied external consumer. Its emitted flags
-feed verification, while clipping predicates affect the next state. The
+Owner decision 2026-10-13: the consumer is PX4 rate-setpoint shaping with a
+shadow instance in every mode and an active instance in acro and offboard
+body-rate mode, recorded in [CONSUMER.md](CONSUMER.md). That record gives
+derived answers for the State, Mode and Anti-windup fields and leaves Logging,
+Signed zero and Disposition open as owner decisions 3 and 6.
+
+Before that decision the repository had no supplied external consumer. Its
+emitted flags feed verification, while clipping predicates affect the next state. The
 original result records numerical agreement in its exercised corpus; the
 later examples show exact-active to rounded-inactive flags. The
 [reviewed reverse-slew cases](evidence/review/reproduced.json) show the opposite

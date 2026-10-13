@@ -32,15 +32,21 @@ functional consumers and acceptance requirements before qualifying a wrapper.
 The [Claude AI technical review reconciliation](evidence/review/README.md)
 admits the numerical next-state-value claim for the declared domain, strict
 arithmetic and registered trace horizon. Its targeted cases add reverse-slew
-flag differences and negative-zero paths. Actual consumer behavior remains
-unprovided. Human review is deferred and is not required for this scoped
-development admission. Numerical agreement does not decide functional
+flag differences and negative-zero paths. The selected PX4 consumer is now
+source-traced in [CONSUMER.md](CONSUMER.md); wrapper behavior and owner-held
+functional requirements remain unqualified. Human review is deferred and is
+not required for this scoped development admission. Numerical agreement does not decide functional
 acceptability.
 The original first-failure pilot and its bitwise criterion remain preserved;
 its stop no longer prevents descriptive numerical observation.
 
-Resolve branch-use requirements and the generated-C warning-set compile blocker
-before qualifying a wrapper. The existing staging name is now used for the
+The consumer is chosen: PX4 rate-setpoint shaping, shadow in every mode and
+active in acro and offboard body-rate mode ([CONSUMER.md](CONSUMER.md)).
+Resolve its open functional decision fields before qualifying a wrapper. The
+[build-only host probe](evidence/consumer-build/README.md) demonstrates an
+isolated library with target-local warning and arithmetic overrides,
+optimization and LTO objects. It does not establish a pinned PX4 target build
+or runtime behavior. The existing staging name is now used for the
 public repository under the owner's delegated implementation instruction. The
 original failsafe repository remains paused pending its owner's release/closure choice;
 that choice does not block local core review. No physical, funding, purchase or
@@ -102,14 +108,17 @@ and horizon domain and numerical error bounds before running comparisons.
   under strict arithmetic and the registered trace horizon. The original
   numerical budget and historical results remain unchanged. The review's
   tighter-bound estimate and universal reverse-clamp exclusion are unestablished.
-- Current: resolve the [consumer decision fields](BRANCH_USE.md#review-scope-and-decision-record)
-  for state, mode, anti-windup, logging, signed zero and branch identity.
+- Current: the consumer is decided ([CONSUMER.md](CONSUMER.md)); state, mode
+  and anti-windup answers are derived from it. Resolve the remaining
+  [decision fields](BRANCH_USE.md#review-scope-and-decision-record) for
+  logging, signed zero, acceptance and the reset and input rules.
   Diagnostic-only use remains a possible proposal, not an
   adopted contract. Any required margin or hysteresis needs a functional
   basis; numerical tolerance remains unchanged. No further random traces or
   wrapper implementation are authorized while this gate is open. The local
-  `-Wfloat-equal -Werror` compile failure also needs a documented resolution
-  before integration.
+  `-Wfloat-equal -Werror` compile failure has a selected isolated-library
+  approach and host build-only evidence. Pinned PX4 compilation and linked
+  arithmetic still need verification before integration.
 - Future: freeze any necessary semantic repair and fresh verification cases.
   Cases exposed during development cannot become final cases.
 

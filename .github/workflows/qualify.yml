@@ -19,6 +19,28 @@ jobs:
           cache: pip
       - name: Install pinned numerical dependencies
         run: python -m pip install -r requirements.txt
+      - name: Build the unchanged numerical core as an isolated LTO library
+        run: |
+          cmake -S evidence/consumer-build -B build/consumer-build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/consumer-build --verbose
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows = json.loads(Path('build/consumer-build/compile_commands.json').read_text())
+          assert len(rows) == 2
+          for row in rows:
+              flags = row['command'].split()
+              assert flags.index('-O3') < flags.index('-O2')
+              for common, override in [('-Wfloat-equal', '-Wno-float-equal'),
+                                       ('-fno-signed-zeros', '-fsigned-zeros'),
+                                       ('-freciprocal-math', '-fno-reciprocal-math')]:
+                  assert flags.index(common) < flags.index(override)
+              assert all(x in flags for x in ('-std=c99', '-O2', '-Werror',
+                                             '-fno-fast-math', '-ffp-contract=off'))
+              assert any(x.startswith('-flto') for x in flags)
+              assert Path(row['output']).is_file()
+          assert Path('build/consumer-build/libcontrol_core.a').is_file()
+          PY
       - name: Characterize the known signed-zero discrepancy and check host arithmetic
         run: |
           mkdir -p build/ci-evidence
