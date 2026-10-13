@@ -7,9 +7,9 @@ binary32 reference agree on the original frozen development traces for the
 stateful angular-rate filter; exact-rational intent checks pass within the
 registered bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
-threshold ties with no observed flag disagreement. The adopted
-[functional-consumer decision](BRANCH_USE.md#review-scope-and-decision-record)
-and generated-C warning-set build remain open, so integration is unqualified. The
+threshold ties with no observed flag disagreement. The functional consumer is chosen ([CONSUMER.md](CONSUMER.md)); its
+remaining [decision fields](BRANCH_USE.md#review-scope-and-decision-record)
+and the generated-C warning-set build stay open, so integration is unqualified. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at

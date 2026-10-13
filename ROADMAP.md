@@ -39,8 +39,10 @@ acceptability.
 The original first-failure pilot and its bitwise criterion remain preserved;
 its stop no longer prevents descriptive numerical observation.
 
-Resolve branch-use requirements and the generated-C warning-set compile blocker
-before qualifying a wrapper. The existing staging name is now used for the
+The consumer is chosen: PX4 rate-setpoint shaping, shadow in every mode and
+active in acro and offboard body-rate mode ([CONSUMER.md](CONSUMER.md)).
+Resolve its open decision fields (proposal decisions 2 to 7) and the
+generated-C warning-set compile blocker before qualifying a wrapper. The existing staging name is now used for the
 public repository under the owner's delegated implementation instruction. The
 original failsafe repository remains paused pending its owner's release/closure choice;
 that choice does not block local core review. No physical, funding, purchase or
@@ -102,8 +104,10 @@ and horizon domain and numerical error bounds before running comparisons.
   under strict arithmetic and the registered trace horizon. The original
   numerical budget and historical results remain unchanged. The review's
   tighter-bound estimate and universal reverse-clamp exclusion are unestablished.
-- Current: resolve the [consumer decision fields](BRANCH_USE.md#review-scope-and-decision-record)
-  for state, mode, anti-windup, logging, signed zero and branch identity.
+- Current: the consumer is decided ([CONSUMER.md](CONSUMER.md)); state, mode
+  and anti-windup answers are derived from it. Resolve the remaining
+  [decision fields](BRANCH_USE.md#review-scope-and-decision-record) for
+  logging, signed zero, acceptance and the reset and input rules.
   Diagnostic-only use remains a possible proposal, not an
   adopted contract. Any required margin or hysteresis needs a functional
   basis; numerical tolerance remains unchanged. No further random traces or
