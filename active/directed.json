@@ -1,0 +1,17 @@
+{
+  "unit": "one independently initialized sequence or one rejected input",
+  "execution_order": ["core_controls", "tie_accumulation", "wrapper_contract_only_after_core_and_target_qualify"],
+  "cases": [
+    {"id": "initialize_in_range", "kind": "initializer", "preceding": "7/4", "expect": "unchanged state, no update on entry tick"},
+    {"id": "initialize_out_of_range", "kind": "initializer", "preceding": "9/4", "expect": "reject, bypass active"},
+    {"id": "positive_unslewed", "kind": "constant", "x0": "0", "u": "1", "dt": "1/512", "steps": 8},
+    {"id": "negative_unslewed", "kind": "constant", "x0": "0", "u": "-1", "dt": "1/512", "steps": 8},
+    {"id": "positive_cap", "kind": "constant", "x0": "511/256", "u": "8", "dt": "1/64", "steps": 4},
+    {"id": "negative_cap", "kind": "constant", "x0": "-511/256", "u": "-8", "dt": "1/64", "steps": 4},
+    {"id": "positive_tie_accumulation", "kind": "constant", "x0": "1", "u": "8", "dt": "513/33554432", "steps": 24576, "purpose": "test continuous ceiling under repeated half-ULP slew increments"},
+    {"id": "negative_tie_accumulation", "kind": "constant", "x0": "-1", "u": "-8", "dt": "513/33554432", "steps": 24576, "purpose": "opposite direction at the same binary32 tie"},
+    {"id": "invalid_command", "kind": "reject", "x0": "0", "u": "NaN", "dt": "1/512", "expect": "do not call numerical core"},
+    {"id": "out_of_domain_command", "kind": "reject", "x0": "0", "u": "9", "dt": "1/512", "expect": "do not call numerical core"}
+  ],
+  "wrapper_cases_reserved_without_execution": ["startup", "disarm", "bumpless_entry", "ignored_axis_bypass", "invalid_manual", "stale_held_input", "timestamp_regression", "publisher_feedback", "integrator_effect"]
+}

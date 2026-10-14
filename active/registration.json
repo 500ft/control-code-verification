@@ -1,0 +1,9 @@
+{
+  "registered_utc": "2026-10-14T16:57:45.374266+00:00",
+  "parent_main": "d12a8c2bb29e054b18ad73dde3206784e187d7f2",
+  "sha256": {
+    "active/spec.json": "ea725a3cb939f4a3b932c9c4a2ae39fdb6d9b6b5a3da23fcc175711796fafa42",
+    "active/directed.json": "5cd6cdb436bcd6b4859ba1208884db3567038161007e646564711ab1e0549cce"
+  },
+  "rule": "No result was collected for the new active variant before this registration; original final cases stay closed."
+}
