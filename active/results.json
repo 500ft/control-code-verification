@@ -1,6 +1,14 @@
 {
   "status": "failed adopted continuous numerical ceiling on directed development cases",
+  "quantity_interpretation": "propagated next-state divergence between independently evolved exact and compiled histories, as required by CONSUMER.md for a continuous segment",
   "registration_sha256": "71523ff3c359adf4bd6073583e7ef11a2a63766f172453eddc3f3700af9197ae",
+  "supplemental_registration_sha256": "d6e9e7f44b83391d0091cf2f1f7e46ebda4207d0ce3acc4ff7b869ef27879918",
+  "harness_sha256": {
+    "qualify.py": "780bf2e6d0143f7c96e323067bc55c65e6143e60b29258b03c87fd0ae54d4715",
+    "boundary.py": "c221e09b32832e3d98c4e28c2b31ddf8bebf09ae3c345b7fc32ab8259c9b0114",
+    "generate.py": "e03c71ca5c823e65506d89b101b1261da8e1a0af538d140f8348ab00e79a643c"
+  },
+  "oracle_sha256": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
   "source_sha256": "f4fe10171cf7eed0a3decee3027a79c74ba1f505d590c1725343244ffb8c316a",
   "binary_sha256": "d1ed46b9b3fd5cce57d72b11c00a928a5302aa979623dd39611933ef29c78a30",
   "compiler_command": [
@@ -24,6 +32,7 @@
   "python": "3.13.7",
   "cases": [
     {
+      "cohort": "original",
       "id": "initialize_in_range",
       "kind": "initializer",
       "accepted": true,
@@ -31,6 +40,7 @@
       "matches_registered_expectation": true
     },
     {
+      "cohort": "original",
       "id": "initialize_out_of_range",
       "kind": "initializer",
       "accepted": false,
@@ -38,6 +48,7 @@
       "matches_registered_expectation": true
     },
     {
+      "cohort": "original",
       "id": "positive_unslewed",
       "kind": "constant",
       "steps": 8,
@@ -77,6 +88,7 @@
       }
     },
     {
+      "cohort": "original",
       "id": "negative_unslewed",
       "kind": "constant",
       "steps": 8,
@@ -116,6 +128,7 @@
       }
     },
     {
+      "cohort": "original",
       "id": "positive_cap",
       "kind": "constant",
       "steps": 4,
@@ -155,6 +168,7 @@
       }
     },
     {
+      "cohort": "original",
       "id": "negative_cap",
       "kind": "constant",
       "steps": 4,
@@ -194,6 +208,7 @@
       }
     },
     {
+      "cohort": "original",
       "id": "positive_tie_accumulation",
       "kind": "constant",
       "steps": 24576,
@@ -240,6 +255,7 @@
       }
     },
     {
+      "cohort": "original",
       "id": "negative_tie_accumulation",
       "kind": "constant",
       "steps": 24576,
@@ -286,14 +302,96 @@
       }
     },
     {
+      "cohort": "original",
       "id": "invalid_command",
       "kind": "reject",
       "rejected_before_core": true
     },
     {
+      "cohort": "original",
       "id": "out_of_domain_command",
       "kind": "reject",
       "rejected_before_core": true
+    },
+    {
+      "cohort": "review_supplement",
+      "id": "positive_interior_review",
+      "kind": "constant",
+      "steps": 8,
+      "max_abs_error": "17356279523/1227434708366190968832",
+      "ceiling_exceeded": false,
+      "first_exceed": null,
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "1/33024",
+          "c_state": 3.028100763913244e-05,
+          "abs_error": "1/8864812498944",
+          "c_flags": [
+            0,
+            0
+          ]
+        },
+        "4": {
+          "exact_state": "8487425/70892257536",
+          "c_state": 0.000119722870294936,
+          "abs_error": "119749667/19029995478545596416",
+          "c_flags": [
+            0,
+            0
+          ]
+        },
+        "8": {
+          "exact_state": "4628687983412225/19631688197463081216",
+          "c_state": 0.00023577635874971747,
+          "abs_error": "1617630657934673/1317460293333955062345498624",
+          "c_flags": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "cohort": "review_supplement",
+      "id": "negative_interior_review",
+      "kind": "constant",
+      "steps": 8,
+      "max_abs_error": "17356279523/1227434708366190968832",
+      "ceiling_exceeded": false,
+      "first_exceed": null,
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "-1/33024",
+          "c_state": -3.028100763913244e-05,
+          "abs_error": "1/8864812498944",
+          "c_flags": [
+            0,
+            0
+          ]
+        },
+        "4": {
+          "exact_state": "-8487425/70892257536",
+          "c_state": -0.000119722870294936,
+          "abs_error": "119749667/19029995478545596416",
+          "c_flags": [
+            0,
+            0
+          ]
+        },
+        "8": {
+          "exact_state": "-4628687983412225/19631688197463081216",
+          "c_state": -0.00023577635874971747,
+          "abs_error": "1617630657934673/1317460293333955062345498624",
+          "c_flags": [
+            0,
+            0
+          ]
+        }
+      }
     }
   ],
   "continuous_ceiling_holds": false,

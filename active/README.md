@@ -4,7 +4,9 @@ The [specification](spec.json) and [directed cases](directed.json) were
 registered at commit `e735af5` before generating or executing the new core.
 [Registration](registration.json) pins both input hashes. The original
 `spec.json`, 4/2 shadow generated C, numerical results and final cases were
-left unchanged.
+left unchanged. The later [Claude AI technical review](review/README.md) is
+non-blind and its two review-motivated cases were registered separately before
+execution.
 
 The [executed results](results.json) show that the adopted continuous
 next-state ceiling fails. Both registered half-ULP slew sequences crossed
@@ -14,7 +16,18 @@ independent explicit binary32 reference agreed on every executed directed
 call; this is a difference between rounded state recurrence and exact intent,
 not an adapter disagreement. The short case IDs containing `unslewed` were
 misnamed at registration: their inputs activate the slew branch. They are
-retained under their registered names and supply no unslewed coverage.
+retained under their registered names. The separately
+[registered review supplement](supplemental-directed.json) exercises the
+interior branch in both signs, with C and binary32 reference agreement. The
+first NaN rejection result was true by string short-circuit in the harness;
+the corrected development replay calls the numerical validator with NaN.
+
+The measured quantity is propagated next-state divergence between two
+independently evolved histories from the same initial state. The adopted
+[consumer contract](../CONSUMER.md#adopted-development-contract), which
+predates this registration, requires a propagated bound over a continuous
+segment. The one-step local error on the tie case is smaller; this result does
+not claim a local-error violation.
 
 A [separate closed-form check](check_counterexample.py) verifies the cause.
 For `x0=1`, `u=8` and `dt=513/33554432 s`, the exact symmetric slew increment
@@ -27,6 +40,10 @@ least integer `n` for which that fraction exceeds the ceiling. The negative
 sequence is symmetric. A continuous 30-minute run can contain this prefix
 without any reset, so a pointwise ceiling for every such segment is refuted.
 The entire 30-minute run was not simulated or claimed as executed.
+The case uses a `dt` within the registered variant domain but below the
+pinned PX4 rate module's `0.125 ms` lower clamp. It refutes the stated
+all-registered-input ceiling, not a narrower PX4-tick claim. That narrower
+claim has not been qualified or substituted into the adopted contract.
 
 Generate and reproduce with the pinned Python environment from the repository
 root:
@@ -46,9 +63,9 @@ arithmetic and a narrow float-equality warning override after the PX4-like
 common flags. The actual local command includes ThinLTO and produced an LLVM
 bitcode object in `libactive_symmetric_core.a` (SHA-256
 `35a16845ce84824e14594744c0b6f0789d475eb975ad90355478ded51c7d829d`).
-The exact compiler and source/binary hashes for the executed directed run are
-in [results.json](results.json). This host archive has not been linked into
-PX4 or executed on Cortex-M.
+The exact compiler, oracle, harness and source/binary hashes for the executed
+directed replay are in [results.json](results.json). This host archive has not
+been linked into PX4 or executed on Cortex-M.
 
 Pinned PX4 freshness paths were traced before any wrapper implementation.
 The [manual selector](https://github.com/PX4/PX4-Autopilot/blob/c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17/src/modules/manual_control/ManualControlSelector.cpp)

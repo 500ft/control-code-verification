@@ -18,6 +18,9 @@ HERE = ROOT / 'active'
 sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
 spec = json.loads((HERE / 'spec.json').read_text())
 cases = json.loads((HERE / 'directed.json').read_text())
+supplemental = json.loads((HERE / 'supplemental-directed.json').read_text())
+supplemental_registration = json.loads((HERE / 'registration-supplemental.json').read_text())
+assert sha(HERE / 'supplemental-directed.json') == supplemental_registration['sha256']
 registration = json.loads((HERE / 'registration.json').read_text())
 for name in ('spec.json', 'directed.json'):
     assert sha(HERE / name) == registration['sha256']['active/' + name]
@@ -61,7 +64,7 @@ def run(x, u, dt, reset=False):
 
 
 results = []
-for case in cases['cases']:
+for cohort, case in [('original', c) for c in cases['cases']] + [('review_supplement', c) for c in supplemental['cases']]:
     kind = case['kind']
     if kind == 'initializer':
         previous = Q(case['preceding'])
@@ -71,14 +74,14 @@ for case in cases['cases']:
         except ValueError:
             initialized = None
             accepted = False
-        results.append({'id': case['id'], 'kind': kind, 'accepted': accepted,
+        results.append({'cohort': cohort, 'id': case['id'], 'kind': kind, 'accepted': accepted,
                         'output': str(Q(initialized)) if accepted else None,
                         'matches_registered_expectation': accepted == (case['expect'].startswith('unchanged'))})
         continue
     if kind == 'reject':
-        u = case['u']
-        rejected = u == 'NaN' or not valid(Q(case['x0']), Q(u), Q(case['dt']))
-        results.append({'id': case['id'], 'kind': kind, 'rejected_before_core': rejected})
+        u = float('nan') if case['u'] == 'NaN' else Q(case['u'])
+        rejected = not valid(Q(case['x0']), u, Q(case['dt']))
+        results.append({'cohort': cohort, 'id': case['id'], 'kind': kind, 'rejected_before_core': rejected})
         continue
     x0, u, dt = (Q(case[k]) for k in ('x0', 'u', 'dt'))
     assert valid(x0, u, dt), case['id']
@@ -107,14 +110,22 @@ for case in cases['cases']:
         if step in (1, case['steps'] // 2, case['steps']):
             observed_at[str(step)] = {'exact_state': str(exact), 'c_state': native,
                                       'abs_error': str(error), 'c_flags': [int(f) for f in c_out[1:]]}
-    results.append({'id': case['id'], 'kind': kind, 'steps': case['steps'],
+    if cohort == 'review_supplement':
+        assert c_reference_mismatches == 0
+        assert exact_flag_mismatches == 0
+        assert all(row['c_flags'] == [0, 0] for row in observed_at.values())
+    results.append({'cohort': cohort, 'id': case['id'], 'kind': kind, 'steps': case['steps'],
                     'max_abs_error': str(max_error), 'ceiling_exceeded': first_exceed is not None,
                     'first_exceed': first_exceed, 'c_reference_mismatches': c_reference_mismatches,
                     'exact_flag_mismatches': exact_flag_mismatches, 'observed_at': observed_at})
 
 failed = [r for r in results if r.get('ceiling_exceeded')]
 record = {'status': 'failed adopted continuous numerical ceiling on directed development cases' if failed else 'directed cases passed; universal ceiling still unproved',
+          'quantity_interpretation': 'propagated next-state divergence between independently evolved exact and compiled histories, as required by CONSUMER.md for a continuous segment',
           'registration_sha256': sha(HERE / 'registration.json'),
+          'supplemental_registration_sha256': sha(HERE / 'registration-supplemental.json'),
+          'harness_sha256': {name: sha(HERE / name) for name in ('qualify.py', 'boundary.py', 'generate.py')},
+          'oracle_sha256': sha(ROOT / 'core.py'),
           'source_sha256': sha(source), 'binary_sha256': sha(shared),
           'compiler_command': command, 'compiler': subprocess.check_output(['cc', '--version'], text=True).splitlines()[0],
           'platform': platform.platform(), 'python': sys.version.split()[0],

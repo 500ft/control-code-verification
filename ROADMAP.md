@@ -116,7 +116,8 @@ and horizon domain and numerical error bounds before running comparisons.
   tighter-bound estimate and universal reverse-clamp exclusion are unestablished.
 - Current: the separately specified active variant failed its registered
   continuous numerical ceiling on a directed development case
-  ([result](active/results.json), [independent calculation](active/README.md)).
+  ([result](active/results.json), [closed-form calculation](active/README.md),
+  [Claude AI technical review](active/review/README.md)).
   The target build and directed wrapper tests remain conditional on core
   qualification.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.
