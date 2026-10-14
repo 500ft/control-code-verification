@@ -1,0 +1,304 @@
+{
+  "status": "failed adopted continuous numerical ceiling on directed development cases",
+  "registration_sha256": "71523ff3c359adf4bd6073583e7ef11a2a63766f172453eddc3f3700af9197ae",
+  "source_sha256": "f4fe10171cf7eed0a3decee3027a79c74ba1f505d590c1725343244ffb8c316a",
+  "binary_sha256": "d1ed46b9b3fd5cce57d72b11c00a928a5302aa979623dd39611933ef29c78a30",
+  "compiler_command": [
+    "cc",
+    "-std=c99",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter",
+    "-Werror",
+    "-shared",
+    "-fPIC",
+    "/Users/redhose/Projects/control-active-variant/active/generated/active_symmetric.c",
+    "-o",
+    "/Users/redhose/Projects/control-active-variant/build/active/active_symmetric.so"
+  ],
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
+  "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
+  "python": "3.13.7",
+  "cases": [
+    {
+      "id": "initialize_in_range",
+      "kind": "initializer",
+      "accepted": true,
+      "output": "7/4",
+      "matches_registered_expectation": true
+    },
+    {
+      "id": "initialize_out_of_range",
+      "kind": "initializer",
+      "accepted": false,
+      "output": null,
+      "matches_registered_expectation": true
+    },
+    {
+      "id": "positive_unslewed",
+      "kind": "constant",
+      "steps": 8,
+      "max_abs_error": "0",
+      "ceiling_exceeded": false,
+      "first_exceed": null,
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "1/256",
+          "c_state": 0.00390625,
+          "abs_error": "0",
+          "c_flags": [
+            1,
+            0
+          ]
+        },
+        "4": {
+          "exact_state": "1/64",
+          "c_state": 0.015625,
+          "abs_error": "0",
+          "c_flags": [
+            1,
+            0
+          ]
+        },
+        "8": {
+          "exact_state": "1/32",
+          "c_state": 0.03125,
+          "abs_error": "0",
+          "c_flags": [
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "negative_unslewed",
+      "kind": "constant",
+      "steps": 8,
+      "max_abs_error": "0",
+      "ceiling_exceeded": false,
+      "first_exceed": null,
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "-1/256",
+          "c_state": -0.00390625,
+          "abs_error": "0",
+          "c_flags": [
+            -1,
+            0
+          ]
+        },
+        "4": {
+          "exact_state": "-1/64",
+          "c_state": -0.015625,
+          "abs_error": "0",
+          "c_flags": [
+            -1,
+            0
+          ]
+        },
+        "8": {
+          "exact_state": "-1/32",
+          "c_state": -0.03125,
+          "abs_error": "0",
+          "c_flags": [
+            -1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "positive_cap",
+      "kind": "constant",
+      "steps": 4,
+      "max_abs_error": "0",
+      "ceiling_exceeded": false,
+      "first_exceed": null,
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "2",
+          "c_state": 2.0,
+          "abs_error": "0",
+          "c_flags": [
+            1,
+            1
+          ]
+        },
+        "2": {
+          "exact_state": "2",
+          "c_state": 2.0,
+          "abs_error": "0",
+          "c_flags": [
+            1,
+            1
+          ]
+        },
+        "4": {
+          "exact_state": "2",
+          "c_state": 2.0,
+          "abs_error": "0",
+          "c_flags": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": "negative_cap",
+      "kind": "constant",
+      "steps": 4,
+      "max_abs_error": "0",
+      "ceiling_exceeded": false,
+      "first_exceed": null,
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "-2",
+          "c_state": -2.0,
+          "abs_error": "0",
+          "c_flags": [
+            -1,
+            -1
+          ]
+        },
+        "2": {
+          "exact_state": "-2",
+          "c_state": -2.0,
+          "abs_error": "0",
+          "c_flags": [
+            -1,
+            -1
+          ]
+        },
+        "4": {
+          "exact_state": "-2",
+          "c_state": -2.0,
+          "abs_error": "0",
+          "c_flags": [
+            -1,
+            -1
+          ]
+        }
+      }
+    },
+    {
+      "id": "positive_tie_accumulation",
+      "kind": "constant",
+      "steps": 24576,
+      "max_abs_error": "3/2048",
+      "ceiling_exceeded": true,
+      "first_exceed": {
+        "step": 17868,
+        "elapsed_s": "2291571/8388608",
+        "exact_state": "6485875/4194304",
+        "c_state_hex": "00ccc53f",
+        "c_state": 1.5452880859375,
+        "abs_error": "4467/4194304"
+      },
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "16777729/16777216",
+          "c_state": 1.000030517578125,
+          "abs_error": "1/16777216",
+          "c_flags": [
+            1,
+            0
+          ]
+        },
+        "12288": {
+          "exact_state": "5635/4096",
+          "c_state": 1.375,
+          "abs_error": "3/4096",
+          "c_flags": [
+            1,
+            0
+          ]
+        },
+        "24576": {
+          "exact_state": "3587/2048",
+          "c_state": 1.75,
+          "abs_error": "3/2048",
+          "c_flags": [
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "negative_tie_accumulation",
+      "kind": "constant",
+      "steps": 24576,
+      "max_abs_error": "3/2048",
+      "ceiling_exceeded": true,
+      "first_exceed": {
+        "step": 17868,
+        "elapsed_s": "2291571/8388608",
+        "exact_state": "-6485875/4194304",
+        "c_state_hex": "00ccc5bf",
+        "c_state": -1.5452880859375,
+        "abs_error": "4467/4194304"
+      },
+      "c_reference_mismatches": 0,
+      "exact_flag_mismatches": 0,
+      "observed_at": {
+        "1": {
+          "exact_state": "-16777729/16777216",
+          "c_state": -1.000030517578125,
+          "abs_error": "1/16777216",
+          "c_flags": [
+            -1,
+            0
+          ]
+        },
+        "12288": {
+          "exact_state": "-5635/4096",
+          "c_state": -1.375,
+          "abs_error": "3/4096",
+          "c_flags": [
+            -1,
+            0
+          ]
+        },
+        "24576": {
+          "exact_state": "-3587/2048",
+          "c_state": -1.75,
+          "abs_error": "3/2048",
+          "c_flags": [
+            -1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "invalid_command",
+      "kind": "reject",
+      "rejected_before_core": true
+    },
+    {
+      "id": "out_of_domain_command",
+      "kind": "reject",
+      "rejected_before_core": true
+    }
+  ],
+  "continuous_ceiling_holds": false,
+  "universal_ceiling_refuted": true,
+  "target_build_qualified": false,
+  "wrapper_admitted": false,
+  "withheld_executed": false
+}

@@ -1,5 +1,11 @@
 # Control code verification
 
+The separately registered symmetric active variant failed the adopted
+continuous numerical ceiling on a directed development case. The
+[executed result and independent calculation](active/README.md) identify the
+rounding mechanism. This blocks active wrapper admission; the original shadow
+artifacts and their bounded numerical admission remain unchanged.
+
 The numerical next-state-value claim is admitted for the declared domain,
 strict arithmetic and registered trace horizon after [Claude AI technical
 review reconciliation](evidence/review/README.md). Compiled CasADi C and the
@@ -9,7 +15,8 @@ registered bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
 threshold ties with no observed flag disagreement. The functional consumer is chosen and
 [source-traced](CONSUMER.md). The [development contract](CONSUMER.md#adopted-development-contract) is adopted;
-new-variant qualification and pinned PX4 build/wrapper checks remain open. A [host build-only probe](evidence/consumer-build/README.md)
+the new variant's continuous ceiling failed, and pinned PX4 build and wrapper
+checks have not run. A [host build-only probe](evidence/consumer-build/README.md)
 demonstrates the selected isolated-library compiler approach, but does not
 qualify target execution or integration. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
@@ -90,8 +97,9 @@ registered corpus, with the known zero-sign diagnostic reported separately.
 
 The completed [Claude AI technical review](evidence/review/README.md) adds
 targeted reverse-slew and negative-zero reproducers without changing the
-campaign counts or bound. Functional consumer requirements are adopted; the new variant and pinned target
-build remain unqualified before wrapper admission. Human review is
+campaign counts or bound. Functional consumer requirements are adopted; the new
+variant failed its continuous ceiling and the pinned target build remains
+unqualified. Human review is
 deferred for this scoped development gate. No reserved cases or integration
 campaign ran.
 

@@ -41,6 +41,40 @@ jobs:
               assert Path(row['output']).is_file()
           assert Path('build/consumer-build/libcontrol_core.a').is_file()
           PY
+      - name: Reproduce registered active-variant ceiling counterexample
+        run: |
+          cp active/results.json "$RUNNER_TEMP/active-results-baseline.json"
+          python active/generate.py
+          git diff --exit-code -- active/generated
+          python active/qualify.py
+          python active/check_counterexample.py
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          baseline = json.loads((Path(os.environ['RUNNER_TEMP']) / 'active-results-baseline.json').read_text())
+          observed = json.loads(Path('active/results.json').read_text())
+          assert observed['cases'] == baseline['cases']
+          assert observed['continuous_ceiling_holds'] is False
+          assert observed['universal_ceiling_refuted'] is True
+          PY
+          cmake -S active -B build/active-cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/active-cmake --verbose
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows = json.loads(Path('build/active-cmake/compile_commands.json').read_text())
+          assert len(rows) == 1
+          flags = rows[0]['command'].split()
+          assert flags.index('-O3') < flags.index('-O2')
+          for common, override in [('-Wfloat-equal', '-Wno-float-equal'),
+                                   ('-fno-signed-zeros', '-fsigned-zeros'),
+                                   ('-freciprocal-math', '-fno-reciprocal-math')]:
+              assert flags.index(common) < flags.index(override)
+          assert all(x in flags for x in ('-std=c99', '-Werror', '-fno-fast-math', '-ffp-contract=off'))
+          assert any(x.startswith('-flto') for x in flags)
+          assert Path(rows[0]['output']).is_file()
+          assert Path('build/active-cmake/libactive_symmetric_core.a').is_file()
+          PY
       - name: Characterize the known signed-zero discrepancy and check host arithmetic
         run: |
           mkdir -p build/ci-evidence
