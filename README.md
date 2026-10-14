@@ -8,8 +8,8 @@ stateful angular-rate filter; exact-rational intent checks pass within the
 registered bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
 threshold ties with no observed flag disagreement. The functional consumer is chosen and
-[source-traced](CONSUMER.md). Its remaining functional decisions and pinned PX4
-build and wrapper checks stay open. A [host build-only probe](evidence/consumer-build/README.md)
+[source-traced](CONSUMER.md). The [development contract](CONSUMER.md#adopted-development-contract) is adopted;
+new-variant qualification and pinned PX4 build/wrapper checks remain open. A [host build-only probe](evidence/consumer-build/README.md)
 demonstrates the selected isolated-library compiler approach, but does not
 qualify target execution or integration. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
@@ -90,8 +90,8 @@ registered corpus, with the known zero-sign diagnostic reported separately.
 
 The completed [Claude AI technical review](evidence/review/README.md) adds
 targeted reverse-slew and negative-zero reproducers without changing the
-campaign counts or bound. Functional consumer requirements and a pinned target
-build remain open before wrapper qualification. Human review is
+campaign counts or bound. Functional consumer requirements are adopted; the new variant and pinned target
+build remain unqualified before wrapper admission. Human review is
 deferred for this scoped development gate. No reserved cases or integration
 campaign ran.
 
@@ -143,8 +143,8 @@ Study A remains unfinished and paused in the original repository. Existing
 failsafe results do not qualify this module.
 
 The local filter boundary includes explicit state, reset and dt. The numerical
-value review is reconciled; branch, zero-sign and consumer requirements remain
-pending before a reviewed wrapper.
+value review is reconciled; diagnostic branch use, zero-sign treatment and consumer requirements are
+adopted in CONSUMER.md. Implementation and qualification are next.
 
 PX4 replay additionally needs an actually qualified supported build; the old
 failsafe firmware pin is not inherited automatically. It needs every consumed
