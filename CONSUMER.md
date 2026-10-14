@@ -4,8 +4,10 @@ Owner decision 2026-10-13 (chat): for this repository, adopt "the combination
 layered controller idea". That is the layered placement discussed the same
 day: one shadow filter instance per axis in every flight mode, logging only,
 plus one active instance per axis that shapes the rate setpoint in acro mode
-and in offboard body-rate mode. This settles decision 1 of the external
-proposal. Decisions 2 to 7 remain the owner's and are listed below as open.
+and in offboard body-rate mode. This settled decision 1 of the external
+proposal. On 2026-10-14 the owner delegated the remaining selections with
+“lets do these”. Codex selected the development contract below; these choices
+authorize qualification and do not establish flight handling or target safety.
 
 Proposal: `implementation/control-consumer-20261013/PROPOSAL.md` in the
 external audit directory, SHA-256
@@ -68,20 +70,14 @@ recomputes the manual setpoint on a new manual message, or copies a new
 `_rates_setpoint` is held. On startup or mode entry that member may carry its
 initialized or preceding-mode value. Shadow and active state must be separate;
 neither samples the other output. The selected copy, source identity, freshness,
-startup initialization, bypass and re-entry resets need wrapper tests. This
-placement does not settle their reset or stale-input policy.
+startup initialization, bypass and re-entry resets need wrapper tests. The adopted reset and stale-input requirements are recorded below.
 
-Unadopted output cap as a command requirement. The frozen variants clamp the state at
-2 rad/s (114.6 deg/s). An active instance therefore limits commanded body
-rates to that value regardless of the acro rate parameters, which allow up to
-1800 deg/s. This is a handling requirement the owner must accept explicitly
-for the active path; numerical equivalence does not establish it. The shadow
-instance imposes no such limit on the vehicle.
-
-The frozen filter admits `|u| <= 8 rad/s`. Clipping larger selected inputs
-before the step is a proposed, unapproved wrapper rule. Acro parameters and
-offboard input can exceed this domain. The active output cap remains an
-owner-held handling decision.
+The active development variant retains the 2 rad/s output cap and the finite
+input domain of 8 rad/s. The cap is an explicit command requirement for this
+experiment, not a validated flight envelope. An input outside that domain is
+rejected by the active shaper; it is not silently clipped into qualification.
+A preceding effective command outside the state cap prevents bumpless entry:
+bypass shaping and log the reason until an in-domain entry can occur.
 
 ## Consumers of the active output, traced at the pinned commit
 
@@ -92,77 +88,48 @@ owner-held handling decision.
 | Anti-windup source | `MulticopterRateControl.cpp`, allocator status | downstream of the setpoint; reads the allocator, not the filter |
 | Shaped-setpoint publication | proposed new topic in `MulticopterRateControl.cpp` | would expose the PID input without feedback through `vehicle_rates_setpoint`; it does not yet exist |
 | Existing logger and MAVLink `ATTITUDE_TARGET` | [logger topics](https://github.com/PX4/PX4-Autopilot/blob/c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17/src/modules/logger/logged_topics.cpp), [stream](https://github.com/PX4/PX4-Autopilot/blob/c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17/src/modules/mavlink/streams/ATTITUDE_TARGET.hpp) | subscribe to `vehicle_rates_setpoint`, not the proposed shaped topic; they continue to show the raw topic unless explicitly changed |
-| Slew and clamp flags | no current publisher or subscriber | emission and consumer meaning remain open |
+| Slew and clamp flags | no current publisher or subscriber | diagnostic emission and logging adopted; no control use |
 
 Subscribers for other vehicle types do not run on a multicopter build. The
 shadow instance currently has no consumer. A logger subscription for its
 proposed output would need implementation and qualification.
 
-## Decision fields
+## Adopted development contract
 
-| Field | Answer for this integration | Status |
-| :--- | :--- | :--- |
-| State | If integrated as proposed, the active next state becomes the rate setpoint the PID tracks. No current code consumes the filter's threshold-side flags. | placement adopted; wrapper behavior untested |
-| Mode | The proposed filter flags do not select a commander mode or safety action. | traced at the pinned source; wrapper behavior untested |
-| Anti-windup | PX4's anti-windup uses allocator saturation status downstream of the setpoint. Filter flags do not drive it. Shaping can still change the rate error and integrator update; test this in a future wrapper. | source traced; functional effect untested |
-| Logging | Whether the flags are emitted and logged as new fields, and the caveat that single-sample flags near a threshold are uncertain by the step's error bound. | open: decision 3 |
-| Signed zero | The pinned common flags include `-fno-signed-zeros`; existing logger and MAVLink subscribers do not see the proposed shaped topic. Trace any bitwise observer after publication is implemented. | open: part of decision 6 |
-| Disposition | The acceptance quantity and tolerance, and the continuous-operation envelope. | open: decision 6 |
+The numbers below are selected experiment requirements, not measured vehicle
+limits. The original `spec.json`, two generated artifacts, numerical bounds,
+results and withheld cases remain frozen.
 
-## Open owner decisions
+| Decision | Adopted requirement |
+| :--- | :--- |
+| 2. Symmetry | Keep both qualified 4/2 rad/s^2 variants as separate shadow research artifacts. Generate a third active variant with symmetric 2/2 rad/s^2 slew, tau = 0.25 s, and the same state/input caps. The common lower slew magnitude avoids increasing either directional limit; it is a development choice requiring handling evaluation, not an optimal limit. |
+| 3. Flags | Emit and log slew/clamp flags, selected raw input, shaped state, instance identity, reset cause and input-validity/freshness status. Flags are diagnostic only: no mode, safety or anti-windup decisions use them. Boundary-sensitive flags need not match exact intent; compare against the executed binary32 semantics and retain discrepancies. |
+| 4. Reset | Initialize both instances at startup/restart and zero them on disarm. Shadow resets on disarm only thereafter; mode changes do not reset it. Active mode entry/re-entry initializes from the preceding effective PID setpoint, per axis, using a separately specified state-initialization operation. It does not track the new desired input as a substitute for bumpless entry. If the preceding setpoint is non-finite or outside the state cap, bypass active shaping and record entry rejection. Log every reset; do not insert resets to satisfy an error bound. |
+| 5a. Source-defined ignored offboard axis | Preserve PX4's measured-rate substitution without active lag on that axis. Bypass its active shaper while ignored and reinitialize from the preceding effective setpoint when the axis becomes commanded. A non-finite measured rate is a rejected input, never a numerical reference. |
+| 5b. Invalid commanded axis | Reject non-finite commanded values, including manual axes and offboard values that are not source-defined ignored sentinels. Do not step either filter with NaN/Inf. Hold the last finite effective setpoint for that tick, record rejection and retain the pinned host's commander/failsafe authority. If no finite value exists, do not enable shaping. This is a software qualification response, not a flight-safety claim. |
+| 5c. Missing, stale or reordered message | A rate tick without a new message can step the held, valid pre-shaping command while the source remains valid under the pinned host. Never feed a shaped output back as the held source. Reject timestamp regressions and expose source age; do not reset age by republishing. On host-declared source loss, bypass active shaping and preserve the host's mode/failsafe handling. Derive host freshness thresholds from the pinned code before wrapper tests rather than inventing a new timeout. |
+| 6. Acceptance | Use 1.065e-3 rad/s as the selected numerical next-state error ceiling against exact intent over a 30-minute continuous active segment, with no artificial resets. It is the proposed gyro-count reference scale, not a proved sensor specification or safety tolerance. Qualify the new variant's propagated bound for all registered dt/input histories; simulations alone do not establish a universal bound. If the argument exceeds this ceiling, report failure rather than widen it. Zero signs may differ; finite values and zero-sign-insensitive consumers are required. No exact-intent flag identity or target bit identity is claimed. |
+| 7. Compiler | Option A: a separate strict library target. Verify effective compile commands, warning overrides, arithmetic flags and LTO behavior in the pinned PX4 target build and linked artifact. The host probe alone is insufficient. |
 
-Only layered placement and the compiler engineering route are adopted. The
-following physical and functional decisions remain open. Recommendations in
-the external proposal are not owner approvals.
+The active initializer must return the preceding in-range setpoint unchanged
+at the transition boundary; the first ordinary update occurs on the next
+accepted rate tick. Register saturation, ignored-axis transitions, domain
+rejection, dropout and mode/disarm precedence before collecting results.
+Check the PID integrator response explicitly. Diagnostic flags do not drive
+allocator anti-windup, but shaping changes the integrator's rate error.
 
-2. Accept the direction-dependent acceleration limits (4 rad/s^2 rising,
-   2 rad/s^2 falling) on a symmetric body axis, or require a symmetric variant,
-   which reopens the specification.
-3. Flags: emit and log them, or do not emit them.
-4. Reset: zero_reset on disarm, acro entry and offboard entry, or require a
-   bumpless entry, which needs a new variant. The shadow instance also needs a
-   rule; the proposal did not cover it.
-5. Invalid input has separate cases. The [MAVLink receiver](https://github.com/PX4/PX4-Autopilot/blob/c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17/src/modules/mavlink/mavlink_receiver.cpp)
-   writes NaN for ignored offboard axes; the rate module substitutes measured
-   rate on those axes. A non-finite manual-control value has no equivalent
-   guard in the acro branch. A rate tick without a new source message leaves
-   the previous `_rates_setpoint` held; commander mode and failsafe logic is
-   separate. These cases require distinct rules and wrapper tests. Feeding a
-   substituted measured rate through a lagged active filter would change the
-   original ignored-axis behavior.
-6. Acceptance quantity, tolerance and continuous-operation envelope.
-7. Compiler option A is selected as the engineering route: a separate strict
-   library target for the unchanged generated C. A [host build-only probe](evidence/consumer-build/README.md)
-   demonstrates target-local warning and arithmetic overrides with optimization
-   and LTO. The pinned PX4 target build and execution remain unqualified.
+## Execution and admission
 
-| Open choice | Recommendation for owner review | Basis and missing evidence |
-| :--- | :--- | :--- |
-| Active symmetry, output cap and input range | Qualify a separate symmetric, bumpless active variant before use; retain the qualified 4/2 variants only in shadow. Select limits from handling requirements, not the numerical campaign. | The frozen variants cap at 2 rad/s and have asymmetric slew; no handling acceptance or physical envelope is supplied. |
-| Flag emission | Log flags with the new shadow and active outputs, with a threshold-uncertainty note; do not use them for control yet. | No current PX4 consumer exists; the review found boundary-sensitive flags. |
-| Reset and re-entry | Specify initialization at startup and explicit reset on disarm and mode entry, then test bypass and re-entry against held setpoints. | The rate module can retain a preceding-mode setpoint and the frozen variants have distinct reset semantics. |
-| Ignored, non-finite and stale inputs | Preserve PX4's ignored-axis measured-rate substitution without active lag; reject or bypass non-finite manual input; expose freshness and hold behavior separately. | Only the ignored-axis substitute is source-defined here. Fault response and stale-input envelope need an accepted requirement. |
-| Signed zero and acceptance | Keep the registered numerical bound unchanged. Choose any bit-identity, flag and continuous-operation rule after identifying actual observers and a duration requirement. | A gyro count is only a reference scale; no functional tolerance or long-duration validation is established. |
+Start with a separate specification and development qualification for the
+third variant, preserving original artifacts and their 256-step admission.
+Then qualify the target build and wrapper on registered message histories.
+A bound failure, unsupported host behavior or invalid consumer assumption is
+a result to resolve before admission. Wrapper scaffolding and directed tests
+are authorized; target integration is admitted only after these prerequisites
+pass. No extra broad random campaign is needed to decide these requirements.
 
-## Proposal under decisions 2 and 4, not adopted
-
-The shadow instance affects nothing the pilot feels, so it can run the
-qualified 4/2 variants in every mode and supply the integration-boundary
-evidence on the artifact that was actually qualified. The active instance
-does affect handling. If the owner wants symmetric limits and bumpless entry
-there, the clean route is a third semantic variant (symmetric, initialized
-from the preceding effective setpoint, with a rule for a preceding value
-outside the admitted range) generated by the same generator and qualified by
-the same campaign, with its own final cases. That keeps the qualified
-variants intact as research artifacts and follows the repository's one
-artifact per variant rule. Shadow reset proposal: disarm only, plus startup
-and restart initialization, every reset logged so continuous-duration claims
-can be checked.
-
-## What this decision does not do
-
-It authorizes no wrapper implementation, simulation or hardware run. The
-bounded host build-only probe does not qualify a PX4 target build. The roadmap
-gate stays closed until the open fields above are
-answered. Nothing here changes the frozen specification, the generated C, the
-numerical bound or any held-out case.
+Use the adopted Claude AI technical review protocol with non-blind provenance
+stated; human review remains deferred. New variant final cases must be separate
+from exposed development cases, and neither old nor new final cases may be
+opened as part of this task. Physical runs, flight release and claims about
+hardware timing remain outside this authorization.

@@ -76,8 +76,8 @@ admits the numerical next-state-value claim within its declared domain, strict
 arithmetic and registered trace horizon. It reproduces reverse-direction slew
 flag differences and additional negative-zero paths. Branch and bit identity,
 consumer behavior and wrapper qualification remain unresolved. Human review
-is deferred for this scoped development gate. No flag-use contract or semantic
-repair has been approved.
+is deferred for this scoped development gate. The later diagnostic-use contract is recorded below; no semantic repair
+is applied to these original artifacts.
 
 ### Review scope and decision record
 
@@ -107,11 +107,10 @@ from independent authorship; neither is human or external peer review.
 | Signed zero | Can a downstream calculation or bitwise consumer distinguish negative from positive zero? | Trace sign-sensitive operations or serialization and specify whether sign preservation is required. |
 | Disposition | What functional requirement governs any accepted difference? | Record Claude report provenance, per-claim disposition and resolutions; define tests for any adopted contract. |
 
-Owner decision 2026-10-13: the consumer is PX4 rate-setpoint shaping with a
-shadow instance in every mode and an active instance in acro and offboard
-body-rate mode, recorded in [CONSUMER.md](CONSUMER.md). That record gives
-derived answers for the State, Mode and Anti-windup fields and leaves Logging,
-Signed zero and Disposition open as owner decisions 3 and 6.
+The layered consumer decision and the later delegated requirement selections
+are recorded in [CONSUMER.md](CONSUMER.md). Logging, zero-sign treatment and
+acceptance are now specified there. This branch-use report retains the original
+artifact and its evidence; the new active variant requires separate qualification.
 
 Before that decision the repository had no supplied external consumer. Its
 emitted flags feed verification, while clipping predicates affect the next state. The
@@ -120,11 +119,9 @@ later examples show exact-active to rounded-inactive flags. The
 [reviewed reverse-slew cases](evidence/review/reproduced.json) show the opposite
 direction for slew flags in both variants. The [zero-sign cases](evidence/review/reproduced.json)
 also extend the original hold reproducer to tracking reset and an underflowing
-update. Neither observation decides functional acceptability. Diagnostic-only
-flags, a branch margin and hysteresis remain
-conditional options requiring a supported consumer requirement. Do not run
-more random traces or implement a wrapper until the consumer contract and
-warning-set build requirement resolve their gates.
+update. Neither observation decides functional acceptability. Diagnostic-only flags are now adopted. No branch margin or hysteresis was
+adopted. The new variant and pinned warning/arithmetic build still require
+qualification before wrapper admission.
 
 From a separate checkout with the pinned dependencies and Clang:
 
