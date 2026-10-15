@@ -1,0 +1,19 @@
+{
+  "label": "PX4-reachable-dt development analysis; not an adopted replacement for active/spec.json",
+  "px4_commit": "c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17",
+  "site": "MulticopterRateControl::Run immediately before RateControl::update",
+  "dt_source": "binary32 constrain(((timestamp_sample - _last_run) * 1e-6f), 0.000125f, 0.02f)",
+  "dt_min_bits_le": "6f120339",
+  "dt_max_bits_le": "0ad7a33c",
+  "interior_dt": "integer-microsecond timestamp differences multiplied by binary32 1e-6f, then constrained",
+  "input_abs_max_rad_per_s": "8",
+  "state_abs_max_rad_per_s": "2",
+  "slew_rad_per_s2": "2",
+  "tau_s": "1/4",
+  "ceiling_rad_per_s": "0.001065",
+  "continuous_target_s": "1800",
+  "reset_policy": "no artificial resets within a continuous segment; startup and disarm reset are separate calls",
+  "rejection": "reject input or state outside active/spec.json; nonfinite and out-of-range dt never passed to numerical core",
+  "hold": "explicit numerical dt=0 hold is a separate legitimate core call, not a PX4 Run dt",
+  "status": "development analysis only; no owner decision to narrow adopted broad-domain contract"
+}
