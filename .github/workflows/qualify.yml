@@ -75,6 +75,21 @@ jobs:
           assert Path(rows[0]['output']).is_file()
           assert Path('build/active-cmake/libactive_symmetric_core.a').is_file()
           PY
+      - name: Reproduce separate PX4 timestamp-domain development failure
+        run: |
+          cp active/px4_domain/results.json "$RUNNER_TEMP/px4-domain-baseline.json"
+          python active/px4_domain/run.py
+          python active/px4_domain/check_closed_form.py
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          expected = json.loads((Path(os.environ['RUNNER_TEMP']) / 'px4-domain-baseline.json').read_text())
+          actual = json.loads(Path('active/px4_domain/results.json').read_text())
+          assert actual['dt_bits'] == expected['dt_bits']
+          assert actual['cases'] == expected['cases']
+          assert actual['controls'] == expected['controls']
+          assert actual['stopped_on_first_failure'] is True
+          PY
       - name: Characterize the known signed-zero discrepancy and check host arithmetic
         run: |
           mkdir -p build/ci-evidence

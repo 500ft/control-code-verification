@@ -46,7 +46,10 @@ selects a separate symmetric active variant, diagnostic logging, bumpless
 entry, three-class invalid-input handling and a continuous error ceiling.
 The [registered active development result](active/README.md) generated that
 variant and found a directed counterexample to its continuous numerical
-ceiling. Current gate: resolve this core failure under the adopted requirement
+ceiling. A separate [PX4 timestamp-domain development result](active/px4_domain/README.md)
+also found a counterexample under source-permitted 125/126 microsecond
+timestamp gaps. Those gaps are not an observed sensor schedule. Current gate:
+resolve the core failure under the adopted requirement
 before a pinned target build or wrapper admission. Preserve the original
 artifacts and final cases. The
 [build-only host probe](evidence/consumer-build/README.md) demonstrates an
@@ -118,6 +121,10 @@ and horizon domain and numerical error bounds before running comparisons.
   continuous numerical ceiling on a directed development case
   ([result](active/results.json), [closed-form calculation](active/README.md),
   [Claude AI technical review](active/review/README.md)).
+  The separately registered PX4 timestamp-domain analysis also failed the
+  same ceiling ([result](active/px4_domain/results.json)); the pinned source
+  checkout is available, but the ARM toolchain and Docker daemon are not.
+  The broad-domain failure remains in force. No narrower contract was adopted.
   The target build and directed wrapper tests remain conditional on core
   qualification.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.

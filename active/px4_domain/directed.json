@@ -1,0 +1,15 @@
+{
+  "registered_before_execution": true,
+  "unit": "independently initialized sequence",
+  "cases": [
+    {"id": "endpoint_min_slew", "x0": "0", "commands": ["8"], "delta_us": [125], "repetitions": 64},
+    {"id": "endpoint_max_slew", "x0": "0", "commands": ["8"], "delta_us": [30000], "repetitions": 64},
+    {"id": "half_ulp_near_min", "x0": "5/4", "commands": ["8", "-8"], "delta_us": [125, 126], "repetitions": 50000},
+    {"id": "state_binade", "x0": "1023/1024", "commands": ["8"], "delta_us": [125], "repetitions": 64},
+    {"id": "slew_lag_transition", "x0": "0", "commands": ["1"], "delta_us": [20000], "repetitions": 64},
+    {"id": "reversal", "x0": "1", "commands": ["-8", "8"], "delta_us": [2500, 2500], "repetitions": 64},
+    {"id": "saturation", "x0": "511/256", "commands": ["8"], "delta_us": [20000], "repetitions": 64},
+    {"id": "variable_step", "x0": "0", "commands": ["8", "-8", "1", "-1"], "delta_us": [125, 20000, 126, 2500], "repetitions": 64}
+  ],
+  "separate_controls": ["startup initialized from preceding effective setpoint", "disarm zero reset", "dt=0 hold", "out-of-range dt rejection"]
+}
