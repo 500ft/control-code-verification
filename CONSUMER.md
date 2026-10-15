@@ -128,6 +128,12 @@ a result to resolve before admission. Wrapper scaffolding and directed tests
 are authorized; target integration is admitted only after these prerequisites
 pass. No extra broad random campaign is needed to decide these requirements.
 
+The [registered active development run](active/README.md) generated the
+separate variant and found a counterexample to the adopted continuous
+next-state ceiling. This closes the current core admission attempt as a
+failure. The contract and ceiling are unchanged. The conditional target build
+and wrapper admission did not proceed.
+
 Use the adopted Claude AI technical review protocol with non-blind provenance
 stated; human review remains deferred. New variant final cases must be separate
 from exposed development cases, and neither old nor new final cases may be

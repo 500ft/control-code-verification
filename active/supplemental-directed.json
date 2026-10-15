@@ -1,0 +1,8 @@
+{
+  "reason": "Non-blind Claude AI review of commit 7ea09b9 identified missing interior-branch coverage; these are new exposed development cases, not final cases.",
+  "unit": "one independently initialized sequence",
+  "cases": [
+    {"id": "positive_interior_review", "kind": "constant", "x0": "0", "u": "1/256", "dt": "1/512", "steps": 8},
+    {"id": "negative_interior_review", "kind": "constant", "x0": "0", "u": "-1/256", "dt": "1/512", "steps": 8}
+  ]
+}

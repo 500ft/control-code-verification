@@ -1,0 +1,18 @@
+{
+  "variant": "active_symmetric",
+  "units": {"state": "rad/s", "input": "rad/s", "dt": "s", "tau": "s", "slew": "rad/s^2"},
+  "tau": "1/4",
+  "slew_up": "2",
+  "slew_down": "2",
+  "state_abs_max": "2",
+  "input_abs_max": "8",
+  "dt_min_positive": "1/65536",
+  "dt_max": "1/16",
+  "initializer": "copy preceding finite binary32 effective PID setpoint unchanged if abs <= 2; reject otherwise",
+  "disarm": "zero state; record reset",
+  "update": "backward-Euler target projected onto symmetric reachable increment and state cap",
+  "flags": "strict slew/clamp predicates; diagnostic only",
+  "arithmetic": "binary32 nearest-even, gradual underflow, no contraction or fast math",
+  "acceptance": {"quantity": "absolute numerical next-state error against exact intent", "ceiling_rad_per_s": "0.001065", "duration_s": "1800", "reset_policy": "none during continuous segment", "sign_of_zero": "ignored"},
+  "scope": "development qualification only; original spec.json and final cases remain frozen"
+}

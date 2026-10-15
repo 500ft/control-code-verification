@@ -44,8 +44,11 @@ active in acro and offboard body-rate mode ([CONSUMER.md](CONSUMER.md)).
 The [adopted development contract](CONSUMER.md#adopted-development-contract)
 selects a separate symmetric active variant, diagnostic logging, bumpless
 entry, three-class invalid-input handling and a continuous error ceiling.
-Current work: register and qualify that variant, then the pinned target build
-and wrapper against this contract. Preserve the original artifacts and final cases. The
+The [registered active development result](active/README.md) generated that
+variant and found a directed counterexample to its continuous numerical
+ceiling. Current gate: resolve this core failure under the adopted requirement
+before a pinned target build or wrapper admission. Preserve the original
+artifacts and final cases. The
 [build-only host probe](evidence/consumer-build/README.md) demonstrates an
 isolated library with target-local warning and arithmetic overrides,
 optimization and LTO objects. It does not establish a pinned PX4 target build
@@ -111,11 +114,15 @@ and horizon domain and numerical error bounds before running comparisons.
   under strict arithmetic and the registered trace horizon. The original
   numerical budget and historical results remain unchanged. The review's
   tighter-bound estimate and universal reverse-clamp exclusion are unestablished.
-- Current: implement and qualify the separately specified active variant under
-  [CONSUMER.md](CONSUMER.md), then the target build and directed wrapper tests.
+- Current: the separately specified active variant failed its registered
+  continuous numerical ceiling on a directed development case
+  ([result](active/results.json), [closed-form calculation](active/README.md),
+  [Claude AI technical review](active/review/README.md)).
+  The target build and directed wrapper tests remain conditional on core
+  qualification.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.
-  The original numerical bound and 256-step qualification stay unchanged;
-  derive the new continuous-operation envelope before claiming admission.
+  The original numerical bound and 256-step qualification stay unchanged.
+  The active continuous-operation ceiling is refuted; no admission follows.
   The isolated-library host probe is retained; pinned PX4 compilation and
   linked arithmetic still need verification before integration.
 - Future: freeze any necessary semantic repair and fresh verification cases.
