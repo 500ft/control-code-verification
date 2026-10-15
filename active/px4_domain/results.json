@@ -1,0 +1,133 @@
+{
+  "registration_sha256": "748af5fd656a3a1c682589726c57c0864a1dad2e52d3467ac642b0646ec72148",
+  "runner_sha256": "60590b947af6f1a125b4989607897c8fff31b77b6bd067cbcde47dd7f2e8f934",
+  "source_sha256": "f4fe10171cf7eed0a3decee3027a79c74ba1f505d590c1725343244ffb8c316a",
+  "binary_sha256": "8d1d5ae46a102697b9ac3a11c04a6f013e78ef0f9705bf28386f9bc8e7f4c4e7",
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
+  "command": [
+    "cc",
+    "-std=c99",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-unused-parameter",
+    "-shared",
+    "-fPIC",
+    "/Users/redhose/Projects/control-px4-domain/active/generated/active_symmetric.c",
+    "-o",
+    "/Users/redhose/Projects/control-px4-domain/build/px4-domain/active_symmetric.so"
+  ],
+  "dt_bits": {
+    "125": "3903126f",
+    "126": "39041ede",
+    "2500": "3b23d70a",
+    "20000": "3ca3d70a",
+    "30000": "3ca3d70a"
+  },
+  "cases": [
+    {
+      "id": "endpoint_min_slew",
+      "steps_executed": 64,
+      "first_exceed": null,
+      "max_abs_error": "465/34359738368",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 0)": 64
+      }
+    },
+    {
+      "id": "endpoint_max_slew",
+      "steps_executed": 64,
+      "first_exceed": null,
+      "max_abs_error": "53/67108864",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 0)": 50,
+        "(1, 1)": 14
+      }
+    },
+    {
+      "id": "state_binade",
+      "steps_executed": 64,
+      "first_exceed": null,
+      "max_abs_error": "623/536870912",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 0)": 64
+      }
+    },
+    {
+      "id": "slew_lag_transition",
+      "steps_executed": 64,
+      "first_exceed": null,
+      "max_abs_error": "22897692764777840893266822064319840659795337643518005025683368555235422201543918793015115545582001399377234796667457003224810553387853969610842630354841969406704610300431449/201419716617520721308112752321110628660404608232927545404236241469350511778706714741619529477903365069773909441993576664832981162621826541035461762109751079909459267341281029783552",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 0)": 12,
+        "(0, 0)": 52
+      }
+    },
+    {
+      "id": "reversal",
+      "steps_executed": 128,
+      "first_exceed": null,
+      "max_abs_error": "5/1073741824",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(-1, 0)": 64,
+        "(1, 0)": 64
+      }
+    },
+    {
+      "id": "saturation",
+      "steps_executed": 64,
+      "first_exceed": null,
+      "max_abs_error": "0",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 1)": 64
+      }
+    },
+    {
+      "id": "variable_step",
+      "steps_executed": 256,
+      "first_exceed": null,
+      "max_abs_error": "4709903829141589995405540454247655226983202224454381190355720075530884684683785886781042255236408100143027095446920567606341977737936511370504770834631296720857682788269996721905714918874036532448225759103845377657528080081/7777339310133315738695059206678246012443451896354695125095763271581190827036159442961613574472444634846590151704387922455811133515011550436386509486563269210107811632678307298025041325241812903087210047712219769420335752694202368",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 0)": 156,
+        "(-1, 0)": 62,
+        "(0, 0)": 25,
+        "(-1, -1)": 13
+      }
+    },
+    {
+      "id": "half_ulp_near_min",
+      "steps_executed": 80161,
+      "first_exceed": {
+        "step": 80161,
+        "elapsed_s": "691332037055/68719476736",
+        "error": "36593663/34359738368",
+        "c_state": 1.1690255403518677,
+        "exact_state": "40204005375/34359738368"
+      },
+      "max_abs_error": "36593663/34359738368",
+      "c_reference_mismatches": 0,
+      "flags": {
+        "(1, 0)": 40081,
+        "(-1, 0)": 40080
+      }
+    }
+  ],
+  "controls": {
+    "hold": true,
+    "reset": true,
+    "rejected_dt_0.0": true,
+    "rejected_dt_6.25000029685907e-05": true,
+    "rejected_dt_0.03999999910593033": true
+  },
+  "stopped_on_first_failure": true
+}
