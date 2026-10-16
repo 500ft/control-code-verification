@@ -1,154 +1,179 @@
-"""Plot committed development observations only; no simulation or holdout reads."""
+"""Plot committed development observations only; no simulation or holdout reads.
+
+The canvas shows only the stored traces. Everything in words, including the
+conditions and the finding, is written by ``caption()`` to a file beside the
+image and copied into the README under it.
+"""
 import csv
 import hashlib
 import json
+import math
 from fractions import Fraction
 from pathlib import Path
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from matplotlib.ticker import NullLocator
+
 import figure_style as style
 
-root = Path(__file__).resolve().parent
-source = root / 'evidence/traces.csv'
-rows = list(csv.DictReader(source.open()))
-spec = json.loads((root / 'spec.json').read_text())
-COLORS, SIZES = style.COLORS, style.SIZES
-FIELDS = ['time_s', 'input_rad_s', 'dt_s', 'intent_rad_s', 'c_rad_s', 'abs_error_rad_s', 'bound_rad_s']
+ROOT = Path(__file__).resolve().parent
+SOURCE = ROOT / 'evidence/traces.csv'
+CONFIG = ROOT / 'spec.json'
+# The live figure lives here; evidence/core-qualification.* is the frozen
+# 2026-10-09 figure recorded in evidence/figure.json and is never rewritten.
+OUT = ROOT / 'figures'
+STEM = OUT / 'core-qualification'
+TRACES = ('reversal', 'constant_unsaturated')
+FIELDS = ('time_s', 'input_rad_s', 'dt_s', 'intent_rad_s', 'c_rad_s', 'abs_error_rad_s', 'bound_rad_s')
+LETTERS = 'abcd'
+XLABEL, YLABELS = 'Elapsed time [s]', ('Commanded rate [rad/s]', 'Absolute error [rad/s]')
+
+# Layout in inches: 183 mm wide, two rows of two panels, legend above.
+WIDTH, HEIGHT = 7.2, 4.8
+MARGINS = {'left': .09, 'right': .99, 'top': .88, 'bottom': .09, 'wspace': .12, 'hspace': .5}
 
 
-def trace(variant, name):
-    selected = [r for r in rows if r['variant'] == variant and r['trace'] == name]
-    data = {k: [float(r[k]) for r in selected] for k in FIELDS}
-    data['issue'] = [r['branch_issue'] == 'True' for r in selected]
-    return data
+def load():
+    rows = list(csv.DictReader(SOURCE.open()))
+    spec = json.loads(CONFIG.read_text())
+
+    def trace(variant, name):
+        selected = [r for r in rows if r['variant'] == variant and r['trace'] == name]
+        data = {k: [float(r[k]) for r in selected] for k in FIELDS}
+        data['issue'] = [r['branch_issue'] == 'True' for r in selected]
+        return data
+
+    return {name: {v: trace(v, name) for v in spec['variants']} for name in TRACES}, spec
 
 
-variants = spec['variants']
-reversal = {v: trace(v, 'reversal') for v in variants}
-constant = {v: trace(v, 'constant_unsaturated') for v in variants}
-limit = spec['domain']['state_abs_max']
+def facts(data: dict, spec: dict) -> dict:
+    """Validated inputs shared by the figure and its caption; every number is read, not typed."""
+    variants = spec['variants']
+    reversal, constant = (data[name] for name in TRACES)
+    limit = spec['domain']['state_abs_max']
+    # Every caption statement below must hold for every plotted step.
+    assert all(e == 0 for d in reversal.values() for e in d['abs_error_rad_s']), 'reversal agreement'
+    assert all(abs(c) == limit for d in reversal.values()
+               for c, flagged in zip(d['c_rad_s'], d['issue']) if flagged), 'clamp steps'
+    assert not any(f for d in constant.values() for f in d['issue']), 'constant trace has no flagged step'
+    assert len({(cfg['slew_up'], cfg['slew_down']) for cfg in variants.values()}) == 1, 'shared slew'
+    dts = {dt for group in (reversal, constant) for d in group.values() for dt in d['dt_s']}
+    assert len(dts) == 1, 'single dt'
+    dt = Fraction(dts.pop())
+    first = reversal[next(iter(variants))]
+    switch = next(i for i, u in enumerate(first['input_rad_s']) if u != first['input_rad_s'][0])
+    assert {len(d['time_s']) for d in reversal.values()} == {len(first['time_s'])}
+    assert all(d['input_rad_s'] == first['input_rad_s'] for d in reversal.values())
+    assert len({u for d in constant.values() for u in d['input_rad_s']}) == 1
+    assert len({len(d['time_s']) for d in constant.values()}) == 1
+    clamp_times = {v: [t for t, f in zip(d['time_s'], d['issue']) if f] for v, d in reversal.items()}
+    assert len({tuple(t) for t in clamp_times.values()}) == 1, 'same clamp steps in both variants'
+    # Floor of the smallest bound-to-error ratio; a zero error would make it unbounded.
+    margin = {v: math.floor(min(b / e for e, b in zip(d['abs_error_rad_s'], d['bound_rad_s'])))
+              for v, d in constant.items()}
+    assert all(m >= 100 for m in margin.values()), margin
+    cfg0 = next(iter(variants.values()))
+    return {
+        'reversal_steps': len(first['time_s']), 'dt': dt,
+        'input_before': first['input_rad_s'][0], 'input_after': first['input_rad_s'][switch],
+        'switch_t': first['time_s'][switch] - float(dt),
+        'clamp_times': next(iter(clamp_times.values())), 'limit': limit,
+        'constant_steps': len(next(iter(constant.values()))['time_s']),
+        'constant_input': next(iter(constant.values()))['input_rad_s'][0],
+        'margin': margin, 'slew_up': cfg0['slew_up'], 'slew_down': cfg0['slew_down'],
+        'tau': {v: cfg['tau'] for v, cfg in variants.items()},
+    }
 
-# Every title and label below must hold for every plotted step.
-assert all(e == 0 for d in reversal.values() for e in d['abs_error_rad_s']), 'reversal title'
-assert all(100 * e < b for d in constant.values()
-           for e, b in zip(d['abs_error_rad_s'], d['bound_rad_s'])), 'constant-input title'
-assert all(abs(c) == limit for d in reversal.values()
-           for c, flagged in zip(d['c_rad_s'], d['issue']) if flagged), 'clamp-step label'
-assert len({(cfg['slew_up'], cfg['slew_down']) for cfg in variants.values()}) == 1, 'shared slew note'
-dts = {dt for group in (reversal, constant) for d in group.values() for dt in d['dt_s']}
-assert len(dts) == 1, 'single dt note'
-dt = Fraction(dts.pop())
-first = reversal[next(iter(variants))]
-switch = next(i for i, u in enumerate(first['input_rad_s']) if u != first['input_rad_s'][0])
-switch_t = first['time_s'][switch] - float(dt)
-assert {len(d['time_s']) for d in reversal.values()} == {len(first['time_s'])}
-assert all(d['input_rad_s'] == first['input_rad_s'] for d in reversal.values())
-constant_inputs = {u for d in constant.values() for u in d['input_rad_s']}
-constant_steps = {len(d['time_s']) for d in constant.values()}
-assert len(constant_inputs) == 1 and len(constant_steps) == 1
-cfg0 = next(iter(variants.values()))
+
+def name(variant: str) -> str:
+    return variant.replace('_', '-')
 
 
-def num(x, fmt='g'):
-    return format(x, fmt).replace('-', '\u2212')
+def caption(data: dict, spec: dict) -> str:
+    f = facts(data, spec)
+    variants = list(spec['variants'])
+    taus = ' and '.join(f"{name(v)} (time constant {f['tau'][v]:g} s)" for v in variants)
+    margins = ' and '.join(f"{f['margin'][v]} times ({name(v)})" for v in variants)
+    clamp = ' and '.join(f"t = {t:g} s" for t in f['clamp_times'])
+    return (
+        "Numerical core qualification on the frozen development traces; integration "
+        f"is unqualified. Panels (a) and (b) show the reversal trace for the {taus} "
+        f"variants: {f['reversal_steps']} steps of dt = {f['dt']} s, input "
+        f"{f['input_before']:+g} rad/s, then {f['input_after']:+g} rad/s from "
+        f"t = {f['switch_t']:g} s. The dashed line is the exact rational intent and the "
+        "solid line with circles is the binary32 compiled C output; the two agree at "
+        f"every step, so the solid line lies on the dashed one. Crosses mark the "
+        f"{len(f['clamp_times'])} steps per variant ({clamp}) where the state reaches the "
+        f"rate clamp of {f['limit']:g} rad/s in magnitude. Their uncertainty interval touches "
+        "the branch threshold, so the branch requirement stays open; all implementations "
+        "took the same branch at these steps. Panels (c) and (d) show the constant-input "
+        f"trace, {f['constant_steps']} steps of dt = {f['dt']} s at {f['constant_input']:g} "
+        "rad/s, on a log scale: the solid line with circles is the absolute error of "
+        "compiled C against exact intent and the dash-dot line is the deterministic "
+        "worst-case bound from NUMERICS.md. The error stays at least "
+        f"{margins} below the bound. Both variants use slew limits "
+        f"{f['slew_up']:+g} and {-f['slew_down']:+g} rad/s² and the same rate clamp. Each row "
+        "shares its y axis across the two variants. Source: evidence/traces.csv "
+        f"(traces {' and '.join(TRACES)}) and spec.json."
+    )
 
 
-style.apply('core-qualification')
-W, H = 7.2, 6.4
-fig = plt.figure(figsize=(W, H))
-left, right, gap, axes_h = 0.66, 0.14, 0.22, 1.80
-axes_w = (W - left - right - gap) / 2
-fy = lambda inches_from_top: 1 - inches_from_top / H
-rows_layout = [  # header, condition note, panel titles, axes top (inches from top)
-    (0.70, 0.88, 1.10, 1.18),
-    (3.64, 3.82, 4.04, 4.12),
-]
-fig.text(left / W, fy(0.20), 'Numerical core qualification on frozen development traces',
-         ha='left', va='baseline')
-fig.text(left / W, fy(0.38),
-         f"Both reset variants: slew limits +{num(cfg0['slew_up'])} / \u2212{num(cfg0['slew_down'])} rad/s\u00b2, "
-         f"rate clamp \u00b1{num(limit)} rad/s. Integration is unqualified.",
-         ha='left', va='baseline', fontsize=SIZES['note'], color=COLORS['note_text'])
-headers = [
-    ('Reversal trace: binary32 compiled C equals the exact rational intent at every step',
-     f"{len(first['time_s'])} steps of dt = {dt} s; input {num(first['input_rad_s'][0], '+g')} rad/s, "
-     f"then {num(first['input_rad_s'][switch], '+g')} rad/s from t = {num(switch_t)} s"),
-    ('Constant input: compiled C error stays more than 100\u00d7 below the analytical bound',
-     f"{constant_steps.pop()} steps of dt = {dt} s at {num(constant_inputs.pop())} rad/s; "
-     'bounds are deterministic worst cases from NUMERICS.md'),
-]
-axes = []
-for r, (header_y, note_y, title_y, top_y) in enumerate(rows_layout):
-    fig.text(left / W, fy(header_y), headers[r][0], ha='left', va='baseline')
-    fig.text(left / W, fy(note_y), headers[r][1], ha='left', va='baseline',
-             fontsize=SIZES['note'], color=COLORS['note_text'])
-    row_axes = []
-    for col in range(2):
-        x0 = left + col * (axes_w + gap)
-        ax = fig.add_axes([x0 / W, fy(top_y + axes_h), axes_w / W, axes_h / H],
-                          sharey=row_axes[0] if row_axes else None)
-        row_axes.append(ax)
-    axes.append(row_axes)
+def figure(data: dict, spec: dict):
+    facts(data, spec)
+    variants = list(spec['variants'])
+    style.apply('core-qualification')
+    fig, axes = plt.subplots(2, 2, figsize=(WIDTH, HEIGHT), sharey='row')
+    fig.subplots_adjust(**MARGINS)
+    for col, variant in enumerate(variants):
+        top, bottom = axes[0, col], axes[1, col]
+        d = data['reversal'][variant]
+        top.plot(d['time_s'], d['intent_rad_s'], zorder=2, **style.SERIES['exact_intent'])
+        top.plot(d['time_s'], d['c_rad_s'], markevery=16, zorder=3, **style.SERIES['compiled_c'])
+        flagged = [(t, c) for t, c, f in zip(d['time_s'], d['c_rad_s'], d['issue']) if f]
+        top.plot(*zip(*flagged), zorder=4, **style.SERIES['clamp_step'])
+        top.set(xlim=(-0.16, 8.16), ylim=(-2.4, 2.4), xticks=range(0, 9, 2), yticks=[-2, -1, 0, 1, 2])
 
-letters = iter('abcd')
-for r, row_axes in enumerate(axes):
-    title_y = fy(rows_layout[r][2])
-    for (variant, cfg), ax in zip(variants.items(), row_axes):
-        style.panel_letter(fig, ax, next(letters), title_y)
-        fig.text(ax.get_position().x0 + 0.17 / W, title_y,
-                 f"{variant.replace('_', ' ').capitalize()} (\u03c4 = {num(cfg['tau'])} s)",
-                 ha='left', va='baseline')
+        d = data['constant_unsaturated'][variant]
+        bottom.plot(d['time_s'], d['abs_error_rad_s'], markevery=8, zorder=3, **style.SERIES['compiled_c'])
+        bottom.plot(d['time_s'], d['bound_rad_s'], zorder=2, **style.SERIES['bound'])
+        bottom.set(yscale='log', ylim=(5e-11, 2e-4), xlim=(-0.04, 2.04), xticks=[0, .5, 1, 1.5, 2])
+        bottom.yaxis.set_minor_locator(NullLocator())
+    for row, label in enumerate(YLABELS):
+        axes[row, 0].set_ylabel(label)
+    for i, ax in enumerate(axes.flat):
+        ax.set_xlabel(XLABEL)
+        ax.tick_params(length=3)
+        ax.text(0, 1.04, f'({LETTERS[i]})', transform=ax.transAxes, ha='left', va='bottom',
+                size=style.LETTER_SIZE)
+    handles = [Line2D([], [], **style.SERIES[key]) for key in style.SERIES]
+    fig.legend(handles=handles, loc='upper center', bbox_to_anchor=(.5, .995), ncol=len(handles),
+               columnspacing=1.4, handletextpad=.5, handlelength=2.6, borderaxespad=0)
+    return fig
 
-for col, variant in enumerate(variants):
-    top, bottom = axes[0][col], axes[1][col]
-    d = reversal[variant]
-    top.axhline(0, color=COLORS['zero_line'], lw=.7, zorder=1)
-    top.plot(d['time_s'], d['intent_rad_s'], color=COLORS['exact_intent'], ls='--', lw=2.4,
-             zorder=2, label='Exact intent')
-    top.plot(d['time_s'], d['c_rad_s'], color=COLORS['compiled_c'], lw=1.1, marker='o',
-             markevery=16, ms=3, zorder=3, label='Compiled C')
-    flagged = [(t, c) for t, c, f in zip(d['time_s'], d['c_rad_s'], d['issue']) if f]
-    top.scatter(*zip(*flagged), marker='x', s=40, lw=1.4, color=COLORS['threshold_step'], zorder=4,
-                label='Reaches clamp:\nrequirement open')
-    top.set(xlim=(-0.16, 8.16), ylim=(-2.3, 2.3), xticks=range(9), xlabel='Elapsed time [s]')
 
-    d = constant[variant]
-    bottom.plot(d['time_s'], d['abs_error_rad_s'], color=COLORS['compiled_c'], lw=1.1,
-                marker='o', markevery=8, ms=3, zorder=3)
-    bottom.plot(d['time_s'], d['bound_rad_s'], color=COLORS['bound'], ls='--', lw=1.4, zorder=2)
-    bottom.set(yscale='log', ylim=(5e-11, 2e-4), xlim=(-0.04, 2.04),
-               xticks=[0, .5, 1, 1.5, 2], xlabel='Elapsed time [s]')
-    bottom.yaxis.set_minor_locator(NullLocator())
+def main():
+    data, spec = load()
+    OUT.mkdir(exist_ok=True)
+    fig = figure(data, spec)
+    outputs = style.save(fig, STEM)
+    plt.close(fig)
+    STEM.with_suffix('.caption.md').write_text(caption(data, spec) + '\n')
+    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    (OUT / 'figure.json').write_text(json.dumps({
+        'source': 'evidence/traces.csv', 'source_sha256': sha(SOURCE),
+        'config_sha256': sha(CONFIG),
+        'generator_sha256': sha(Path(__file__)),
+        'style_helper': 'figure_style.py', 'style_helper_sha256': sha(ROOT / 'figure_style.py'),
+        'command': 'python3 plot.py', 'matplotlib': matplotlib.__version__,
+        'figure_sha256': outputs['core-qualification.png'], 'outputs': outputs,
+        'caption': 'figures/core-qualification.caption.md',
+        'selected_traces': list(TRACES),
+        'frozen_predecessor': 'evidence/figure.json',
+    }, indent=2) + '\n')
 
-axes[0][0].set_ylabel('Commanded rate [rad/s]')
-axes[1][0].set_ylabel('Absolute error [rad/s]')
-for row_axes in axes:
-    row_axes[1].tick_params(labelleft=False)
-    for ax in row_axes:
-        ax.grid(axis='y', alpha=.18)
 
-handles, labels = axes[0][0].get_legend_handles_labels()
-axes[0][0].legend(handles, labels, loc='lower right', bbox_to_anchor=(1.0, 0.0),
-                  handlelength=1.9, handletextpad=0.4, borderaxespad=0.2, labelspacing=0.3)
-c_axes = axes[1][0]
-c_axes.text(1.30, 3.5e-5, 'Analytical bound', color=COLORS['bound'], fontsize=SIZES['note'],
-            ha='center', va='top')
-c_axes.text(1.30, 4.5e-8, 'Compiled C error vs exact intent', color=COLORS['compiled_c'],
-            fontsize=SIZES['note'], ha='center', va='bottom')
-
-sha = hashlib.sha256(source.read_bytes()).hexdigest()
-outputs = style.save(fig, root / 'evidence/core-qualification')
-plt.close(fig)
-(root/'evidence/figure.json').write_text(json.dumps({
-    'source':'evidence/traces.csv','source_sha256':sha,
-    'config_sha256':hashlib.sha256((root/'spec.json').read_bytes()).hexdigest(),
-    'generator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-    'style_helper':'figure_style.py',
-    'style_helper_sha256':hashlib.sha256((root/'figure_style.py').read_bytes()).hexdigest(),
-    'command':'python3 plot.py','matplotlib':matplotlib.__version__,
-    'figure_sha256':outputs['core-qualification.png'],'outputs':outputs,
-    'selected_traces':['reversal','constant_unsaturated'],
-    'reference_commit':'bad572fc0902437445a5446bb5bc43098cc6211f'
-},indent=2)+'\n')
+if __name__ == '__main__':
+    main()
