@@ -1,0 +1,21 @@
+{
+  "source": "evidence/traces.csv",
+  "source_sha256": "1c0cbb27f83d761e15b4202ee8a40722fb2ba98324b89c0aa8d6f10107ebf028",
+  "config_sha256": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+  "generator_sha256": "95f9cf4ac4593c40948c9f5c0cc6b7bf9f176d6c0882ea240b30aebe4e9227e5",
+  "style_helper": "figure_style.py",
+  "style_helper_sha256": "ac1e2e19957833ff7d652cf105c2019dbe93a436e3c8bcb571d00d61b2921bc6",
+  "command": "python3 plot.py",
+  "matplotlib": "3.11.2",
+  "figure_sha256": "42495e90c1655c3afb862a601972e657a139aad9ff28a2494471147f88efb1c7",
+  "outputs": {
+    "core-qualification.png": "42495e90c1655c3afb862a601972e657a139aad9ff28a2494471147f88efb1c7",
+    "core-qualification.svg": "8cba92d4ba3830b73331ada170664bbacc8465dc69169966abdb667bf1bb5ee4"
+  },
+  "caption": "figures/core-qualification.caption.md",
+  "selected_traces": [
+    "reversal",
+    "constant_unsaturated"
+  ],
+  "frozen_predecessor": "evidence/figure.json"
+}

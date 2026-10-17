@@ -117,27 +117,42 @@ CI checks the detail and retains each execution's compiler/binary identity.
 
 ## Figure
 
-![Four panels. Top: on the reversal trace, compiled C lies on exact intent for both reset variants, with crosses where the state reaches the rate clamp. Bottom: on the constant-input trace, compiled C error stays far below the analytical bound for both variants](evidence/core-qualification.png)
+![Four panels in black ink. (a) and (b): on the reversal trace the compiled C line with circles lies on the dashed exact intent for the zero-reset and tracking-reset variants, with crosses at the two steps where the state reaches the rate clamp. (c) and (d): on the constant-input trace the compiled C error stays far below the dash-dot analytical bound](figures/core-qualification.png)
 
-Panels a and b show the reversal trace. Blue compiled C with dots lies on the
-dashed orange exact intent. Red crosses mark steps where the state reaches the
-rate clamp. Their uncertainty interval touches the branch threshold, so the
-branch requirement stays open. All implementations took the same branch at
-these steps. Panels c and d show the constant-input trace on a log scale. Blue
-is the compiled C error against exact intent. The grey dashed line is the
-deterministic bound from [NUMERICS.md](NUMERICS.md). Each row shares its y-axis
-across the two variants. Step counts, dt and inputs are printed in the figure.
-The selected reversal and constant-input traces remain unchanged.
+Numerical core qualification on the frozen development traces; integration is
+unqualified. Panels (a) and (b) show the reversal trace for the zero-reset (time
+constant 0.125 s) and tracking-reset (time constant 0.25 s) variants: 256 steps
+of dt = 1/32 s, input -8 rad/s, then +8 rad/s from t = 4 s. The dashed line is
+the exact rational intent and the solid line with circles is the binary32
+compiled C output; the two agree at every step, so the solid line lies on the
+dashed one. Crosses mark the 2 steps per variant (t = 2 s and t = 5 s) where the
+state reaches the rate clamp of 2 rad/s in magnitude. Their uncertainty interval
+touches the branch threshold, so the branch requirement stays open; all
+implementations took the same branch at these steps. Panels (c) and (d) show the
+constant-input trace, 64 steps of dt = 1/32 s at 0.5 rad/s, on a log scale: the
+solid line with circles is the absolute error of compiled C against exact intent
+and the dash-dot line is the deterministic worst-case bound from NUMERICS.md.
+The error stays at least 324 times (zero-reset) and 897 times (tracking-reset)
+below the bound. Both variants use slew limits +4 and -2 rad/s² and the same
+rate clamp. Each row shares its y axis across the two variants. Source:
+evidence/traces.csv (traces reversal and constant_unsaturated) and spec.json.
 
-[Download SVG](evidence/core-qualification.svg) · [Full trace CSV](evidence/traces.csv) ·
-[Figure inputs, output hashes and Matplotlib version](evidence/figure.json).
+[Caption](figures/core-qualification.caption.md) ·
+[Download SVG](figures/core-qualification.svg) · [Full trace CSV](evidence/traces.csv) ·
+[Figure inputs, output hashes and Matplotlib version](figures/figure.json).
 Regenerate only the figure with `python3 plot.py` in an environment with
 Matplotlib. No qualification runner or withheld cases are read. The Matplotlib
 version in the manifest reproduces the committed PNG and SVG bytes.
-[figure_style.py](figure_style.py) holds the shared text sizes, colours and file
-settings. The owner asked for this figure-rules pass on 2026-10-09. It builds on
-the restyle from the owner's enclosure scientific reference at commit
-`bad572fc0902437445a5446bb5bc43098cc6211f`. Numerical values and bounds are unchanged.
+[figure_style.py](figure_style.py) holds the shared type, line-style, marker and
+file settings and an audit that refuses to save when anything printed touches
+anything else; [test_figure.py](test_figure.py) checks the plotted values
+against the trace CSV and the caption against this paragraph. The canvas
+carries only data, axes, panel letters and one legend; every title, condition
+and number moved to the caption under the owner's 2026-10-16 figure-rules
+instruction. The 2026-10-09 figure stays frozen at
+[evidence/core-qualification.png](evidence/core-qualification.png) with its
+manifest [evidence/figure.json](evidence/figure.json); the generator it records
+is in git history. Numerical values and bounds are unchanged.
 
 ## Scope and provenance
 
