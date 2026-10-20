@@ -39,6 +39,14 @@ acceptability.
 The original first-failure pilot and its bitwise criterion remain preserved;
 its stop no longer prevents descriptive numerical observation.
 
+The [pinned wrapper input trace and compiled reproducer](integration/RESULT.md)
+found that a masked offboard yaw axis and an unmasked NaN yaw payload produce
+the same `vehicle_rates_setpoint`. The adopted ignored-axis bypass and invalid
+command rejection cannot both be implemented from that message alone. The
+wrapper and SITL path remain unqualified. An explicit per-axis provenance
+contract across supported publishers, or an owner-approved change to the
+invalid-input requirement, is needed before implementation resumes.
+
 The consumer is chosen: PX4 rate-setpoint shaping, shadow in every mode and
 active in acro and offboard body-rate mode ([CONSUMER.md](CONSUMER.md)).
 The [adopted development contract](CONSUMER.md#adopted-development-contract)
@@ -159,6 +167,13 @@ generated-C warning-set build requirement. The scoped Claude AI technical
 review is complete for the numerical value claim. Write admission,
 initialization, reset/mode, timestamp, stale/absent/reordered-message and
 publisher rules before collecting wrapper results.
+
+The [registered wrapper histories](integration/REGISTERED.md) precede the
+[executed source-mapping counterexample](integration/RESULT.md). The input
+provenance gap blocks the three-class invalid-input requirement. No wrapper
+implementation, module history or SITL run is admitted. The isolated SITL
+baseline configure/build attempts and exact failures are retained with the
+result. Resolve the source contract before continuing this milestone.
 
 - Preserve isolated numerical-step and stateful sequence comparisons, including
   saturation, resets and variable dt. Extend them only for admitted new semantics.
