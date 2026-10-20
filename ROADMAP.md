@@ -51,8 +51,9 @@ also found a counterexample under source-permitted 125/126 microsecond
 timestamp gaps. Those gaps are not an observed sensor schedule. Current gate:
 the separately registered [binary64 precision variant](active/binary64/README.md)
 has a prospective bound below the unchanged ceiling and passed directed host
-replay. Its scoped Claude AI technical review and firmware integration remain
-open before numerical or wrapper admission. Preserve the original
+replay. Its [scoped Claude AI technical review](active/binary64/review/README.md)
+admits the numerical value bound under strict arithmetic and the summed-dt
+horizon. PX4 runtime and wrapper qualification remain open. Preserve the original
 artifacts and final cases. The
 [build-only host probe](evidence/consumer-build/README.md) demonstrates an
 isolated library with target-local warning and arithmetic overrides,
@@ -124,8 +125,8 @@ and horizon domain and numerical error bounds before running comparisons.
   ([result](active/results.json), [closed-form calculation](active/README.md),
   [Claude AI technical review](active/review/README.md)).
   The separately registered PX4 timestamp-domain analysis also failed the
-  same ceiling ([result](active/px4_domain/results.json)); the pinned source
-  checkout is available, but the ARM toolchain and Docker daemon are not.
+  same ceiling ([result](active/px4_domain/results.json)); the historical
+  PX4-domain result had no available ARM target build.
   The broad-domain failure remains in force. No narrower contract was adopted.
   A separate persistent binary64 variant now has a prospective
   [nonexpansive arithmetic bound](active/binary64/PROOF.md) and passed
@@ -133,9 +134,11 @@ and horizon domain and numerical error bounds before running comparisons.
   both retained binary32 counterexamples. An isolated pinned `fmu-v6c` build
   compiled a strict option-A library and the existing rate module; a separate
   linked probe contains hardware double instructions. This does not establish
-  firmware integration or runtime timing. Scoped Claude AI technical review
-  pinned to the result commit remains the numerical admission gate; directed
-  wrapper tests follow only after that gate.
+  firmware integration or runtime timing. A [scoped Claude AI technical
+  review](active/binary64/review/README.md) pinned to the result commit and
+  focused post-review controls admit the new core's numerical value bound only
+  under strict arithmetic and a positive-dt sum of at most 1,800 seconds.
+  Target runtime arithmetic and wrapper behavior remain unqualified.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.
   The original numerical bound and 256-step qualification stay unchanged.
   The registered binary32 active implementation's continuous ceiling is

@@ -1,11 +1,12 @@
 {
   "registration_sha256": "bef5f444930db2093d901592f42a9481eda6d9c75034ae652572e1276fef567b",
   "generator_sha256": "4df076a787cfa0ce71a18bc262fd9140b10e16d44cb13abcea283c1001853979",
+  "supplemental_registration_sha256": "712509cd0d18f64f85b12f40ab8f24de358c978bfae5cab55e5b4988ce771df7",
   "reference_sha256": "25be73c92bc0edd9a8a3b12239187ddb9e0d6c1f7f8f4f226a91c0de565315ff",
-  "runner_sha256": "c5da366be99f8885f1e688b3bea0427f53a911a8d709279285d7d479013e7ba3",
+  "runner_sha256": "1fce172d692fd6c1258ef504b74c03d938b13565c30e47f8ade9a8fde86e3bbb",
   "source_sha256": "1e392bfd5fdcaca0248852c3e5225af36bffab98f223ff90cecf55502ee0f661",
   "shared_binary_sha256": "ec147399c98ab9110e1de5596eed57f15e9afdffd87d19ff789432a9badaaad2",
-  "horizon_binary_sha256": "7c9fed9646f8c36876d80a6edaa3f340c1e8ecc432cc6fac5299fe8e325a3344",
+  "horizon_binary_sha256": "e81d555578cf4de4ae596046f83c81863ffc72d0f5e6b47d82835deb358a5fe0",
   "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
   "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
   "command": [
@@ -123,17 +124,35 @@
       "exact_flag_differences": 0
     }
   ],
+  "supplemental_cases": [
+    {
+      "id": "subnormal_decay",
+      "steps": 2800,
+      "exact_steps": 64,
+      "first_nonzero_binary64_subnormal_step": 2712,
+      "nonzero_binary64_subnormal_steps": 89,
+      "final_state_hex": "0x0.0000000c230f5p-1022",
+      "max_exact_prefix_state_error": "64769/1004336277661868922213726307713226626576376871114245522063360000000",
+      "max_exact_prefix_published_error": "61/89202980794122492566142873090593446023921664000",
+      "c_reference_mismatches": 0
+    }
+  ],
   "controls": {
     "uninitialized_rejected": true,
     "init_at_cap": true,
     "init_beyond_cap_rejected": true,
+    "nan_init_rejected": true,
     "hold_unchanged": true,
+    "negative_zero_dt_hold": true,
     "nan_rejected": true,
+    "infinite_command_rejected": true,
     "command_rejected": true,
     "small_dt_rejected": true,
     "large_dt_rejected": true,
+    "infinite_dt_rejected": true,
+    "init_negative_cap": true,
     "disarm_zero": true,
-    "published_output_not_state": true
+    "persistent_state_excludes_published_feedback": true
   },
   "horizon": {
     "steps": 117964800,

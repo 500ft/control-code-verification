@@ -44,6 +44,21 @@
     ],
     "-ffp-contract=off": [
       89
+    ],
+    "-fno-trapping-math": [
+      45
+    ],
+    "-ftrapping-math": [
+      88
+    ],
+    "-fno-math-errno": [
+      47
+    ],
+    "-Os": [
+      36
+    ],
+    "-O2": [
+      83
     ]
   },
   "lto_compile_enabled": false,
@@ -70,5 +85,10 @@
   "rate_module_build_log_sha256": "f9c37f3da88892791758f4a0e49bee87d6e4a2f573a1479043674f50facfa53c",
   "firmware_linked_with_core": false,
   "cortex_m_executed": false,
-  "cpu_time_measured": false
+  "cpu_time_measured": false,
+  "full_object_disassembly_sha256": "b99e9947a3a792495c2a5ba6e466d211bae2c08a9d38e45335389f74a638d0e7",
+  "full_object_disassembly_path": "active/binary64/target-assembly.txt",
+  "fused_double_instruction_count": 0,
+  "double_to_float_conversion_count": 2,
+  "object_unresolved_double_helpers": []
 }

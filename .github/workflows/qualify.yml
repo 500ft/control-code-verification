@@ -102,7 +102,7 @@ jobs:
           from pathlib import Path
           expected=json.loads((Path(os.environ['RUNNER_TEMP'])/'binary64-baseline.json').read_text())
           actual=json.loads(Path('active/binary64/results.json').read_text())
-          for key in ('cases','controls','horizon','universal_state_bound','universal_published_bound'):
+          for key in ('cases','supplemental_cases','controls','horizon','universal_state_bound','universal_published_bound'):
               assert actual[key]==expected[key], key
           PY
           cmake -S active/binary64 -B build/active-binary64-cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
