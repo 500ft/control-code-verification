@@ -90,6 +90,23 @@ jobs:
           assert actual['controls'] == expected['controls']
           assert actual['stopped_on_first_failure'] is True
           PY
+      - name: Reproduce registered binary64 active development result
+        run: |
+          cp active/binary64/results.json "$RUNNER_TEMP/binary64-baseline.json"
+          python active/binary64/proof.py
+          python active/binary64/generate.py
+          git diff --exit-code -- active/binary64/generated
+          python active/binary64/run.py
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          expected=json.loads((Path(os.environ['RUNNER_TEMP'])/'binary64-baseline.json').read_text())
+          actual=json.loads(Path('active/binary64/results.json').read_text())
+          for key in ('cases','supplemental_cases','controls','horizon','universal_state_bound','universal_published_bound'):
+              assert actual[key]==expected[key], key
+          PY
+          cmake -S active/binary64 -B build/active-binary64-cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/active-binary64-cmake --verbose
       - name: Characterize the known signed-zero discrepancy and check host arithmetic
         run: |
           mkdir -p build/ci-evidence

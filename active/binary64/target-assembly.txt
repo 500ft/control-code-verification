@@ -1,0 +1,154 @@
+
+build/px4_fmu-v6c_default/src/lib/rate_control/CMakeFiles/ActiveDoubleProbe.dir/Users/redhose/Projects/control-active-binary64/active/binary64/generated/active_symmetric_binary64_state.c.obj:     file format elf32-littlearm
+
+
+Disassembly of section .text.active_double_init:
+
+00000000 <active_double_init>:
+   0:	4603      	mov	r3, r0
+   2:	b1b8      	cbz	r0, 34 <active_double_init+0x34>
+   4:	eef0 7ac0 	vabs.f32	s15, s0
+   8:	ed9f 7a0c 	vldr	s14, [pc, #48]	@ 3c <active_double_init+0x3c>
+   c:	eef4 7a47 	vcmp.f32	s15, s14
+  10:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  14:	d80e      	bhi.n	34 <active_double_init+0x34>
+  16:	eeb0 7a00 	vmov.f32	s14, #0	@ 0x40000000  2.0
+  1a:	eef4 7ac7 	vcmpe.f32	s15, s14
+  1e:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  22:	dc07      	bgt.n	34 <active_double_init+0x34>
+  24:	eeb7 0ac0 	vcvt.f64.f32	d0, s0
+  28:	2201      	movs	r2, #1
+  2a:	2000      	movs	r0, #0
+  2c:	609a      	str	r2, [r3, #8]
+  2e:	ed83 0b00 	vstr	d0, [r3]
+  32:	4770      	bx	lr
+  34:	f04f 30ff 	mov.w	r0, #4294967295	@ 0xffffffff
+  38:	4770      	bx	lr
+  3a:	bf00      	nop
+  3c:	7f7fffff 	.word	0x7f7fffff
+
+Disassembly of section .text.active_double_reset:
+
+00000000 <active_double_reset>:
+   0:	b128      	cbz	r0, e <active_double_reset+0xe>
+   2:	2200      	movs	r2, #0
+   4:	2300      	movs	r3, #0
+   6:	2101      	movs	r1, #1
+   8:	e9c0 2300 	strd	r2, r3, [r0]
+   c:	6081      	str	r1, [r0, #8]
+   e:	4770      	bx	lr
+
+Disassembly of section .text.active_double_step:
+
+00000000 <active_double_step>:
+   0:	b410      	push	{r4}
+   2:	2900      	cmp	r1, #0
+   4:	d07a      	beq.n	fc <active_double_step+0xfc>
+   6:	688b      	ldr	r3, [r1, #8]
+   8:	2b00      	cmp	r3, #0
+   a:	f000 8085 	beq.w	118 <active_double_step+0x118>
+   e:	ed91 5b00 	vldr	d5, [r1]
+  12:	ed9f 6b51 	vldr	d6, [pc, #324]	@ 158 <active_double_step+0x158>
+  16:	eeb0 7bc5 	vabs.f64	d7, d5
+  1a:	eeb4 7b46 	vcmp.f64	d7, d6
+  1e:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  22:	d86b      	bhi.n	fc <active_double_step+0xfc>
+  24:	eeb0 6b00 	vmov.f64	d6, #0	@ 0x40000000  2.0
+  28:	eeb4 7bc6 	vcmpe.f64	d7, d6
+  2c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  30:	dc64      	bgt.n	fc <active_double_step+0xfc>
+  32:	eef0 7ac0 	vabs.f32	s15, s0
+  36:	ed9f 7a4a 	vldr	s14, [pc, #296]	@ 160 <active_double_step+0x160>
+  3a:	eef4 7a47 	vcmp.f32	s15, s14
+  3e:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  42:	d85b      	bhi.n	fc <active_double_step+0xfc>
+  44:	eef2 6a00 	vmov.f32	s13, #32	@ 0x41000000  8.0
+  48:	eef4 7ae6 	vcmpe.f32	s15, s13
+  4c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  50:	dc54      	bgt.n	fc <active_double_step+0xfc>
+  52:	eef0 7ae0 	vabs.f32	s15, s1
+  56:	eef4 7a47 	vcmp.f32	s15, s14
+  5a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  5e:	d84d      	bhi.n	fc <active_double_step+0xfc>
+  60:	eef5 0ac0 	vcmpe.f32	s1, #0.0
+  64:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  68:	d448      	bmi.n	fc <active_double_step+0xfc>
+  6a:	eddf 7a3e 	vldr	s15, [pc, #248]	@ 164 <active_double_step+0x164>
+  6e:	eef4 0ae7 	vcmpe.f32	s1, s15
+  72:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  76:	dc41      	bgt.n	fc <active_double_step+0xfc>
+  78:	eef5 0ac0 	vcmpe.f32	s1, #0.0
+  7c:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  80:	dd50      	ble.n	124 <active_double_step+0x124>
+  82:	eddf 7a39 	vldr	s15, [pc, #228]	@ 168 <active_double_step+0x168>
+  86:	eef4 0ae7 	vcmpe.f32	s1, s15
+  8a:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  8e:	d435      	bmi.n	fc <active_double_step+0xfc>
+  90:	eeb7 7ae0 	vcvt.f64.f32	d7, s1
+  94:	eeb5 2b00 	vmov.f64	d2, #80	@ 0x3e800000  0.250
+  98:	eeb7 6ac0 	vcvt.f64.f32	d6, s0
+  9c:	eeb8 4b00 	vmov.f64	d4, #128	@ 0xc0000000 -2.0
+  a0:	ee37 2b02 	vadd.f64	d2, d7, d2
+  a4:	ee36 6b45 	vsub.f64	d6, d6, d5
+  a8:	ee27 4b04 	vmul.f64	d4, d7, d4
+  ac:	ee87 3b02 	vdiv.f64	d3, d7, d2
+  b0:	ee23 6b06 	vmul.f64	d6, d3, d6
+  b4:	eeb4 6bc4 	vcmpe.f64	d6, d4
+  b8:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  bc:	d43f      	bmi.n	13e <active_double_step+0x13e>
+  be:	eeb1 4b44 	vneg.f64	d4, d4
+  c2:	eeb4 6bc4 	vcmpe.f64	d6, d4
+  c6:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  ca:	dd41      	ble.n	150 <active_double_step+0x150>
+  cc:	2201      	movs	r2, #1
+  ce:	ee35 5b04 	vadd.f64	d5, d5, d4
+  d2:	eeb8 6b00 	vmov.f64	d6, #128	@ 0xc0000000 -2.0
+  d6:	eeb4 5bc6 	vcmpe.f64	d5, d6
+  da:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  de:	d427      	bmi.n	130 <active_double_step+0x130>
+  e0:	eeb0 6b00 	vmov.f64	d6, #0	@ 0x40000000  2.0
+  e4:	eeb4 5bc6 	vcmpe.f64	d5, d6
+  e8:	eef1 fa10 	vmrs	APSR_nzcv, fpscr
+  ec:	dc2a      	bgt.n	144 <active_double_step+0x144>
+  ee:	eef7 7bc5 	vcvt.f32.f64	s15, d5
+  f2:	2300      	movs	r3, #0
+  f4:	2400      	movs	r4, #0
+  f6:	ed81 5b00 	vstr	d5, [r1]
+  fa:	e005      	b.n	108 <active_double_step+0x108>
+  fc:	2200      	movs	r2, #0
+  fe:	eddf 7a1b 	vldr	s15, [pc, #108]	@ 16c <active_double_step+0x16c>
+ 102:	f04f 34ff 	mov.w	r4, #4294967295	@ 0xffffffff
+ 106:	4613      	mov	r3, r2
+ 108:	60c4      	str	r4, [r0, #12]
+ 10a:	f85d 4b04 	ldr.w	r4, [sp], #4
+ 10e:	edc0 7a00 	vstr	s15, [r0]
+ 112:	e9c0 2301 	strd	r2, r3, [r0, #4]
+ 116:	4770      	bx	lr
+ 118:	461a      	mov	r2, r3
+ 11a:	eddf 7a14 	vldr	s15, [pc, #80]	@ 16c <active_double_step+0x16c>
+ 11e:	f04f 34ff 	mov.w	r4, #4294967295	@ 0xffffffff
+ 122:	e7f1      	b.n	108 <active_double_step+0x108>
+ 124:	2200      	movs	r2, #0
+ 126:	eef7 7bc5 	vcvt.f32.f64	s15, d5
+ 12a:	2401      	movs	r4, #1
+ 12c:	4613      	mov	r3, r2
+ 12e:	e7eb      	b.n	108 <active_double_step+0x108>
+ 130:	eef8 7a00 	vmov.f32	s15, #128	@ 0xc0000000 -2.0
+ 134:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
+ 138:	eeb0 5b46 	vmov.f64	d5, d6
+ 13c:	e7da      	b.n	f4 <active_double_step+0xf4>
+ 13e:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 142:	e7c4      	b.n	ce <active_double_step+0xce>
+ 144:	eef0 7a00 	vmov.f32	s15, #0	@ 0x40000000  2.0
+ 148:	2301      	movs	r3, #1
+ 14a:	eeb0 5b46 	vmov.f64	d5, d6
+ 14e:	e7d1      	b.n	f4 <active_double_step+0xf4>
+ 150:	eeb0 4b46 	vmov.f64	d4, d6
+ 154:	2200      	movs	r2, #0
+ 156:	e7ba      	b.n	ce <active_double_step+0xce>
+ 158:	ffffffff 	.word	0xffffffff
+ 15c:	7fefffff 	.word	0x7fefffff
+ 160:	7f7fffff 	.word	0x7f7fffff
+ 164:	3d800000 	.word	0x3d800000
+ 168:	37800000 	.word	0x37800000
+ 16c:	00000000 	.word	0x00000000

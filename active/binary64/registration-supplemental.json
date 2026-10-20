@@ -1,0 +1,5 @@
+{
+  "sha256": "050d7bdee795c071b2e40d0a317cd18f2968ff2137145b64c125fc1d0325500f",
+  "parent_result_commit": "797bb9d6beb09de94ff0a7ed299eaa3d01fb9d43",
+  "rule": "Registered after read-only Claude review and before supplemental execution; technical core and original directed cases unchanged."
+}

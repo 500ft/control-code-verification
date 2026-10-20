@@ -3,11 +3,17 @@
 The separately registered symmetric active variant failed the adopted
 continuous numerical ceiling on a directed development case. The
 [executed result and independent calculation](active/README.md) identify the
-rounding mechanism. This blocks active wrapper admission; the original shadow
+rounding mechanism. That binary32 implementation was not admitted for continuous
+active use; the original shadow
 artifacts and their bounded numerical admission remain unchanged.
 The separate [PX4 timestamp-domain development analysis](active/px4_domain/README.md)
 also found a ceiling counterexample with source-permitted integer-microsecond
-timestamp gaps. Its pinned target build and the wrapper remain unqualified.
+timestamp gaps. Its binary32 implementation remains unqualified for the pinned
+target and wrapper.
+The separately registered [persistent binary64 development variant](active/binary64/README.md)
+passed directed host comparisons and scoped [Claude AI technical review](active/binary64/review/README.md).
+Its numerical value bound is admitted for the declared strict arithmetic and
+summed-dt horizon. PX4 runtime and wrapper qualification remain open.
 
 The numerical next-state-value claim is admitted for the declared domain,
 strict arithmetic and registered trace horizon after [Claude AI technical
@@ -18,10 +24,10 @@ registered bounds. The
 [executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
 threshold ties with no observed flag disagreement. The functional consumer is chosen and
 [source-traced](CONSUMER.md). The [development contract](CONSUMER.md#adopted-development-contract) is adopted;
-the new variant's continuous ceiling failed, and pinned PX4 build and wrapper
-checks have not run. A [host build-only probe](evidence/consumer-build/README.md)
-demonstrates the selected isolated-library compiler approach, but does not
-qualify target execution or integration. The
+the registered binary32 active variant's continuous ceiling failed. The new
+binary64 core has an isolated pinned PX4 target build probe, but target runtime
+arithmetic and wrapper checks have not run. The earlier [host build-only
+probe](evidence/consumer-build/README.md) remains historical evidence. The
 original corpus summary remains in [evidence/results.json](evidence/results.json).
 
 The adopted question asks which defects remain after a costed B2B baseline at
