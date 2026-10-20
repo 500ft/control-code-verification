@@ -49,7 +49,7 @@ build/integration/ignored_axis_alias
 
 Apple Clang 16 compiled and ran the repro. The combined compile/run took
 `0.09 s` wall time in one local `/usr/bin/time -p` observation; this is
-development setup cost, not a simulator measurement. The isolated pinned
+local reproduction cost, not a simulator measurement. The isolated pinned
 PX4 source worktree was expanded from sparse checkout. A baseline
 `px4_sitl_default` CMake configure took `35.5 s` and could not generate
 because the GPS devices submodule was missing. After checking out that

@@ -1,5 +1,5 @@
 /* Development reproducer for the pinned MAVLink-to-uORB rate mapping.
- * Mirrors the three assignments in mavlink_receiver.cpp:1922-1927. */
+ * Mirrors the yaw assignment in mavlink_receiver.cpp:1922-1927. */
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
