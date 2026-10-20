@@ -1,0 +1,10 @@
+{
+  "parent_main": "fddf135388ce9537d13c6851e85227d707f2b357",
+  "sha256": {
+    "spec.json": "f2876ba1475ccc0c20c7c53c32a4099332306e788f3702d25aa647f428a74536",
+    "directed.json": "21a236595206a4ee40888a322ea64ef9824e3f9a7b2451b9f01a713063795abb",
+    "PROOF.md": "57528186aa0bcf7a0550428219691f669ba897432381d9be839658297a9e0872",
+    "proof.py": "0fca2cefce67361a789668b7f6e973787eebb77b56cac4b550125709f8c1205c"
+  },
+  "rule": "Registered before implementation generation and all new development outputs; final cases remain closed."
+}

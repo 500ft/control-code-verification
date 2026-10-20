@@ -1,0 +1,22 @@
+{
+  "variant": "active_symmetric_binary64_state",
+  "purpose": "development precision repair; original active and shadow artifacts remain unchanged",
+  "units": {"state": "rad/s", "input": "rad/s", "dt": "s", "tau": "s", "slew": "rad/s^2"},
+  "tau": "1/4",
+  "slew_up": "2",
+  "slew_down": "2",
+  "state_abs_max": "2",
+  "input_abs_max": "8",
+  "dt_min_positive": "1/65536",
+  "dt_max": "1/16",
+  "input_and_dt": "finite binary32 values promoted exactly to binary64 before arithmetic; zero dt is a separate hold",
+  "state": "persistent binary64, never replaced by a published binary32 output",
+  "initialization": "copy preceding finite binary32 effective PID setpoint to binary64 unchanged if abs <= 2; otherwise reject entry",
+  "disarm_reset": "set persistent state to exact binary64 zero; emit reset cause separately in wrapper",
+  "update": "binary64 backward-Euler delta projected onto symmetric slew interval, then binary64 state cap",
+  "diagnostics": "strict slew and cap comparisons on binary64 intermediates; diagnostic only; exact-intent flag identity not required",
+  "published_output": "round capped binary64 state to nearest-even binary32; publication never feeds persistent state",
+  "arithmetic": "binary64 nearest-even gradual underflow, no contraction, reassociation or fast math",
+  "acceptance": {"quantity": "absolute propagated numerical next-state error against exact intent, plus separate published binary32 conversion", "ceiling_rad_per_s": "0.001065", "duration_s": "1800", "reset_policy": "none during continuous segment", "sign_of_zero": "ignored"},
+  "scope": "development qualification; wrapper and target admission require separate evidence and scoped Claude AI technical review"
+}

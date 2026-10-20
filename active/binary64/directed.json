@@ -1,0 +1,13 @@
+{
+  "unit": "independently initialized sequence or rejected operation",
+  "cases": [
+    {"id": "broad_binary32_tie", "kind": "constant", "x0": "1", "u": "8", "dt": "513/33554432", "steps": 24576},
+    {"id": "px4_timestamp_pair", "kind": "alternating", "x0": "5/4", "commands": ["8", "-8"], "dt_bits_hex": ["3903126f", "39041ede"], "steps": 80162},
+    {"id": "positive_slew_lag_threshold", "kind": "list", "x0": "0", "commands": ["129/256", "0.5039063096046448", "0.5039061903953552"], "dt": "1/512"},
+    {"id": "negative_slew_lag_threshold", "kind": "list", "x0": "0", "commands": ["-129/256", "-0.5039063096046448", "-0.5039061903953552"], "dt": "1/512"},
+    {"id": "cap_and_reverse", "kind": "list", "x0": "511/256", "commands": ["8", "-8", "-8", "8"], "dt": "1/64"},
+    {"id": "jitter_variable_step", "kind": "paired", "x0": "1/2", "commands": ["8", "-8", "1", "-1"], "dts": ["1/65536", "513/33554432", "1/512", "1/16"], "repetitions": 256},
+    {"id": "min_dt_horizon_boundary", "kind": "compiled_horizon", "x0": "5/4", "commands": ["8", "-8"], "dt": "1/65536", "steps": 117964800, "exact_even_state": "5/4"}
+  ],
+  "controls": ["initialization at and beyond cap", "zero-dt hold", "disarm reset", "nonfinite and out-of-domain rejection", "published-output feedback exclusion"]
+}
