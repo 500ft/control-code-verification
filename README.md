@@ -5,6 +5,9 @@ continuous numerical ceiling on a directed development case. The
 [executed result and independent calculation](active/README.md) identify the
 rounding mechanism. This blocks active wrapper admission; the original shadow
 artifacts and their bounded numerical admission remain unchanged.
+The separate [PX4 timestamp-domain development analysis](active/px4_domain/README.md)
+also found a ceiling counterexample with source-permitted integer-microsecond
+timestamp gaps. Its pinned target build and the wrapper remain unqualified.
 
 The numerical next-state-value claim is admitted for the declared domain,
 strict arithmetic and registered trace horizon after [Claude AI technical

@@ -1,0 +1,7 @@
+{
+  "sha256": {
+    "spec.json": "adf604a6a1138535d8b9af88c79d47b545f6bec5d606a0ba9ce877f940c8d4b3",
+    "directed.json": "aab7e68f4777e9862d54bdbcc1c540247b09103b2d3877884652412e21c4bdb5"
+  },
+  "registration_commit": "this commit; before execution"
+}
