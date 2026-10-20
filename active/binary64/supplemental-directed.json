@@ -1,0 +1,7 @@
+{
+  "purpose": "post-review development controls for subnormal state and boundary rejection; no final cases",
+  "cases": [
+    {"id": "subnormal_decay", "kind": "subnormal", "x0_float32_bits": "00000001", "u": "0", "dt": "1/16", "steps": 2800, "exact_prefix_steps": 64}
+  ],
+  "controls": ["negative_zero_dt_hold", "infinite_dt_rejected", "infinite_command_rejected", "nan_initialization_rejected", "negative_state_cap_initialization", "persistent_state_differs_from_published_binary32_on_tie"]
+}
