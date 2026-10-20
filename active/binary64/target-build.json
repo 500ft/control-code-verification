@@ -1,0 +1,74 @@
+{
+  "scope": "isolated pinned PX4 configure, existing rate module build, separate strict library target, standalone non-firmware link probe; no target execution",
+  "px4_commit": "c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17",
+  "nuttx_commit": "6e8169b9e1d571df4fbe2282aadc0541092253c6",
+  "board": "px4_fmu-v6c_default",
+  "config_sha256": "fad18c628d8e00e5f2f82af2a691e3fa85459af5eae3460356f593e265b24a22",
+  "config_values": {
+    "CONFIG_ARCH_DPFPU": "y",
+    "CONFIG_LTO_NONE": "y"
+  },
+  "toolchain_version": "arm-none-eabi-gcc (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009",
+  "toolchain_archive_sha256": "39c44f8af42695b7b871df42e346c09fee670ea8dfc11f17083e296ea2b0d279",
+  "official_sha256asc_verified": true,
+  "strict_target_cmake_sha256": "062b801fa42659f3bc96fb7236b0149a7771f45a87f99eade257f942207fe36f",
+  "isolated_px4_adapter_patch_sha256": "987668523b8323d94cf2799c5a9f11f70acb6801dee400a26d6b8959eefe82a8",
+  "effective_compile_command": "/Users/redhose/.cache/control-code-verification/toolchains/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi/bin/arm-none-eabi-gcc -DCONFIG_ARCH_BOARD_PX4_FMU_V6C -DMODULE_NAME=\\\"ActiveDoubleProbe\\\" -D_SYS_CDEFS_H_ -D_SYS_REENT_H_ -D__CUSTOM_FILE_IO__ -D__PX4_NUTTX -D__STDC_FORMAT_MACROS -I/Users/redhose/.cache/control-code-verification/px4-build/boards/px4/fmu-v6c/src -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/src/px4/common/include -I/Users/redhose/.cache/control-code-verification/px4-build/build/px4_fmu-v6c_default -I/Users/redhose/.cache/control-code-verification/px4-build/build/px4_fmu-v6c_default/src/lib -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/src/px4/stm/stm32h7/include -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/common -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/common/include -I/Users/redhose/.cache/control-code-verification/px4-build/src -I/Users/redhose/.cache/control-code-verification/px4-build/src/include -I/Users/redhose/.cache/control-code-verification/px4-build/src/lib -I/Users/redhose/.cache/control-code-verification/px4-build/src/lib/matrix -I/Users/redhose/.cache/control-code-verification/px4-build/src/modules -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/nuttx/arch/arm/src/armv7-m -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/nuttx/arch/arm/src/chip -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/nuttx/arch/arm/src/common -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/apps/include -I/Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/include -I/Users/redhose/.cache/control-code-verification/px4-build/build/px4_fmu-v6c_default/external/Install/include -isystem /Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/include/cxx -isystem /Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/nuttx/include/cxx -isystem /Users/redhose/.cache/control-code-verification/px4-build/platforms/nuttx/NuttX/nuttx/include -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard -Os -DNDEBUG -std=gnu11 -g -fdata-sections -ffunction-sections -fomit-frame-pointer -fmerge-all-constants -fno-signed-zeros -fno-trapping-math -freciprocal-math -fno-math-errno -fno-strict-aliasing -fvisibility=hidden -include visibility.h -Wall -Wextra -Werror -Warray-bounds -Wcast-align -Wdisabled-optimization -Wdouble-promotion -Wfatal-errors -Wfloat-equal -Wformat-security -Winit-self -Wlogical-op -Wpointer-arith -Wshadow -Wuninitialized -Wunknown-pragmas -Wunused-variable -Wno-missing-field-initializers -Wno-missing-include-dirs -Wno-unused-parameter -fdiagnostics-color=always -Wno-stringop-truncation -fno-builtin-printf -fno-strength-reduce -Wformat=1 -Wunused-but-set-variable -Wno-format-truncation -fno-common -Wnested-externs -Wstrict-prototypes -Wbad-function-cast -O2 -fno-fast-math -fno-associative-math -fno-reciprocal-math -fsigned-zeros -ftrapping-math -ffp-contract=off -Wno-float-equal -o src/lib/rate_control/CMakeFiles/ActiveDoubleProbe.dir/Users/redhose/Projects/control-active-binary64/active/binary64/generated/active_symmetric_binary64_state.c.obj -c /Users/redhose/Projects/control-active-binary64/active/binary64/generated/active_symmetric_binary64_state.c",
+  "effective_flag_order": {
+    "-mfpu=fpv5-d16": [
+      34
+    ],
+    "-mfloat-abi=hard": [
+      35
+    ],
+    "-Werror": [
+      54
+    ],
+    "-Wfloat-equal": [
+      60
+    ],
+    "-Wno-float-equal": [
+      90
+    ],
+    "-fno-signed-zeros": [
+      44
+    ],
+    "-fsigned-zeros": [
+      87
+    ],
+    "-freciprocal-math": [
+      46
+    ],
+    "-fno-reciprocal-math": [
+      86
+    ],
+    "-ffp-contract=off": [
+      89
+    ]
+  },
+  "lto_compile_enabled": false,
+  "object_sha256": "31bb34e5d696d26bacab70ef39ed309898ce5c240c89ac8016bfd889cd0dd9cf",
+  "archive_sha256": "18bb48d32df6c91b1d89bce5e883512c60747f8e173cfeaa2957ec90ba734e15",
+  "standalone_linked_elf_sha256": "303b866fecf3e7015d80981294ef23c00874ba8d62c0333e5ddf02846503715b",
+  "standalone_link_command": "arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard -nostartfiles -Wl,-e,main -Wl,--gc-sections build/active-double-link-probe.o build/px4_fmu-v6c_default/src/lib/rate_control/libActiveDoubleProbe.a -o build/active-double-link-probe.elf",
+  "standalone_link_unresolved_symbols": [],
+  "double_arithmetic_in_linked_elf": [
+    "8148:\tee37 2b02 \tvadd.f64\td2, d7, d2",
+    "814c:\tee36 6b45 \tvsub.f64\td6, d6, d5",
+    "8150:\tee27 4b04 \tvmul.f64\td4, d7, d4",
+    "8154:\tee87 3b02 \tvdiv.f64\td3, d7, d2",
+    "8158:\tee23 6b06 \tvmul.f64\td6, d3, d6",
+    "8176:\tee35 5b04 \tvadd.f64\td5, d5, d4"
+  ],
+  "object_fp_arch": [
+    "Tag_FP_arch: FPv5/FP-D16 for ARMv8"
+  ],
+  "standalone_linked_size_output": "text\t   data\t    bss\t    dec\t    hex\tfilename\n    536\t      8\t      0\t    544\t    220\t/Users/redhose/.cache/control-code-verification/px4-build/build/active-double-link-probe.elf",
+  "existing_rate_module_archive_sha256": "8c4648ae6a547ec9ac1d3f8545150ee2b05f914158f6656d0454b3d813bf4ad4",
+  "configure_log_sha256": "1817ba79c6a46f401a8a27b4dcd3c144b4ff167d388b82f908265b755d1aef9e",
+  "library_build_log_sha256": "f6372fceb589c6c64bfdb9422375d613dc0cbca86c2c51b749ca76c713a08e68",
+  "rate_module_build_log_sha256": "f9c37f3da88892791758f4a0e49bee87d6e4a2f573a1479043674f50facfa53c",
+  "firmware_linked_with_core": false,
+  "cortex_m_executed": false,
+  "cpu_time_measured": false
+}

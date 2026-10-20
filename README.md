@@ -8,6 +8,10 @@ artifacts and their bounded numerical admission remain unchanged.
 The separate [PX4 timestamp-domain development analysis](active/px4_domain/README.md)
 also found a ceiling counterexample with source-permitted integer-microsecond
 timestamp gaps. Its pinned target build and the wrapper remain unqualified.
+The separately registered [persistent binary64 development variant](active/binary64/README.md)
+has a prospective whole-output arithmetic bound under strict rounding and
+passed directed host comparisons. Its scoped Claude AI technical review and
+PX4 wrapper qualification remain open.
 
 The numerical next-state-value claim is admitted for the declared domain,
 strict arithmetic and registered trace horizon after [Claude AI technical

@@ -49,8 +49,10 @@ variant and found a directed counterexample to its continuous numerical
 ceiling. A separate [PX4 timestamp-domain development result](active/px4_domain/README.md)
 also found a counterexample under source-permitted 125/126 microsecond
 timestamp gaps. Those gaps are not an observed sensor schedule. Current gate:
-resolve the core failure under the adopted requirement
-before a pinned target build or wrapper admission. Preserve the original
+the separately registered [binary64 precision variant](active/binary64/README.md)
+has a prospective bound below the unchanged ceiling and passed directed host
+replay. Its scoped Claude AI technical review and firmware integration remain
+open before numerical or wrapper admission. Preserve the original
 artifacts and final cases. The
 [build-only host probe](evidence/consumer-build/README.md) demonstrates an
 isolated library with target-local warning and arithmetic overrides,
@@ -125,13 +127,20 @@ and horizon domain and numerical error bounds before running comparisons.
   same ceiling ([result](active/px4_domain/results.json)); the pinned source
   checkout is available, but the ARM toolchain and Docker daemon are not.
   The broad-domain failure remains in force. No narrower contract was adopted.
-  The target build and directed wrapper tests remain conditional on core
-  qualification.
+  A separate persistent binary64 variant now has a prospective
+  [nonexpansive arithmetic bound](active/binary64/PROOF.md) and passed
+  [directed development comparisons](active/binary64/results.json), including
+  both retained binary32 counterexamples. An isolated pinned `fmu-v6c` build
+  compiled a strict option-A library and the existing rate module; a separate
+  linked probe contains hardware double instructions. This does not establish
+  firmware integration or runtime timing. Scoped Claude AI technical review
+  pinned to the result commit remains the numerical admission gate; directed
+  wrapper tests follow only after that gate.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.
   The original numerical bound and 256-step qualification stay unchanged.
-  The active continuous-operation ceiling is refuted; no admission follows.
-  The isolated-library host probe is retained; pinned PX4 compilation and
-  linked arithmetic still need verification before integration.
+  The registered binary32 active implementation's continuous ceiling is
+  refuted. That result does not classify all compensated binary32 methods.
+  The isolated-library host probe is retained as historical evidence.
 - Future: freeze any necessary semantic repair and fresh verification cases.
   Cases exposed during development cannot become final cases.
 
