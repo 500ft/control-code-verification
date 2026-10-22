@@ -55,10 +55,12 @@ replay. Its [scoped Claude AI technical review](active/binary64/review/README.md
 admits the numerical value bound under strict arithmetic and the summed-dt
 horizon. PX4 runtime and wrapper qualification remain open. Preserve the original
 artifacts and final cases. The
-[build-only host probe](evidence/consumer-build/README.md) demonstrates an
-isolated library with target-local warning and arithmetic overrides,
-optimization and LTO objects. It does not establish a pinned PX4 target build
-or runtime behavior. The existing staging name is now used for the
+[pinned `fmu-v6c` target build](active/binary64/target-build.json) compiled
+the strict option-A binary64 library and the existing rate module (#12,
+2026-10-20). It is build evidence only and establishes no firmware integration
+or runtime behavior. The earlier
+[build-only host probe](evidence/consumer-build/README.md) is retained as
+historical evidence. The existing staging name is now used for the
 public repository under the owner's delegated implementation instruction. The
 original failsafe repository remains paused pending its owner's release/closure choice;
 that choice does not block local core review. No physical, funding, purchase or
@@ -84,8 +86,11 @@ Prerequisites: the local source/register and an available compiler environment.
 - Done: [hosted CI](https://github.com/500ft/control-code-verification/actions/runs/37854170219)
   regenerated C, compiled it and reproduced the retained numerical result and
   trace CSV. The [workflow](.github/workflows/qualify.yml) is merged.
-- Future: qualify another precision or generator only when its comparison needs
-  it. Inspect constants, casts, math calls and compiler behavior separately.
+- Done: the [persistent binary64 active variant](active/binary64/README.md)
+  was qualified in development when the binary32 active comparison needed it
+  (#12, 2026-10-20). Qualify any further precision or generator only when its
+  comparison needs it. Inspect constants, casts, math calls and compiler
+  behavior separately.
 - Inspect any reused failsafe runner/parameter transport before adapting it.
   Select and pin a supported firmware/toolchain through actual qualification;
   the old failsafe version is not automatically the successor's version.
