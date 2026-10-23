@@ -143,7 +143,10 @@ and horizon domain and numerical error bounds before running comparisons.
   review](active/binary64/review/README.md) pinned to the result commit and
   focused post-review controls admit the new core's numerical value bound only
   under strict arithmetic and a positive-dt sum of at most 1,800 seconds.
-  Target runtime arithmetic and wrapper behavior remain unqualified.
+  Target runtime arithmetic and wrapper behavior remain unqualified. A
+  [source trace of the pinned fmu-v6c FPSCR boot and task-start path](active/binary64/fpscr/README.md)
+  found no flush-to-zero, default-NaN or non-nearest rounding setting
+  (#14, 2026-10-23); it is a source and toolchain trace, not a target readout.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.
   The original numerical bound and 256-step qualification stay unchanged.
   The registered binary32 active implementation's continuous ceiling is
