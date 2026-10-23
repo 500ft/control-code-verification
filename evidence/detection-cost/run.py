@@ -90,11 +90,11 @@ def registered_horizon_b2b(seq):
     t0 = time.perf_counter()
     for i in range(horizon):
         u, dt = seq['step'](i)
-        validate(ref, u, dt, False, root_spec)
-        local = intent(Q(ref), u, dt, False, cfg, float(limit))
+        validate(float(ref), u, dt, False, root_spec)
+        local = intent(Q(float(ref)), u, dt, False, cfg, float(limit))
         expected = intent(exact, u, dt, False, cfg, float(limit))
-        actual = reference(ref, u, dt, False, cfg, float(limit))
-        isolated = run(ref, u, dt)
+        actual = reference(float(ref), u, dt, False, cfg, float(limit))
+        isolated = run(float(ref), u, dt)
         sequence = run(cstate, u, dt)
         assert struct.pack('3f', *isolated) == struct.pack('3f', *actual), 'isolated C differs from float32 bits'
         assert struct.pack('3f', *sequence) == struct.pack('3f', *isolated), 'stateful C differs from float32 bits'
@@ -165,7 +165,7 @@ for name, seq in sequences.items():
 
 record = {
     'question': 'which boundary detects each retained binary32 active counterexample, at what execution cost',
-    'detection_criterion': 'absolute next-state error against exact intent exceeds ' + str(ceiling) + ' rad/s',
+    'detection_criterion': 'absolute next-state error against exact intent exceeds ' + active_spec['acceptance']['ceiling_rad_per_s'] + ' rad/s',
     'registration_sha256': sha(HERE / 'registration.json'),
     'driver_sha256': sha(__file__),
     'oracle_sha256': {'core.py': sha(ROOT / 'core.py'), 'active/boundary.py': sha(ROOT / 'active/boundary.py')},

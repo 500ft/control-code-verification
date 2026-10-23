@@ -107,6 +107,21 @@ jobs:
           PY
           cmake -S active/binary64 -B build/active-binary64-cmake -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Release
           cmake --build build/active-binary64-cmake --verbose
+      - name: Replay both retained active counterexamples through the registered-horizon and directed boundaries
+        run: |
+          cp evidence/detection-cost/results.json "$RUNNER_TEMP/detection-cost-baseline.json"
+          python evidence/detection-cost/run.py
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          expected = json.loads((Path(os.environ['RUNNER_TEMP']) / 'detection-cost-baseline.json').read_text())
+          actual = json.loads(Path('evidence/detection-cost/results.json').read_text())
+          strip = lambda r: {n: {b: {k: v for k, v in res.items() if k != 'wall_clock_s'} for b, res in bs.items()} for n, bs in r.items()}
+          assert strip(actual['sequences']) == strip(expected['sequences'])
+          assert actual['detected_by_registered_horizon_b2b'] == expected['detected_by_registered_horizon_b2b'] == []
+          assert actual['detected_by_directed_long_horizon'] == expected['detected_by_directed_long_horizon']
+          assert actual['prediction_held'] is True
+          PY
       - name: Characterize the known signed-zero discrepancy and check host arithmetic
         run: |
           mkdir -p build/ci-evidence
