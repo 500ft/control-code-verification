@@ -56,7 +56,11 @@ by strict local overrides. The existing rate module also compiled. A separate
 imports remain in that small linked artifact. The adapter was removed from
 the PX4 checkout after recording the commands and hashes. The core was not
 linked into firmware or executed on Cortex-M. Code size and instructions are
-build evidence, not CPU timing or handling evidence. The [STM32H743
+build evidence, not CPU timing or handling evidence. A separate
+[FPSCR boot-path trace](fpscr/README.md) of the pinned NuttX, PX4 and
+toolchain sources found no flush-to-zero, default-NaN or non-nearest rounding
+setting on the boot, task-start or link path; it is a source trace, not a
+target readout. The [STM32H743
 datasheet](https://www.st.com/resource/en/datasheet/stm32h743bi.pdf) describes
 a double-precision FPU; the generated config and actual compiler command are
 the evidence for this particular build's FPU selection.
