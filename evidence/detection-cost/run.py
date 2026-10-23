@@ -28,14 +28,19 @@ from active.boundary import validate_step
 
 sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
 registration = json.loads((HERE / 'registration.json').read_text())
+# The hosted workflow regenerates the two retained result files with environment
+# fields before this step, so they are read from the commit, not the working tree.
+RETAINED = ('active/results.json', 'active/px4_domain/results.json')
+committed = {name: subprocess.check_output(['git', 'show', 'HEAD:' + name], cwd=ROOT) for name in RETAINED}
 for name, digest in registration['pinned_sha256'].items():
-    assert sha(ROOT / name) == digest, name
+    content = committed[name] if name in RETAINED else (ROOT / name).read_bytes()
+    assert hashlib.sha256(content).hexdigest() == digest, name
 root_spec = json.loads((ROOT / 'spec.json').read_text())
 active_spec = json.loads((ROOT / 'active/spec.json').read_text())
 active_cases = {c['id']: c for c in json.loads((ROOT / 'active/directed.json').read_text())['cases']}
 px4_cases = {c['id']: c for c in json.loads((ROOT / 'active/px4_domain/directed.json').read_text())['cases']}
-retained = {'active': json.loads((ROOT / 'active/results.json').read_text()),
-            'px4_domain': json.loads((ROOT / 'active/px4_domain/results.json').read_text())}
+retained = {'active': json.loads(committed['active/results.json']),
+            'px4_domain': json.loads(committed['active/px4_domain/results.json'])}
 ceiling = Q(active_spec['acceptance']['ceiling_rad_per_s'])
 limit = Q(active_spec['state_abs_max'])
 cfg = dict(tau=float(Q(active_spec['tau'])), slew_up=float(Q(active_spec['slew_up'])),

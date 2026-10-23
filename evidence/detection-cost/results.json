@@ -2,7 +2,7 @@
   "question": "which boundary detects each retained binary32 active counterexample, at what execution cost",
   "detection_criterion": "absolute next-state error against exact intent exceeds 0.001065 rad/s",
   "registration_sha256": "1e4f4f40e6c70892eccc684625699f019c1b40d38e878fb6789a1f70ea304022",
-  "driver_sha256": "22d3e15b73d0b71bb9a950fae4621c060fbd53d7dae362805de4e714f634b0ab",
+  "driver_sha256": "65332743b43523dd3085c8911f12e9a1b7c22950195b03eb157681fa44b4a249",
   "oracle_sha256": {
     "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
     "active/boundary.py": "c221e09b32832e3d98c4e28c2b31ddf8bebf09ae3c345b7fc32ab8259c9b0114"
@@ -26,7 +26,7 @@
     "/private/tmp/claude-501/-Users-redhose/e6282147-467f-415b-a340-08977b3ec33c/scratchpad/week1022/control-code-verification/build/detection-cost/active_symmetric.so"
   ],
   "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
-  "compile_wall_clock_s": 0.10956333298236132,
+  "compile_wall_clock_s": 0.11789137497544289,
   "host": {
     "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
     "machine": "arm64",
@@ -52,7 +52,7 @@
         "exact_intent_evaluations": 512,
         "binary32_reference_evaluations": 256,
         "compiled_calls": 512,
-        "wall_clock_s": 0.016436791978776455
+        "wall_clock_s": 0.01684299996122718
       },
       "directed_long_horizon": {
         "steps_executed": 24576,
@@ -75,7 +75,7 @@
         "exact_intent_evaluations": 24576,
         "binary32_reference_evaluations": 24576,
         "compiled_calls": 24576,
-        "wall_clock_s": 0.8216210419777781
+        "wall_clock_s": 0.7606570000061765
       }
     },
     "px4_timestamp_gap": {
@@ -92,7 +92,7 @@
         "exact_intent_evaluations": 512,
         "binary32_reference_evaluations": 256,
         "compiled_calls": 512,
-        "wall_clock_s": 0.02369012509007007
+        "wall_clock_s": 0.01700208301190287
       },
       "directed_long_horizon": {
         "steps_executed": 80161,
@@ -115,7 +115,7 @@
         "exact_intent_evaluations": 80161,
         "binary32_reference_evaluations": 80161,
         "compiled_calls": 80161,
-        "wall_clock_s": 5.535592833999544
+        "wall_clock_s": 2.621549040894024
       }
     }
   },
