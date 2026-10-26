@@ -1,22 +1,22 @@
 # Separate active variant: directed development result
 
-The [specification](spec.json) and [directed cases](directed.json) were
-registered at commit `e735af5` before generating or executing the new core.
-[Registration](registration.json) pins both input hashes. The original
-`spec.json`, 4/2 shadow generated C, numerical results and final cases were
-left unchanged. The later [Claude AI technical review](review/README.md) is
-non-blind and its two review-motivated cases were registered separately before
-execution.
-
-The [executed results](results.json) show that the adopted continuous
-next-state ceiling fails. Both registered half-ULP slew sequences crossed
+The [executed results](results.json) show that the separate symmetric active
+binary32 filter fails the adopted continuous next-state error ceiling. Both
+registered half-ULP slew sequences crossed
 `0.001065 rad/s` at step 17,868, after about 0.273 s. At step 24,576 the
 absolute error was `0.00146484375 rad/s`. Strict AppleClang C and the
-independent explicit binary32 reference agreed on every executed directed
-call; this is a difference between rounded state recurrence and exact intent,
-not an adapter disagreement. The short case IDs containing `unslewed` were
-misnamed at registration: their inputs activate the slew branch. They are
-retained under their registered names. The separately
+independent explicit binary32 reference agreed on every executed directed call.
+The failure comes from the rounded state recurrence relative to exact intent.
+
+The [specification](spec.json) and [directed cases](directed.json) were
+registered at commit `e735af5` before generation and execution;
+[registration.json](registration.json) pins their hashes. The original
+`spec.json`, 4/2 shadow generated C, numerical results and final cases remain
+unchanged. The later [Claude AI technical review](review/README.md) was
+non-blind, and its two additional cases were registered separately before
+execution. The short case IDs containing `unslewed` were misnamed at
+registration: their inputs activate the slew branch. They keep their
+registered names. The separately
 [registered review supplement](supplemental-directed.json) exercises the
 interior branch in both signs, with C and binary32 reference agreement. The
 first NaN rejection result was true by string short-circuit in the harness;
@@ -29,7 +29,7 @@ predates this registration, requires a propagated bound over a continuous
 segment. The one-step local error on the tie case is smaller; this result does
 not claim a local-error violation.
 
-A [separate closed-form check](check_counterexample.py) verifies the cause.
+A [separate closed-form calculation](check_counterexample.py) verifies the cause.
 For `x0=1`, `u=8` and `dt=513/33554432 s`, the exact symmetric slew increment
 is `2 dt = 513/16777216 rad/s`, or 256.5 binary32 ulps while the state is in
 `[1,2)`. Each generated-C addition rounds to 256 ulps by ties-to-even; the
@@ -39,7 +39,7 @@ absolute error is `n/16777216 rad/s`. The registered first crossing is the
 least integer `n` for which that fraction exceeds the ceiling. The negative
 sequence is symmetric. A continuous 30-minute run can contain this prefix
 without any reset, so a pointwise ceiling for every such segment is refuted.
-The entire 30-minute run was not simulated or claimed as executed.
+The calculation does not simulate the entire 30-minute run.
 The case uses a `dt` within the registered variant domain but below the
 pinned PX4 rate module's `0.125 ms` lower clamp. It refutes the stated
 all-registered-input ceiling, not a narrower PX4-tick claim. That narrower

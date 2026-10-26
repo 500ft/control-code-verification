@@ -2,10 +2,11 @@
 
 This is a command shaper for angular rate. Its state is the last commanded
 rate, so asymmetric acceleration limits model distinct increasing and
-decreasing actuator slew. The parameters, units, admissible domain, horizon
-and compiler flags live in [spec.json](spec.json). The variants change reset
-semantics and filter time constant. They were authored and frozen for this
-qualification; this does not establish absence from model training data.
+decreasing actuator slew. The parameters, units, input domain, horizon and
+compiler flags are in [spec.json](spec.json). The variants change reset
+behavior and filter time constant. These choices were fixed before the
+development comparisons; their authorship does not establish absence from
+model training data.
 
 For state x, input u and time increment h, the non-reset update is
 
@@ -17,8 +18,9 @@ x_next = clip(z, -limit, limit)
 ```
 
 This is backward Euler for `tau * dx/dt = u - x`, with a reachable-increment
-projection and an absolute rate clamp. It qualifies the discrete requirement;
-no continuous-time discretization-error or actuator-tracking claim is made.
+projection and an absolute rate clamp. The comparisons test this discrete
+update. They do not measure continuous-time discretization error or actuator
+tracking.
 Reset takes precedence over zero-dt hold and the update. Zero reset clears
 state; tracking reset sets it to the clamped current input. Reset deliberately
 bypasses the acceleration limit. Zero dt without reset holds state exactly.
@@ -27,14 +29,14 @@ the unclipped branch. Reset and hold report inactive flags.
 
 Inputs must be finite, within the registered domain, and already exactly
 representable as binary32; reset must be a boolean. Validation applies even
-on reset. `core.validate` is the qualification harness's admission boundary.
-The bare generated C assumes these preconditions. It is not an integration
-wrapper and must not be called on arbitrary external data.
+on reset. `core.validate` checks these conditions in the numerical test
+runner. The generated C assumes them and has no wrapper for arbitrary
+external data. Do not call it on unvalidated external input.
 
 `core.intent` uses exact rational arithmetic and independently forms the
 weighted next target `(tau*x + h*u)/(tau+h)`, then projects onto the reachable
 state interval. `core.reference` rounds each operation to NumPy binary32.
-The generator builds a separate symbolic expression. Frozen development
+The generator builds a separate symbolic expression. The fixed development
 inputs are dyadic so input conversion error is absent; deployment conversion
 would need its own requirement. Constants are exactly representable.
 
@@ -91,18 +93,20 @@ flags, not observed failures. No functional tolerance was supplied or inferred.
 The [executed branch-use review](BRANCH_USE.md) traces every retained issue to
 a reconstructed tie and records operation rounding, exact intervals and native
 outputs. Returned flags are verification outputs in the current repository;
-the clipping predicates still affect state. No external consumer is specified,
-and no diagnostic-only contract has been adopted. Original issue markers and
-bounds remain unchanged.
+the clipping predicates still affect state. The later
+[consumer contract](CONSUMER.md#adopted-development-contract) assigns emitted
+flags a diagnostic role. No PX4 wrapper has implemented that contract.
+Original issue markers and bounds remain unchanged.
 
-Before integration, the actual consumer contract must decide whether strict
-branch identity is required and how branch-near inputs should be handled. The
+The wrapper still needs to demonstrate that branch-near flags have no control,
+mode or anti-windup authority under the adopted contract. The
 [Claude AI technical review reconciliation](evidence/review/README.md)
 admits only the numerical next-state-value claim within the declared domain,
 strict arithmetic and registered trace horizon. Its [reverse-slew reproducers](evidence/review/reproduced.json)
 show exact-inactive to rounded/C-active flags as well as the previously retained
-opposite direction. This does not qualify branch identity. If an external
-action uses these flags, its margin or hysteresis must be specified and checked.
+opposite direction. This does not establish branch identity. Any proposed
+external action based on these flags would require a functional requirement,
+including a specified and checked margin or hysteresis.
 Widening numerical tolerance cannot answer that question. The current result
 keeps integration unqualified, with final cases withheld.
 
