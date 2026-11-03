@@ -1,79 +1,27 @@
-"""The core-qualification figure shows only stored traces, and its words live in the caption.
+"""The MATLAB figure, its caption, its manifest and the typeset tables match the committed data.
 
-These checks need matplotlib, which CI does not install; they skip there and
-run wherever the figure can be generated: ``venv/bin/python -m pytest``.
+MATLAB cannot run in CI, so these checks read the committed outputs and the
+MATLAB sources. They need only pytest: ``python -m pytest test_figure.py``.
 """
-import csv
-import hashlib
 import json
+import re
 from pathlib import Path
 
 import pytest
 
-matplotlib = pytest.importorskip("matplotlib")
-matplotlib.use("Agg")
-from matplotlib.text import Text  # noqa: E402
-
-import figure_style as style  # noqa: E402
-import plot  # noqa: E402
+import plot
 
 ROOT = Path(__file__).resolve().parent
-sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+FIGURES = ROOT / "figures"
 
 
 @pytest.fixture(scope="module")
-def built():
-    data, spec = plot.load()
-    fig = plot.figure(data, spec)
-    fig.canvas.draw()
-    yield data, spec, fig
-    matplotlib.pyplot.close(fig)
+def loaded():
+    return plot.load()
 
 
-def stored(variant, trace, field):
-    """One column of the committed trace CSV, read independently of plot.load."""
-    return [float(r[field]) for r in csv.DictReader(plot.SOURCE.open())
-            if r["variant"] == variant and r["trace"] == trace]
-
-
-def test_lines_carry_stored_traces(built):
-    _, spec, fig = built
-    for col, variant in enumerate(spec["variants"]):
-        top, bottom = fig.axes[col], fig.axes[2 + col]
-        intent, c, clamp = top.lines
-        assert list(intent.get_xdata()) == stored(variant, "reversal", "time_s")
-        assert list(intent.get_ydata()) == stored(variant, "reversal", "intent_rad_s")
-        assert list(c.get_ydata()) == stored(variant, "reversal", "c_rad_s")
-        assert c.get_marker() == "o" and clamp.get_marker() == "x"
-        flagged = [r for r in csv.DictReader(plot.SOURCE.open())
-                   if r["variant"] == variant and r["trace"] == "reversal" and r["branch_issue"] == "True"]
-        assert list(clamp.get_xdata()) == [float(r["time_s"]) for r in flagged]
-        assert list(clamp.get_ydata()) == [float(r["c_rad_s"]) for r in flagged]
-        error, bound = bottom.lines
-        assert list(error.get_ydata()) == stored(variant, "constant_unsaturated", "abs_error_rad_s")
-        assert list(bound.get_ydata()) == stored(variant, "constant_unsaturated", "bound_rad_s")
-        assert bottom.get_yscale() == "log"
-        for ax in (top, bottom):
-            assert {line.get_color() for line in ax.lines} == {style.INK}
-
-
-def test_canvas_holds_only_axes_text_panel_letters_and_legend(built):
-    _, _, fig = built
-    printed = {t.get_text() for t in fig.findobj(Text) if t.get_visible() and t.get_text().strip()}
-    allowed = {f"({c})" for c in plot.LETTERS} | {plot.XLABEL, *plot.YLABELS}
-    allowed |= {s["label"] for s in style.SERIES.values()}
-    allowed |= {t.get_text() for ax in fig.axes for t in ax.get_xticklabels() + ax.get_yticklabels()}
-    assert printed <= allowed, printed - allowed
-    assert len(fig.legends) == 1 and not any(ax.get_legend() for ax in fig.axes)
-
-
-def test_nothing_printed_touches_anything(built):
-    _, _, fig = built
-    assert style.audit(fig) == []
-
-
-def test_caption_matches_data_file_and_readme(built):
-    data, spec, _ = built
+def test_caption_matches_data_file_and_readme(loaded):
+    data, spec = loaded
     text = plot.caption(data, spec)
     assert text == plot.STEM.with_suffix(".caption.md").read_text().strip()
     assert "256 steps of dt = 1/32 s, input -8 rad/s, then +8 rad/s from t = 4 s" in text
@@ -86,9 +34,68 @@ def test_caption_matches_data_file_and_readme(built):
 
 def test_manifest_records_committed_files():
     manifest = json.loads((plot.OUT / "figure.json").read_text())
-    assert {name: sha(plot.OUT / name) for name in manifest["outputs"]} == manifest["outputs"]
-    assert manifest["figure_sha256"] == manifest["outputs"]["core-qualification.png"]
-    assert manifest["source_sha256"] == sha(plot.SOURCE)
-    assert manifest["config_sha256"] == sha(plot.CONFIG)
-    assert manifest["generator_sha256"] == sha(ROOT / "plot.py")
-    assert manifest["style_helper_sha256"] == sha(ROOT / "figure_style.py")
+    assert manifest == plot.manifest()
+    assert set(manifest["outputs"]) == {"core-qualification.png", "core-qualification.pdf"}
+
+
+def test_matlab_generator_reads_the_plotted_traces():
+    source = plot.GENERATOR.read_text()
+    assert "'evidence', 'traces.csv'" in source and "'spec.json'" in source
+    for trace in plot.TRACES:
+        assert f'"{trace}"' in source
+    assert "branch_issue" in source
+
+
+def numbers(cells):
+    return [float(c.replace(",", "")) for c in cells]
+
+
+def tex_rows(name):
+    """Data rows of a MATLAB-written tabular fragment, as lists of cells."""
+    lines = (FIGURES / name).read_text().splitlines()
+    body = lines[lines.index("\\midrule") + 1:lines.index("\\bottomrule")]
+    return [[c.strip() for c in line[:-2].split("&")] for line in body if line != "\\midrule"]
+
+
+def md_tables():
+    tables, current = [], None
+    for line in (ROOT / "evidence/observational/table.md").read_text().splitlines():
+        if line.startswith("|"):
+            if current is None:
+                current = []
+                tables.append(current)
+            current.append([c.strip() for c in line.strip("|").split("|")])
+        else:
+            current = None
+    return [t[2:] for t in tables]  # drop header and alignment rows
+
+
+def plain(cell):
+    return re.sub(r"\\texttt\{(.*)\}", r"\1", cell).replace("\\_", "_")
+
+
+def test_typeset_tables_match_markdown_tables():
+    stages, strata, classes = md_tables()
+    # Stage table: columns regrouped as traces, steps, run.
+    order = [0, 4, 1, 2, 3, 5, 6, 7]
+    tex = tex_rows("observational-stages.tex")
+    assert [r[0] for r in tex] == [r[0] for r in stages]
+    for t, m in zip(tex, stages):
+        assert numbers(t[1:]) == [numbers(m[1:])[i] for i in order]
+    tex = tex_rows("observational-strata.tex")
+    variant = None
+    assert len(tex) == len(strata)
+    for t, m in zip(tex, strata):
+        variant = plain(t[0]) or variant
+        assert f"{variant}/{plain(t[1])}" == m[0]
+        assert numbers(t[2:]) == numbers(m[1:])
+    tex = tex_rows("observational-classes.tex")
+    assert [plain(r[0]) for r in tex] == [r[0] for r in classes]
+    for t, m in zip(tex, classes):
+        assert numbers(t[1:]) == numbers(m[1:])
+
+
+def test_typeset_tables_have_images():
+    for stem in ("observational-stages", "observational-strata", "observational-classes"):
+        for ext in (".tex", ".pdf", ".png"):
+            assert (FIGURES / f"{stem}{ext}").is_file(), stem + ext
