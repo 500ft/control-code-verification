@@ -1,13 +1,12 @@
 # Consumer contract: PX4 rate-setpoint shaping, shadow and active
 
-Owner decision 2026-10-13 (chat): for this repository, adopt "the combination
-layered controller idea". That is the layered placement discussed the same
-day: one shadow filter instance per axis in every flight mode, logging only,
-plus one active instance per axis that shapes the rate setpoint in acro mode
-and in offboard body-rate mode. This settled decision 1 of the external
-proposal. On 2026-10-14 the owner delegated the remaining selections with
-“lets do these”. Codex selected the development contract below; these choices
-authorize qualification and do not establish flight handling or target safety.
+The adopted PX4 placement has one diagnostic shadow filter per axis in every
+flight mode and one active filter per axis shaping the rate setpoint in acro
+and offboard body-rate modes. The owner called this "the combination layered
+controller idea" in the 2026-10-13 chat (decision 1 of the external proposal).
+Under the 2026-10-14 delegation, “lets do these”, Codex selected the remaining
+development choices recorded below. Those choices define what may be tested;
+they do not establish flight handling or target safety.
 
 Proposal: `implementation/control-consumer-20261013/PROPOSAL.md` in the
 external audit directory, SHA-256

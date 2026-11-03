@@ -2,45 +2,48 @@
 
 ## Question and finish line
 
-Which deployment defects remain after a costed back-to-back comparison, and
-which extra checks detect them at what marginal cost?
+Which deployment defects remain after a costed back-to-back (B2B) comparison
+of implementations on the same inputs, and which extra checks detect them at
+what marginal cost?
 
-Finish with a registered comparison on independently qualified implementations
-and defect mechanisms, reporting residual defects and verification cost. A
-result where ordinary B2B removes every qualified defect is useful. Generation
-method and verification method are separate factors; no weak baseline is
-introduced to favor another check. This roadmap does not authorize a campaign.
+The finish line is a registered comparison using independently checked
+implementations and independently justified defect mechanisms. Report defects
+remaining after ordinary B2B testing and the cost of each additional check.
+A result in which ordinary B2B detects every tested defect is useful. Keep
+generation method and verification method as separate factors, with the same
+strong baseline for each check. The comparison campaign remains unauthorized.
 
 ## Verified starting point
 
-Published source, CasADi float C generation and the isolated/stateful numerical
-comparisons have executed. The [result](evidence/results.json) and
-[trace table](evidence/traces.csv) preserve agreement, errors and unresolved
-branch-threshold cases. [Registration](registration.json) predates the
-implementation. The [specification](spec.json) and [numerical argument](NUMERICS.md)
-declare state, reset precedence, dt, units, saturation, types and error bounds.
-The intent uses exact rational arithmetic; it need not be replaced with float64.
-These are development results, with integration still unqualified.
+The published source generated C with CasADi and compared isolated steps and
+stateful sequences. The [result](evidence/results.json) and
+[trace table](evidence/traces.csv) report agreement, errors and branch-threshold
+questions. The [registration](registration.json) preceded implementation.
+The [specification](spec.json) and [numerical argument](NUMERICS.md) define
+state, reset precedence, `dt`, units, saturation, types and error bounds.
+Exact rational arithmetic defines the intended result. These are development
+comparisons; integration has not been tested.
 
 ## Current blockers
 
-The [observational continuation](evidence/observational/README.md) completed the
-registered development budget with exact-reference coverage and an executable
-ARM Linux GCC/QEMU comparison. Signed-zero representation and exact-versus-rounded
-branch differences remain observed requirements questions. Specify their
-functional consumers and acceptance requirements before qualifying a wrapper.
-The [Claude AI technical review reconciliation](evidence/review/README.md)
-admits the numerical next-state-value claim for the declared domain, strict
-arithmetic and registered trace horizon. Its targeted cases add reverse-slew
-flag differences and negative-zero paths. The selected PX4 consumer is now
-source-traced in [CONSUMER.md](CONSUMER.md); functional requirements are now adopted; wrapper behavior remains unqualified. Human review is deferred and is
-not required for this scoped development admission. Numerical agreement does not decide functional
-acceptability.
-The original first-failure pilot and its bitwise criterion remain preserved;
-its stop no longer prevents descriptive numerical observation.
+The [observational continuation](evidence/observational/README.md) completed
+the registered development comparisons, including exact-reference coverage
+and an ARM Linux GCC/QEMU run. It observed signed-zero and
+exact-versus-rounded branch differences. The non-blind
+[Claude AI technical review](evidence/review/README.md) and focused checks
+support the original shadow filters' numerical next-state values only for
+their declared domain, strict arithmetic and trace horizon. Targeted review
+cases also found reverse-slew flag differences and negative-zero paths.
+[CONSUMER.md](CONSUMER.md) records the chosen PX4 consumer and adopted
+functional requirements. No wrapper behavior has passed those requirements;
+numerical agreement alone cannot establish it. Human review is deferred and
+is not required for this numerical development review. The original
+first-failure pilot and its bitwise stopping rule remain in the historical
+record.
 
-The consumer is chosen: PX4 rate-setpoint shaping, shadow in every mode and
-active in acro and offboard body-rate mode ([CONSUMER.md](CONSUMER.md)).
+The chosen PX4 placement is a diagnostic shadow filter in every rate-loop
+mode and active rate-setpoint shaping in acro and offboard body-rate mode
+([CONSUMER.md](CONSUMER.md)).
 The [adopted development contract](CONSUMER.md#adopted-development-contract)
 selects a separate symmetric active variant, diagnostic logging, bumpless
 entry, three-class invalid-input handling and a continuous error ceiling.
@@ -48,13 +51,14 @@ The [registered active development result](active/README.md) generated that
 variant and found a directed counterexample to its continuous numerical
 ceiling. A separate [PX4 timestamp-domain development result](active/px4_domain/README.md)
 also found a counterexample under source-permitted 125/126 microsecond
-timestamp gaps. Those gaps are not an observed sensor schedule. Current gate:
-the separately registered [binary64 precision variant](active/binary64/README.md)
-has a prospective bound below the unchanged ceiling and passed directed host
-replay. Its [scoped Claude AI technical review](active/binary64/review/README.md)
-admits the numerical value bound under strict arithmetic and the summed-dt
-horizon. PX4 runtime and wrapper qualification remain open. Preserve the original
-artifacts and final cases. The
+timestamp gaps. Those gaps are not an observed sensor schedule. The later
+[persistent binary64 variant](active/binary64/README.md) passed directed host
+comparisons. Its proof and non-blind
+[Claude AI technical review](active/binary64/review/README.md) support the
+numerical value bound under strict arithmetic when positive `dt` values sum
+to at most 1,800 seconds. That sum does not establish wall time or PX4 runtime
+behavior. The original artifacts remain unchanged; the wrapper and final cases
+remain untested. The
 [pinned `fmu-v6c` target build](active/binary64/target-build.json) compiled
 the strict option-A binary64 library and the existing rate module (#12,
 2026-10-20). It is build evidence only and establishes no firmware integration
@@ -120,10 +124,10 @@ and horizon domain and numerical error bounds before running comparisons.
   examples. No observed numerical-bound violation occurred. ARM Linux GCC and
   QEMU executed the original registered corpus and the known-zero diagnostic;
   this supplies no Cortex-M/PX4 or hardware-timing qualification.
-- Done within scope: the [pinned Claude AI technical review](evidence/review/README.md)
-  and focused reproduction admit only the numerical next-state-value claim
-  under strict arithmetic and the registered trace horizon. The original
-  numerical budget and historical results remain unchanged. The review's
+- Done: the non-blind [Claude AI technical review](evidence/review/README.md)
+  and focused reproduction support the original filters' numerical
+  next-state values under strict arithmetic and the registered trace horizon.
+  The original numerical budget and historical results remain unchanged. The review's
   tighter-bound estimate and universal reverse-clamp exclusion are unestablished.
 - Current: the separately specified active variant failed its registered
   continuous numerical ceiling on a directed development case
@@ -133,7 +137,7 @@ and horizon domain and numerical error bounds before running comparisons.
   same ceiling ([result](active/px4_domain/results.json)); the historical
   PX4-domain result had no available ARM target build.
   The broad-domain failure remains in force. No narrower contract was adopted.
-  A separate persistent binary64 variant now has a prospective
+  A separate persistent binary64 variant has a
   [nonexpansive arithmetic bound](active/binary64/PROOF.md) and passed
   [directed development comparisons](active/binary64/results.json), including
   both retained binary32 counterexamples. An isolated pinned `fmu-v6c` build
@@ -141,7 +145,7 @@ and horizon domain and numerical error bounds before running comparisons.
   linked probe contains hardware double instructions. This does not establish
   firmware integration or runtime timing. A [scoped Claude AI technical
   review](active/binary64/review/README.md) pinned to the result commit and
-  focused post-review controls admit the new core's numerical value bound only
+  focused post-review controls support the new core's numerical value bound only
   under strict arithmetic and a positive-dt sum of at most 1,800 seconds.
   Target runtime arithmetic and wrapper behavior remain unqualified.
   Diagnostic flags and zero-sign-insensitive value acceptance are adopted.
@@ -159,11 +163,12 @@ Numerical agreement alone does not complete this milestone.
 
 ### Reviewed wrapper and B2B boundaries
 
-Prerequisites: qualified core semantics, a consumer contract and a resolved
-generated-C warning-set build requirement. The scoped Claude AI technical
-review is complete for the numerical value claim. Write admission,
-initialization, reset/mode, timestamp, stale/absent/reordered-message and
-publisher rules before collecting wrapper results.
+Prerequisites: core behavior checked against its numerical specification,
+the [consumer contract](CONSUMER.md), and a generated-C build with the required
+compiler warnings. The Claude AI technical review covers the numerical value
+claim only. Specify initialization, reset and mode transitions, timestamp and
+message handling, publisher separation and wrapper acceptance before
+collecting wrapper results.
 
 - Preserve isolated numerical-step and stateful sequence comparisons, including
   saturation, resets and variable dt. Extend them only for admitted new semantics.

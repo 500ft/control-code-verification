@@ -1,46 +1,42 @@
 # Control code verification
 
-The separately registered symmetric active variant failed the adopted
-continuous numerical ceiling on a directed development case. The
-[executed result and independent calculation](active/README.md) identify the
-rounding mechanism. That binary32 implementation was not admitted for continuous
-active use; the original shadow
-artifacts and their bounded numerical admission remain unchanged.
-The separate [PX4 timestamp-domain development analysis](active/px4_domain/README.md)
-also found a ceiling counterexample with source-permitted integer-microsecond
-timestamp gaps. Its binary32 implementation remains unqualified for the pinned
-target and wrapper.
-The separately registered [persistent binary64 development variant](active/binary64/README.md)
-passed directed host comparisons and scoped [Claude AI technical review](active/binary64/review/README.md).
-Its numerical value bound is admitted for the declared strict arithmetic and
-summed-dt horizon. PX4 runtime and wrapper qualification remain open.
+The research question is which controller defects survive a costed
+back-to-back (B2B) comparison, where the same inputs are run through an
+implementation and a reference, and which additional checks detect those
+defects. The planned comparison covers numerical, stateful and integration
+boundaries. No deployment-defect corpus or integration comparison has run.
 
-The numerical next-state-value claim is admitted for the declared domain,
-strict arithmetic and registered trace horizon after [Claude AI technical
-review reconciliation](evidence/review/README.md). Compiled CasADi C and the
-binary32 reference agree on the original frozen development traces for the
-stateful angular-rate filter; exact-rational intent checks pass within the
-registered bounds. The
-[executed branch-use review](BRANCH_USE.md) explains all nine flagged steps as
-threshold ties with no observed flag disagreement. The functional consumer is chosen and
-[source-traced](CONSUMER.md). The [development contract](CONSUMER.md#adopted-development-contract) is adopted;
-the registered binary32 active variant's continuous ceiling failed. The new
-binary64 core has an isolated pinned PX4 target build probe, but target runtime
-arithmetic and wrapper checks have not run. The earlier [host build-only
-probe](evidence/consumer-build/README.md) remains historical evidence. The
-original corpus summary remains in [evidence/results.json](evidence/results.json).
+The original shadow filters use binary32 (32-bit floating-point) state. Their
+generated C agrees with exact intent within the stated bound on the
+registered development traces and 256-step horizon after a non-blind
+[Claude AI technical review](evidence/review/README.md). The
+[branch-use review](BRANCH_USE.md) explains the flagged threshold contacts;
+it found no branch-flag disagreement on the original traces. The original
+[results](evidence/results.json) and bounds are unchanged.
 
-The adopted question asks which defects remain after a costed B2B baseline at
-numerical, stateful and integration boundaries, and which additional checks
-reduce them. This development result starts that work. Source is published at
+A separate symmetric **active binary32** filter failed the adopted continuous
+`0.001065 rad/s` ceiling on a directed development case. An independent
+[calculation](active/README.md) explains the rounding accumulation. A second
+[counterexample](active/px4_domain/README.md) uses timestamp gaps permitted
+by pinned PX4 source, without claiming that schedule was observed. Those
+failures concern the registered active binary32 implementation.
+
+The later [persistent binary64 (64-bit floating-point) active core](active/binary64/README.md)
+passed directed host comparisons. Its proof and non-blind
+[Claude AI technical review](active/binary64/review/README.md) support the
+numerical next-state and published-output bound under strict arithmetic when
+positive `dt` values sum to at most 1,800 seconds. This sum is the model
+horizon, not observed wall time. The isolated pinned PX4 build is compilation
+evidence; target runtime arithmetic, the rate-controller wrapper and SITL
+behavior have not been verified. The [consumer contract](CONSUMER.md) records
+the required placement and behavior. The [roadmap](ROADMAP.md) gives the next
+requirements and keeps final cases closed.
+
+Source is published at
 [500ft/control-code-verification](https://github.com/500ft/control-code-verification).
-The existing staging name was used under the owner's delegated implementation
-instruction; it was not a separate naming decision. The
-[dependency roadmap](ROADMAP.md) separates completed numerical work, current requirement review and conditional
-wrapper/corpus/pilot/confirmation work. It contains no execution schedule.
 
 [Specification and bounds](NUMERICS.md) · [Roadmap](ROADMAP.md) ·
-[Frozen registration](registration.json) · [Parameters and units](spec.json)
+[Original registration](registration.json) · [Parameters and units](spec.json)
 
 ## Reproduce
 
@@ -104,13 +100,13 @@ to execute without adopting bitwise acceptance or changing controller semantics.
 The executable ARM Linux GCC/QEMU comparison also completed on the original
 registered corpus, with the known zero-sign diagnostic reported separately.
 
-The completed [Claude AI technical review](evidence/review/README.md) adds
-targeted reverse-slew and negative-zero reproducers without changing the
-campaign counts or bound. Functional consumer requirements are adopted; the new
-variant failed its continuous ceiling and the pinned target build remains
-unqualified. Human review is
-deferred for this scoped development gate. No reserved cases or integration
-campaign ran.
+The completed, non-blind [Claude AI technical review](evidence/review/README.md)
+adds targeted reverse-slew and negative-zero reproducers without changing the
+campaign counts or bound. The adopted [consumer requirements](CONSUMER.md)
+led to a separate active binary32 variant, whose continuous ceiling failed;
+the later binary64 result is described above. Human review is deferred and
+is not required for this numerical development review. No reserved cases or
+integration campaign ran.
 
 ## Branch-use review
 
@@ -119,8 +115,9 @@ campaign ran.
 
 Returned flags currently feed verification only. The underlying clipping
 comparisons determine the next state. No wrapper or external flag consumer
-has been supplied. The conservative issue markers remain; no functional
-contract, numerical bound or final case changed. Reproduce the branch detail
+has been supplied. This branch review did not change the numerical bound or
+open final cases; the later [consumer contract](CONSUMER.md) defines
+diagnostic use of the flags. Reproduce the branch detail
 with `python review_branch_use.py` before running the qualification command.
 CI checks the detail and retains each execution's compiler/binary identity.
 
@@ -170,18 +167,22 @@ is in git history. Numerical values and bounds are unchanged.
 
 ## Scope and provenance
 
-This is the owner's authorized software pivot from
+This software study follows the decision to move from
 [500ft/px4-failsafe-differential-testing](https://github.com/500ft/px4-failsafe-differential-testing),
-following the v2 plan and objections review.
+after the v2 plan and objections review.
+The public repository uses the existing staging name under the owner's
+delegated implementation instruction; that did not settle a separate naming
+decision.
 The old project's PR #50, typed parameter transport and SITL harness are useful
 future integration sources. Their implemented boundaries must be checked
 before reuse; no harness is copied as a setup prerequisite.
 Study A remains unfinished and paused in the original repository. Existing
 failsafe results do not qualify this module.
 
-The local filter boundary includes explicit state, reset and dt. The numerical
-value review is reconciled; diagnostic branch use, zero-sign treatment and consumer requirements are
-adopted in CONSUMER.md. Implementation and qualification are next.
+The local filter boundary specifies state, reset and `dt`. The original
+numerical-value review is complete; [CONSUMER.md](CONSUMER.md) records the
+adopted diagnostic-flag, zero-sign and consumer requirements. The wrapper
+still needs implementation and testing.
 
 PX4 replay additionally needs an actually qualified supported build; the old
 failsafe firmware pin is not inherited automatically. It needs every consumed
