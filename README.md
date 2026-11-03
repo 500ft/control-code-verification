@@ -14,6 +14,11 @@ The separately registered [persistent binary64 development variant](active/binar
 passed directed host comparisons and scoped [Claude AI technical review](active/binary64/review/README.md).
 Its numerical value bound is admitted for the declared strict arithmetic and
 summed-dt horizon. PX4 runtime and wrapper qualification remain open.
+The [pinned wrapper input result](integration/RESULT.md) found that an
+ignored offboard yaw axis and an invalid unmasked NaN yaw command reach the
+rate controller as the same message. The adopted separate responses need
+per-axis source provenance or an approved contract change before integration
+can proceed.
 
 The numerical next-state-value claim is admitted for the declared domain,
 strict arithmetic and registered trace horizon after [Claude AI technical
