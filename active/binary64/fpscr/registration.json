@@ -1,0 +1,30 @@
+{
+  "registered_before_result": true,
+  "parent_main": "862d3482c55a1d9d28d03e1312a84e77265578ce",
+  "question": "On the pinned fmu-v6c boot path, task-start path and firmware link, does anything set FPSCR.FZ (bit 24), FPSCR.DN (bit 25) or a non-nearest FPSCR.RMode (bits 23:22), or does FPDSCR carry such bits where it would be loaded, so that the binary64 proof's nearest-even gradual-underflow assumption (active/binary64/PROOF.md) would not hold for the rate-control work-queue thread?",
+  "sources": {
+    "px4_commit": "c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17",
+    "nuttx_commit": "6e8169b9e1d571df4fbe2282aadc0541092253c6",
+    "nuttx_pin_check": "git ls-tree of platforms/nuttx/NuttX/nuttx at the PX4 commit must equal nuttx_commit",
+    "toolchain": "Arm GNU Toolchain 13.2.rel1 darwin-arm64 arm-none-eabi, archive SHA-256 39c44f8af42695b7b871df42e346c09fee670ea8dfc11f17083e296ea2b0d279 as recorded in active/binary64/target-build.json",
+    "board": "px4_fmu-v6c_default (STM32H743, Cortex-M7, CONFIG_ARCH_DPFPU=y, CONFIG_BUILD_FLAT=y)"
+  },
+  "paths_to_trace": [
+    "NuttX armv7-m FPU configuration: CPACR, FPCCR (ASPEN, LSPEN), FPDSCR, CONTROL.FPCA writes and any vmsr fpscr",
+    "STM32H7 reset entry (__start) ordering of the FPU configuration call",
+    "NuttX initial task context: the FPSCR value a new task or pthread starts with, and how it reaches the hardware register",
+    "NuttX exception save/restore of FP context on context switch",
+    "NuttX libc (setjmp/longjmp, fenv) and PX4 source, platform and fmu-v6c board code for FPSCR or FPDSCR writes and fenv calls",
+    "PX4 compile flags for -ffast-math, -funsafe-math-optimizations or -Ofast, which make the GCC startfile spec link crtfastmath.o, and the firmware link flags that decide whether startfiles are linked at all",
+    "Toolchain: the startfile spec, what crtfastmath.o does, and which objects in the linked libm.a and libgcc.a write FPSCR"
+  ],
+  "method": "sparse git checkouts of PX4-Autopilot and PX4/NuttX at the exact SHAs in a scratch directory; grep for fpscr, FPSCR, FPDSCR, FPCCR, CPACR, vmsr, fesetround, fesetenv, feenableexcept, ffast-math, funsafe-math-optimizations, Ofast, crtfastmath and nostartfiles; read every hit; arm-none-eabi-gcc -dumpspecs and -### link probes with the pinned link flags; objdump of crtfastmath.o, libm.a and libgcc.a for the thumb/v7e-m+dp/hard multilib; the cached pinned fmu-v6c build directory's compile_commands.json and px4 link rule for effective flags. Every cited file is recorded with its SHA-256 and line numbers.",
+  "decision_rule": {
+    "setting_found": "any traced write that sets FZ, DN or RMode != 00 in FPSCR, or FPDSCR carrying such bits on a path where hardware loads FPDSCR into FPSCR; report which bit, file, line and SHA",
+    "no_setting_found": "every traced write leaves FZ=0, DN=0, RMode=00 and no fast-math startfile is linked",
+    "trace_incomplete": "name each untraced path and why"
+  },
+  "prediction": "no FZ, DN or non-nearest RMode setting on the traced path: PX4 links the firmware with -nostartfiles and compiles without -ffast-math, and NuttX starts each task with FPSCR 0 from its initial exception frame",
+  "limits": "a source trace; no target execution, no hardware register readout, no CPU timing; hardware FPDSCR reset value and the ASPEN dependence of FPDSCR loading are taken from Arm documentation, not from source",
+  "rule": "Registration committed before the result JSON; exploratory reading of the same sources preceded this commit; no existing result file changes."
+}

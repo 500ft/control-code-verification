@@ -1,0 +1,420 @@
+{
+  "conclusion": "no FZ/DN/non-nearest setting found on the traced path",
+  "conclusion_detail": "Every traced write to FPSCR-bearing state leaves FZ=0, DN=0 and RMode=00 (nearest): the pinned NuttX configures CPACR and FPCCR only, never writes FPDSCR, and starts every non-idle task and pthread with FPSCR 0 in its initial hardware exception frame; the pinned PX4 compiles without -ffast-math, -funsafe-math-optimizations or -Ofast and links the firmware with -nostartfiles, so the toolchain startfile spec cannot add crtfastmath.o (the only object that sets FZ); the only FPSCR-writing library members (newlib fenv functions) are unreferenced. The trace is a source and toolchain trace, not a target readout.",
+  "registration_sha256": "d5bdba67bd21d4bd381987d25042413b024da6c73f93c84ee605bf5f6198349b",
+  "sources": {
+    "px4_commit": "c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17",
+    "nuttx_commit": "6e8169b9e1d571df4fbe2282aadc0541092253c6",
+    "nuttx_gitlink_at_px4_commit": "160000 commit 6e8169b9e1d571df4fbe2282aadc0541092253c6\tplatforms/nuttx/NuttX/nuttx",
+    "px4_checkout_head": "c9b9e4e25e57e82fdddd5db7283c3b26fd0afa17",
+    "nuttx_checkout_head": "6e8169b9e1d571df4fbe2282aadc0541092253c6",
+    "checkout_method": "git clone --filter=blob:none --no-checkout, cone sparse-checkout of the traced directories, git checkout <sha>, in a scratch directory",
+    "toolchain": "arm-none-eabi-gcc (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009",
+    "toolchain_archive_sha256_from_target_build": "39c44f8af42695b7b871df42e346c09fee670ea8dfc11f17083e296ea2b0d279",
+    "toolchain_specs_sha256": "dc08f8cc7d0c2342606227d3aa4460014098f6c6e3242a20ca92b985d100cf30",
+    "multilib": "thumb/v7e-m+dp/hard"
+  },
+  "findings": [
+    {
+      "id": "reset_entry_calls_fpuconfig",
+      "role": "boot path",
+      "file": "nuttx/arch/arm/src/stm32h7/stm32_start.c",
+      "sha256": "4d80db8ae42ff343a3fbbb09358301437eff19de163b63dd58ece65e664d02cd",
+      "lines": [
+        250
+      ],
+      "what": "__start calls arm_fpuconfig() after stm32_clockconfig(); the only FPU control call on the STM32H7 reset path",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "fpuconfig_control_fpccr_cpacr",
+      "role": "boot path",
+      "file": "nuttx/arch/arm/src/armv7-m/arm_fpuconfig.c",
+      "sha256": "ab7233e5b479a781043a30cfac35f04b108590a27e89029ddcf99d28fe26154f",
+      "lines": {
+        "CONTROL.FPCA set": [
+          67,
+          68,
+          69
+        ],
+        "FPCCR ASPEN and LSPEN cleared": [
+          76,
+          77,
+          78
+        ],
+        "CPACR CP10/CP11 full access": [
+          82,
+          83,
+          84
+        ]
+      },
+      "what": "writes CONTROL (FPCA=1), FPCCR (ASPEN=0, LSPEN=0) and CPACR; no FPDSCR write and no vmsr fpscr in the file",
+      "bits": {
+        "FPCCR_ASPEN": "1<<31 cleared",
+        "FPCCR_LSPEN": "1<<30 cleared",
+        "CPACR": "CP10 and CP11 set to full"
+      },
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "fpdscr_never_written",
+      "role": "boot path",
+      "file": "nuttx/arch/arm/src/armv7-m/nvic.h",
+      "sha256": "c1d6eadbeb4d9368ad182c49ba21b646ae4750fffa427198d756b29abb41add0",
+      "lines": [
+        229,
+        423
+      ],
+      "what": "NVIC_FPDSCR (offset 0x0f3c) is defined but referenced nowhere else in the traced NuttX directories or PX4",
+      "references_outside_definition": [],
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "initial_task_fpscr_zero",
+      "role": "task-start path",
+      "file": "nuttx/arch/arm/src/armv7-m/arm_initialstate.c",
+      "sha256": "3974da12371df4ae29973aae134e1aae4f4d73e8de7cf28874fb6d9006f08196",
+      "lines": {
+        "xcp memset": [
+          64
+        ],
+        "regs memset": [
+          95
+        ],
+        "REG_FPSCR": [
+          158
+        ]
+      },
+      "what": "up_initial_state zeroes the initial context and sets regs[REG_FPSCR] = 0 under CONFIG_ARCH_FPU; the idle thread (pid 0) returns earlier and keeps the hardware reset FPSCR",
+      "value": "FPSCR = 0x00000000: FZ=0, DN=0, RMode=00 (nearest)",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "fpscr_in_hardware_frame",
+      "role": "task-start path",
+      "file": "nuttx/arch/arm/include/armv7-m/irq.h",
+      "sha256": "9045d44af28a57eaac90efb123fd723fc0101cee0e2360c18332d9de9acd6cd9",
+      "lines": [
+        149
+      ],
+      "what": "REG_FPSCR is at SW_XCPT_REGS + 24, inside the hardware-stacked extended exception frame; with CONTROL.FPCA=1 and ASPEN=0 the processor pops S0-S15 and FPSCR from that frame on every exception return, so a task starts with the FPSCR value written at line 158 of arm_initialstate.c",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "exception_fp_save_restore",
+      "role": "context switch",
+      "file": "nuttx/arch/arm/src/armv7-m/arm_exception.S",
+      "sha256": "f49a87b2f39f29c8bfa31d3f9e52bfc95fc17a8db9a7ba48c5663f26d71ecfb7",
+      "lines": {
+        "save s16-s31": [
+          167
+        ],
+        "restore s16-s31": [
+          220
+        ]
+      },
+      "what": "software saves and restores only S16-S31; S0-S15 and FPSCR travel in the hardware frame; no vmsr",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "svcall_context_switch",
+      "role": "context switch",
+      "file": "nuttx/arch/arm/src/armv7-m/arm_svcall.c",
+      "sha256": "8e8e8e89dbe28deab972046ef29b36d842e37f3d1ef4989c96b413f1b8b0f242",
+      "lines": [
+        161,
+        162
+      ],
+      "what": "SYS_switch_context and SYS_restore_context select the next task register frame; FPSCR is restored by the exception return from that frame",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "task_and_pthread_creation_route",
+      "role": "task-start path",
+      "files": [
+        {
+          "file": "nuttx/sched/task/task_setup.c",
+          "sha256": "a5d38c48c6df3db0acec5d6ff54e035951362476a61c9f42b359a5e0ef34d347",
+          "lines": {
+            "up_initial_state in nxthread_setup_scheduler": [
+              481
+            ],
+            "nxtask_setup_scheduler": [
+              661
+            ],
+            "pthread_setup_scheduler": [
+              695
+            ]
+          }
+        },
+        {
+          "file": "nuttx/sched/pthread/pthread_create.c",
+          "sha256": "ed968b6753ab3950b27ec06e2fb7f2138b709cf9873076586c0aef898bd28920",
+          "lines": [
+            385
+          ]
+        },
+        {
+          "file": "nuttx/sched/init/nx_start.c",
+          "sha256": "072660ab01d88b759a79df08bfb0a77b7179ba97e22e0e041f806657f35537c0",
+          "lines": [
+            471
+          ]
+        }
+      ],
+      "what": "every task (task_create path) and pthread (PX4 work-queue threads) passes through nxthread_setup_scheduler, which calls up_initial_state; nx_start calls it for the idle thread",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "saveusercontext_reads_only",
+      "role": "diagnostics",
+      "file": "nuttx/arch/arm/src/armv7-m/arm_saveusercontext.S",
+      "sha256": "ebb13ddac895a0d9eb06709a31286f6cf04f895dc00afe6e864d4a40c51d2c59",
+      "lines": [
+        87
+      ],
+      "what": "vmrs (read) only; used by assert, coredump and gdbstub",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "setjmp_longjmp_restore_own_value",
+      "role": "libc",
+      "file": "nuttx/libs/libc/machine/arm/arch_setjmp.S",
+      "sha256": "2447291264ab0827f079ab23a08220b8a8b6c9a36b73c0b0547eb651440e66e2",
+      "lines": {
+        "vmrs save": [
+          100
+        ],
+        "vmsr restore": [
+          170
+        ]
+      },
+      "what": "longjmp restores the FPSCR that setjmp saved in the same context; it introduces no new bits",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "nuttx_vmsr_and_fenv_grep",
+      "role": "libc and kernel",
+      "directories": [
+        "arch/arm/src/armv7-m",
+        "arch/arm/src/stm32h7",
+        "arch/arm/src/common",
+        "arch/arm/include/armv7-m",
+        "libs/libc",
+        "libs/libxx",
+        "sched",
+        "include"
+      ],
+      "hits": [
+        "arch/arm/src/armv7-m/nvic.h:229:#define NVIC_FPDSCR_OFFSET              0x0f3c /* Floating-point Default Status Control Register */",
+        "arch/arm/src/armv7-m/nvic.h:423:#define NVIC_FPDSCR                     (ARMV7M_NVIC_BASE + NVIC_FPDSCR_OFFSET)",
+        "libs/libc/machine/arm/arch_setjmp.S:170:\tvmsr\t\tfpscr, r2\t\t\t/* Restore the FPSCR */"
+      ],
+      "what": "the only vmsr in the traced NuttX directories is the setjmp restore; no fesetround, fesetenv or feenableexcept",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "kconfig_fpu_defaults",
+      "role": "configuration",
+      "file": "nuttx/arch/Kconfig",
+      "sha256": "b605a562c13e303402be353fb401bc71864e46189a72e1d626f8355032363d3b",
+      "lines": {
+        "ARCH_FPU default y": [
+          655
+        ],
+        "ARCH_DPFPU default y": [
+          663
+        ],
+        "ARCH_LAZYFPU": [
+          679
+        ]
+      },
+      "board_defconfig": {
+        "file": "px4/boards/px4/fmu-v6c/nuttx-config/nsh/defconfig",
+        "sha256": "07efb55c5c3c3d93e9a3681d49c93bb74cb1da58b215b86ea3b0fef4c27c8223",
+        "fpu_lines": []
+      },
+      "cached_build_config": {
+        "path": "/Users/redhose/.cache/control-code-verification/px4-build/build/px4_fmu-v6c_default/NuttX/nuttx/.config",
+        "sha256": "e8f28ebea6719e4d04d3b87bf760d549241c44aec3f4abaa432d1f101a744b2d",
+        "symbols": {
+          "CONFIG_ARCH_FPU": "CONFIG_ARCH_FPU=y",
+          "CONFIG_ARCH_DPFPU": "CONFIG_ARCH_DPFPU=y",
+          "CONFIG_ARCH_LAZYFPU": "absent",
+          "CONFIG_BUILD_FLAT": "CONFIG_BUILD_FLAT=y",
+          "CONFIG_LIBM_TOOLCHAIN": "CONFIG_LIBM_TOOLCHAIN=y",
+          "CONFIG_HAVE_CXXINITIALIZE": "CONFIG_HAVE_CXXINITIALIZE=y"
+        },
+        "note": "this hash does not equal config_sha256 in target-build.json; the cached build directory was reconfigured after the restored CMake file, and the relevant symbols are checked directly here"
+      },
+      "armv7m_lazyfpu_references": [],
+      "what": "ARCH_FPU and ARCH_DPFPU default to y and are set; the defconfig has no FPU line; ARCH_LAZYFPU is not available on armv7-m and arm_fpuconfig.c has no lazy branch",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "px4_grep",
+      "role": "PX4 source, platform and board",
+      "hits": [
+        "platforms/nuttx/CMakeLists.txt:168:\t\t-nostartfiles",
+        "platforms/nuttx/CMakeLists.txt:214:\t\t-nostartfiles",
+        "platforms/nuttx/CMakeLists.txt:309:\t\t-nostartfiles",
+        "platforms/nuttx/CMakeLists.txt:367:\t\t-nostartfiles",
+        "cmake/px4_add_common_flags.cmake:54:\t\t#-funsafe-math-optimizations # Enables -fno-signed-zeros, -fno-trapping-math, -fassociative-math and -freciprocal-math",
+        "src/lib/systemlib/hardfault_log.h:300:\tuint32_t fpscr;",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:829:  \\brief   Get FPSCR",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:833:__STATIC_FORCEINLINE uint32_t __get_FPSCR(void)",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:837:#if __has_builtin(__builtin_arm_get_fpscr) ",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:841:  return __builtin_arm_get_fpscr();",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:845:  __ASM volatile (\"VMRS %0, fpscr\" : \"=r\" (result) );",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:855:  \\brief   Set FPSCR",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:857:  \\param [in]    fpscr  Floating Point Status/Control value to set",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:859:__STATIC_FORCEINLINE void __set_FPSCR(uint32_t fpscr)",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:863:#if __has_builtin(__builtin_arm_set_fpscr)",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:867:  __builtin_arm_set_fpscr(fpscr);",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:869:  __ASM volatile (\"VMSR fpscr, %0\" : : \"r\" (fpscr) : \"vfpcc\", \"memory\");",
+        "src/modules/gyro_fft/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h:872:  (void)fpscr;"
+      ],
+      "set_fpscr_callers_outside_cmsis_header": [],
+      "gyro_fft_in_fmu_v6c_module_list": false,
+      "gyro_fft_in_px4board": false,
+      "what": "no FPSCR or FPDSCR write in PX4: hardfault_log.h declares a crash-dump field, cmsis_gcc.h in gyro_fft defines __set_FPSCR with no caller and that module is not in the fmu-v6c build; no fenv call; the only nostartfiles hits are the firmware link definitions",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "px4_common_flags",
+      "role": "compile flags",
+      "file": "px4/cmake/px4_add_common_flags.cmake",
+      "sha256": "20de4da22f4f639f2f27c7a0af6aaf374b6d7a9ca2a6c82245a01cf48255cdca",
+      "lines": {
+        "commented -funsafe-math-optimizations": [
+          54
+        ],
+        "-fno-signed-zeros": [
+          55
+        ],
+        "-fno-trapping-math": [
+          56
+        ],
+        "-freciprocal-math": [
+          58
+        ],
+        "-fno-math-errno": [
+          60
+        ]
+      },
+      "what": "the common flags enable individual fast-math sub-options but not -ffast-math, -funsafe-math-optimizations or -Ofast; only those three trigger the startfile crtfastmath.o rule",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "px4_firmware_link_flags",
+      "role": "link",
+      "file": "px4/platforms/nuttx/CMakeLists.txt",
+      "sha256": "41ee4fbc7a837828bd1741a17f0f2a07103c399185dfb7f10e06ca7e39ff5dec",
+      "lines": {
+        "target_link_libraries(px4 PRIVATE": [
+          93,
+          212,
+          236,
+          238,
+          308,
+          336,
+          339,
+          342,
+          365,
+          389,
+          392,
+          396
+        ],
+        "-nostartfiles": [
+          168,
+          214,
+          309,
+          367
+        ]
+      },
+      "toolchain_cmake": {
+        "file": "px4/platforms/nuttx/cmake/Toolchain-arm-none-eabi.cmake",
+        "sha256": "3faeb18f4376de8677516a32d83c32e3049248777fb4c236e8c751aaaac68d78",
+        "lines": [
+          19
+        ]
+      },
+      "effective_cached_build_link": {
+        "build_ninja_sha256": "47b82bbd1c34d4d6c058db6202ac136f63c91d4307de4e2dd6668444a13b2ead",
+        "line": 43528,
+        "text_head": "LINK_LIBRARIES = -nostartfiles -nodefaultlibs -nostdlib -nostdinc++ -fno-exceptions -fno-rtti -Wl,--script=/Users/redhose/.cache/control-code-verification/px4-build/boards/px4/fmu-v6c/nuttx-config/scripts/script.ld -L/Users/redhose/.cache/control-code-verification/px4-build/boards/px4/fmu-v6c/nuttx-config/scripts -Wl,-Map=px4_fmu-v6c_default.map -Wl,--warn-common ... -lm -lgcc -lm -lgcc"
+      },
+      "what": "the flat ARM firmware link uses -nostartfiles -nodefaultlibs -nostdlib with -lm -lgcc and --specs=nosys.specs; -nostartfiles suppresses the startfile spec entirely",
+      "sets_fz_dn_rmode": false
+    },
+    {
+      "id": "cached_build_compile_commands",
+      "role": "effective compile flags",
+      "path": "/Users/redhose/.cache/control-code-verification/px4-build/build/px4_fmu-v6c_default/compile_commands.json",
+      "sha256": "e943a1009cc94115cb7a245f615215153527284a0cce5837642ab844a2554189",
+      "entries": 960,
+      "flag_counts": {
+        "-ffast-math": 0,
+        "-funsafe-math-optimizations": 0,
+        "-Ofast": 0,
+        "-fno-fast-math": 0,
+        "-mfpu=fpv5-d16": 960,
+        "-mfloat-abi=hard": 960
+      },
+      "what": "no translation unit in the pinned fmu-v6c configure carries -ffast-math, -funsafe-math-optimizations or -Ofast",
+      "sets_fz_dn_rmode": false
+    }
+  ],
+  "toolchain_probes": {
+    "startfile_spec": "%{Ofast|ffast-math|funsafe-math-optimizations:%{!shared:crtfastmath.o%s}}  crti%O%s crtbegin%O%s crt0%O%s",
+    "crtfastmath_o": {
+      "path": "/Users/redhose/.cache/control-code-verification/toolchains/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+dp/hard/crtfastmath.o",
+      "sha256": "475460748f24deef78815aafd974e769b4923acc4022c6b4236ef4a2794fb077",
+      "disassembly": [
+        "0:\teef1 3a10 \tvmrs\tr3, fpscr",
+        "4:\tf043 7380 \torr.w\tr3, r3, #16777216\t@ 0x1000000",
+        "8:\teee1 3a10 \tvmsr\tfpscr, r3"
+      ],
+      "what": "__arm_set_fast_math ORs bit 24 (FZ) into FPSCR; it runs only if the object is linked and its constructor executes"
+    },
+    "link_probe_crtfastmath_count": {
+      "pinned flags (-nostartfiles -nodefaultlibs -nostdlib)": 0,
+      "pinned flags plus -ffast-math": 0,
+      "control: -ffast-math without -nostartfiles": 1,
+      "control: neither": 0
+    },
+    "libm_a": {
+      "path": "/Users/redhose/.cache/control-code-verification/toolchains/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi/arm-none-eabi/lib/thumb/v7e-m+dp/hard/libm.a",
+      "sha256": "bb1ffe119c1adab1d337dd9e09728be7534586d9d0412a46ac274d3ac4b3d571",
+      "functions_with_vmsr": {
+        "feclearexcept": 1,
+        "fegetexceptflag": 1,
+        "feholdexcept": 1,
+        "fesetenv": 1,
+        "fesetexceptflag": 1,
+        "fesetround": 1,
+        "feupdateenv": 1,
+        "feenableexcept": 1,
+        "fedisableexcept": 1
+      },
+      "what": "only the newlib fenv functions write FPSCR; none is referenced by PX4 or the traced NuttX directories, and an unreferenced static archive member is not linked"
+    },
+    "libgcc_a": {
+      "path": "/Users/redhose/.cache/control-code-verification/toolchains/arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi/lib/gcc/arm-none-eabi/13.2.1/thumb/v7e-m+dp/hard/libgcc.a",
+      "sha256": "5c5c2148a69ad8215e1977f719e6ff7e873e63c01810f3e9e1b42120c1ead98e",
+      "functions_with_vmsr": {}
+    }
+  },
+  "documentation_derived_not_source": {
+    "fpdscr_reset_value": "Arm Cortex-M7 Devices Generic User Guide (DUI 0646) lists FPDSCR with reset value 0x00000000; this trace did not read the register",
+    "fpdscr_use": "ARMv7-M Architecture Reference Manual (DDI 0403): the processor copies FPDSCR into FPSCR when it creates a new floating-point context under automatic state preservation (FPCCR.ASPEN=1); the pinned NuttX clears ASPEN, so FPDSCR is not consulted on this path even if it were nonzero",
+    "extended_frame_restore": "ARMv7-M Architecture Reference Manual (DDI 0403): exception return with an extended frame (EXC_RETURN bit 4 clear) restores S0-S15 and FPSCR from the stack when FPCCR.LSPEN=0"
+  },
+  "not_traced": [
+    "whole-firmware instruction scan: the full px4_fmu-v6c_default.elf link in the cached build directory failed (flock missing on this host for the NuttX apps archive step, then unresolved nsh symbols from the partial apps archive); the cached checkout was not cleaned, so no linked ELF was disassembled for vmsr instructions",
+    "the idle thread: up_initial_state returns before setting registers for pid 0, so it runs with the hardware reset FPSCR; no PX4 module thread runs on the idle thread",
+    "interrupt handlers execute with the interrupted context live FPSCR and could alter cumulative exception flags, not FZ, DN or RMode, on the traced sources; no handler was individually read",
+    "runtime: no register readout, target execution or CPU timing"
+  ],
+  "would_change_conclusion": "any traced write that sets FZ (bit 24), DN (bit 25) or RMode (bits 23:22) nonzero, a firmware link without -nostartfiles while a fast-math flag is present, a referenced fenv function, or a target readout of FPSCR showing such bits in the rate-control thread"
+}
