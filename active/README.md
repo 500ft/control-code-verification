@@ -30,13 +30,13 @@ segment. The one-step local error on the tie case is smaller; this result does
 not claim a local-error violation.
 
 A [separate closed-form calculation](check_counterexample.py) verifies the cause.
-For `x0=1`, `u=8` and `dt=513/33554432 s`, the exact symmetric slew increment
-is `2 dt = 513/16777216 rad/s`, or 256.5 binary32 ulps while the state is in
-`[1,2)`. Each generated-C addition rounds to 256 ulps by ties-to-even; the
+For $x_0 = 1$, $u = 8$ and $dt = 513/33554432$ s, the exact symmetric slew increment
+is $2\,dt = 513/16777216$ rad/s, or 256.5 binary32 ulps while the state is in
+$[1,2)$. Each generated-C addition rounds to 256 ulps by ties-to-even; the
 mantissa remains even on the next step. Exact intent advances 256.5 ulps.
-Neither the slew nor the state cap stops this prefix. After `n` steps the
-absolute error is `n/16777216 rad/s`. The registered first crossing is the
-least integer `n` for which that fraction exceeds the ceiling. The negative
+Neither the slew nor the state cap stops this prefix. After $n$ steps the
+absolute error is $n/16777216$ rad/s. The registered first crossing is the
+least integer $n$ for which that fraction exceeds the ceiling. The negative
 sequence is symmetric. A continuous 30-minute run can contain this prefix
 without any reset, so a pointwise ceiling for every such segment is refuted.
 The calculation does not simulate the entire 30-minute run.

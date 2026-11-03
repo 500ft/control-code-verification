@@ -17,11 +17,11 @@ paused in [px4-failsafe-differential-testing](https://github.com/500ft/px4-fails
 
 | Material | Source / redistribution record |
 | --- | --- |
-| Intent, reference, verifier, plotting code and synthetic development traces | Existing owner-authored staging history; published under the owner's instruction. No blanket project license is added by this task. |
+| Intent, reference, verifier, figure code and synthetic development traces | Existing owner-authored staging history; published under the owner's instruction. No blanket project license is added by this task. |
 | Generated C and headers | CasADi notices retained in every generated file: runtime content, MIT-0 template code and user-owned code are distinguished. [Code-generation documentation](https://web.casadi.org/docs/#generating-c-code). |
 | CasADi and NumPy | Installed from the versions in [requirements.txt](requirements.txt), not vendored or redistributed here. [CasADi package record](https://pypi.org/project/casadi/3.8.1/), [NumPy package record](https://pypi.org/project/numpy/2.5.3/). |
 | Numerical result and traces | Original [result](evidence/results.json) identifies compiler, package versions, generated source, binary and trace hashes. Original compiler paths are retained as execution provenance; those host directories are not included. |
-| Scientific figures | [Manifest](figures/figure.json) records data, config, generator and style-helper hashes for the live figure; [evidence/figure.json](evidence/figure.json) keeps the frozen 2026-10-09 figure's record. [figure_style.py](figure_style.py) sets the shared figure rules. The owner's enclosure reference informed the earlier styling. No enclosure data is included. |
+| Scientific figures | [Manifest](figures/figure.json) records data, config, MATLAB generator and helper hashes for the live figure; [evidence/figure.json](evidence/figure.json) keeps the frozen 2026-10-09 figure's record. [figures/matlab](figures/matlab/README.md) holds the MATLAB R2025b scripts and the shared figure rules in `fig_style.m`. MATLAB itself is not redistributed. The owner's enclosure reference informed the earlier styling. No enclosure data is included. |
 | Prior-work references | [references.bib](references.bib) holds the Conrad 2009 and Stürmer, Weinberg and Conrad 2005 entries cited in the README prior-work section, copied from the 2026-10-09 literature review. |
 
 No PX4 source, public flight logs, credentials or third-party datasets are

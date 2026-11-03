@@ -1,8 +1,9 @@
-"""Plot committed development observations only; no simulation or holdout reads.
+"""Caption and manifest for the MATLAB core-qualification figure.
 
-The canvas shows only the stored traces. Everything in words, including the
-conditions and the finding, is written by ``caption()`` to a file beside the
-image and copied into the README under it.
+MATLAB draws the figure from the committed traces; see figures/matlab/README.md.
+This script reads the same files, checks every statement the caption makes,
+writes the caption beside the image and records the input and output hashes
+in figures/figure.json. It draws nothing and needs only the standard library.
 """
 import csv
 import hashlib
@@ -11,14 +12,6 @@ import math
 from fractions import Fraction
 from pathlib import Path
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
-from matplotlib.ticker import NullLocator
-
-import figure_style as style
-
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / 'evidence/traces.csv'
 CONFIG = ROOT / 'spec.json'
@@ -26,14 +19,14 @@ CONFIG = ROOT / 'spec.json'
 # 2026-10-09 figure recorded in evidence/figure.json and is never rewritten.
 OUT = ROOT / 'figures'
 STEM = OUT / 'core-qualification'
+MATLAB = OUT / 'matlab'
+GENERATOR = MATLAB / 'make_core_qualification.m'
+HELPERS = ('render_figures.m', 'fig_style.m', 'export_pair.m')
 TRACES = ('reversal', 'constant_unsaturated')
 FIELDS = ('time_s', 'input_rad_s', 'dt_s', 'intent_rad_s', 'c_rad_s', 'abs_error_rad_s', 'bound_rad_s')
-LETTERS = 'abcd'
-XLABEL, YLABELS = 'Elapsed time [s]', ('Commanded rate [rad/s]', 'Absolute error [rad/s]')
-
-# Layout in inches: 183 mm wide, two rows of two panels, legend above.
-WIDTH, HEIGHT = 7.2, 4.8
-MARGINS = {'left': .09, 'right': .99, 'top': .88, 'bottom': .09, 'wspace': .12, 'hspace': .5}
+OUTPUTS = ('core-qualification.png', 'core-qualification.pdf')
+MATLAB_RELEASE = 'R2025b'
+COMMAND = 'matlab -batch "addpath(\'figures/matlab\'); render_figures" && python3 plot.py'
 
 
 def load():
@@ -50,7 +43,7 @@ def load():
 
 
 def facts(data: dict, spec: dict) -> dict:
-    """Validated inputs shared by the figure and its caption; every number is read, not typed."""
+    """Validated inputs for the caption; every number is read, not typed."""
     variants = spec['variants']
     reversal, constant = (data[name] for name in TRACES)
     limit = spec['domain']['state_abs_max']
@@ -103,17 +96,17 @@ def caption(data: dict, spec: dict) -> str:
         f"is unqualified. Panels (a) and (b) show the reversal trace for the {taus} "
         f"variants: {f['reversal_steps']} steps of dt = {f['dt']} s, input "
         f"{f['input_before']:+g} rad/s, then {f['input_after']:+g} rad/s from "
-        f"t = {f['switch_t']:g} s. The dashed line is the exact rational intent and the "
-        "solid line with circles is the binary32 compiled C output; the two agree at "
-        f"every step, so the solid line lies on the dashed one. Crosses mark the "
+        f"t = {f['switch_t']:g} s. The thick blue line is the exact rational intent and the "
+        "thin orange line with dots is the binary32 compiled C output; the two agree at "
+        "every step, so the orange line lies on the blue one. Hollow circles mark the "
         f"{len(f['clamp_times'])} steps per variant ({clamp}) where the state reaches the "
-        f"rate clamp of {f['limit']:g} rad/s in magnitude. Their uncertainty interval touches "
-        "the branch threshold, so the branch requirement stays open; all implementations "
-        "took the same branch at these steps. Panels (c) and (d) show the constant-input "
-        f"trace, {f['constant_steps']} steps of dt = {f['dt']} s at {f['constant_input']:g} "
-        "rad/s, on a log scale: the solid line with circles is the absolute error of "
-        "compiled C against exact intent and the dash-dot line is the deterministic "
-        "worst-case bound from NUMERICS.md. The error stays at least "
+        f"rate clamp of {f['limit']:g} rad/s in magnitude, drawn as dotted grey lines. Their "
+        "uncertainty interval touches the branch threshold, so the branch requirement stays "
+        "open; all implementations took the same branch at these steps. Panels (c) and (d) "
+        f"show the constant-input trace, {f['constant_steps']} steps of dt = {f['dt']} s at "
+        f"{f['constant_input']:g} rad/s, on a log scale: the orange line with dots is the "
+        "absolute error of compiled C against exact intent and the blue line is the "
+        "deterministic worst-case bound from NUMERICS.md. The error stays at least "
         f"{margins} below the bound. Both variants use slew limits "
         f"{f['slew_up']:+g} and {-f['slew_down']:+g} rad/s² and the same rate clamp. Each row "
         "shares its y axis across the two variants. Source: evidence/traces.csv "
@@ -121,58 +114,30 @@ def caption(data: dict, spec: dict) -> str:
     )
 
 
-def figure(data: dict, spec: dict):
-    facts(data, spec)
-    variants = list(spec['variants'])
-    style.apply('core-qualification')
-    fig, axes = plt.subplots(2, 2, figsize=(WIDTH, HEIGHT), sharey='row')
-    fig.subplots_adjust(**MARGINS)
-    for col, variant in enumerate(variants):
-        top, bottom = axes[0, col], axes[1, col]
-        d = data['reversal'][variant]
-        top.plot(d['time_s'], d['intent_rad_s'], zorder=2, **style.SERIES['exact_intent'])
-        top.plot(d['time_s'], d['c_rad_s'], markevery=16, zorder=3, **style.SERIES['compiled_c'])
-        flagged = [(t, c) for t, c, f in zip(d['time_s'], d['c_rad_s'], d['issue']) if f]
-        top.plot(*zip(*flagged), zorder=4, **style.SERIES['clamp_step'])
-        top.set(xlim=(-0.16, 8.16), ylim=(-2.4, 2.4), xticks=range(0, 9, 2), yticks=[-2, -1, 0, 1, 2])
-
-        d = data['constant_unsaturated'][variant]
-        bottom.plot(d['time_s'], d['abs_error_rad_s'], markevery=8, zorder=3, **style.SERIES['compiled_c'])
-        bottom.plot(d['time_s'], d['bound_rad_s'], zorder=2, **style.SERIES['bound'])
-        bottom.set(yscale='log', ylim=(5e-11, 2e-4), xlim=(-0.04, 2.04), xticks=[0, .5, 1, 1.5, 2])
-        bottom.yaxis.set_minor_locator(NullLocator())
-    for row, label in enumerate(YLABELS):
-        axes[row, 0].set_ylabel(label)
-    for i, ax in enumerate(axes.flat):
-        ax.set_xlabel(XLABEL)
-        ax.tick_params(length=3)
-        ax.text(0, 1.04, f'({LETTERS[i]})', transform=ax.transAxes, ha='left', va='bottom',
-                size=style.LETTER_SIZE)
-    handles = [Line2D([], [], **style.SERIES[key]) for key in style.SERIES]
-    fig.legend(handles=handles, loc='upper center', bbox_to_anchor=(.5, .995), ncol=len(handles),
-               columnspacing=1.4, handletextpad=.5, handlelength=2.6, borderaxespad=0)
-    return fig
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def main():
-    data, spec = load()
-    OUT.mkdir(exist_ok=True)
-    fig = figure(data, spec)
-    outputs = style.save(fig, STEM)
-    plt.close(fig)
-    STEM.with_suffix('.caption.md').write_text(caption(data, spec) + '\n')
-    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-    (OUT / 'figure.json').write_text(json.dumps({
+def manifest() -> dict:
+    outputs = {name: sha(OUT / name) for name in OUTPUTS}
+    return {
         'source': 'evidence/traces.csv', 'source_sha256': sha(SOURCE),
         'config_sha256': sha(CONFIG),
-        'generator_sha256': sha(Path(__file__)),
-        'style_helper': 'figure_style.py', 'style_helper_sha256': sha(ROOT / 'figure_style.py'),
-        'command': 'python3 plot.py', 'matplotlib': matplotlib.__version__,
+        'generator': 'figures/matlab/make_core_qualification.m', 'generator_sha256': sha(GENERATOR),
+        'helpers': {f'figures/matlab/{h}': sha(MATLAB / h) for h in HELPERS},
+        'caption_writer': 'plot.py', 'caption_writer_sha256': sha(Path(__file__)),
+        'command': COMMAND, 'matlab': MATLAB_RELEASE,
         'figure_sha256': outputs['core-qualification.png'], 'outputs': outputs,
         'caption': 'figures/core-qualification.caption.md',
         'selected_traces': list(TRACES),
         'frozen_predecessor': 'evidence/figure.json',
-    }, indent=2) + '\n')
+    }
+
+
+def main():
+    data, spec = load()
+    STEM.with_suffix('.caption.md').write_text(caption(data, spec) + '\n')
+    (OUT / 'figure.json').write_text(json.dumps(manifest(), indent=2) + '\n')
 
 
 if __name__ == '__main__':

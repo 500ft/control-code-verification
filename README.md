@@ -123,39 +123,44 @@ CI checks the detail and retains each execution's compiler/binary identity.
 
 ## Figure
 
-![Four panels in black ink. (a) and (b): on the reversal trace the compiled C line with circles lies on the dashed exact intent for the zero-reset and tracking-reset variants, with crosses at the two steps where the state reaches the rate clamp. (c) and (d): on the constant-input trace the compiled C error stays far below the dash-dot analytical bound](figures/core-qualification.png)
+![Four panels. (a) and (b): on the reversal trace the thin orange compiled C line with dots lies on the thick blue exact intent for the zero-reset and tracking-reset variants, with hollow circles at the two steps where the state reaches the dotted rate clamp. (c) and (d): on the constant-input trace the orange compiled C error stays far below the blue worst-case bound](figures/core-qualification.png)
 
 Numerical core qualification on the frozen development traces; integration is
-unqualified. Panels (a) and (b) show the reversal trace for the zero-reset (time
-constant 0.125 s) and tracking-reset (time constant 0.25 s) variants: 256 steps
-of dt = 1/32 s, input -8 rad/s, then +8 rad/s from t = 4 s. The dashed line is
-the exact rational intent and the solid line with circles is the binary32
-compiled C output; the two agree at every step, so the solid line lies on the
-dashed one. Crosses mark the 2 steps per variant (t = 2 s and t = 5 s) where the
-state reaches the rate clamp of 2 rad/s in magnitude. Their uncertainty interval
-touches the branch threshold, so the branch requirement stays open; all
-implementations took the same branch at these steps. Panels (c) and (d) show the
-constant-input trace, 64 steps of dt = 1/32 s at 0.5 rad/s, on a log scale: the
-solid line with circles is the absolute error of compiled C against exact intent
-and the dash-dot line is the deterministic worst-case bound from NUMERICS.md.
-The error stays at least 324 times (zero-reset) and 897 times (tracking-reset)
-below the bound. Both variants use slew limits +4 and -2 rad/s² and the same
-rate clamp. Each row shares its y axis across the two variants. Source:
-evidence/traces.csv (traces reversal and constant_unsaturated) and spec.json.
+unqualified. Panels (a) and (b) show the reversal trace for the zero-reset
+(time constant 0.125 s) and tracking-reset (time constant 0.25 s) variants: 256
+steps of dt = 1/32 s, input -8 rad/s, then +8 rad/s from t = 4 s. The thick
+blue line is the exact rational intent and the thin orange line with dots is
+the binary32 compiled C output; the two agree at every step, so the orange line
+lies on the blue one. Hollow circles mark the 2 steps per variant (t = 2 s and
+t = 5 s) where the state reaches the rate clamp of 2 rad/s in magnitude, drawn
+as dotted grey lines. Their uncertainty interval touches the branch threshold,
+so the branch requirement stays open; all implementations took the same branch
+at these steps. Panels (c) and (d) show the constant-input trace, 64 steps of
+dt = 1/32 s at 0.5 rad/s, on a log scale: the orange line with dots is the
+absolute error of compiled C against exact intent and the blue line is the
+deterministic worst-case bound from NUMERICS.md. The error stays at least 324
+times (zero-reset) and 897 times (tracking-reset) below the bound. Both
+variants use slew limits +4 and -2 rad/s² and the same rate clamp. Each row
+shares its y axis across the two variants. Source: evidence/traces.csv (traces
+reversal and constant_unsaturated) and spec.json.
 
 [Caption](figures/core-qualification.caption.md) ·
-[Download SVG](figures/core-qualification.svg) · [Full trace CSV](evidence/traces.csv) ·
-[Figure inputs, output hashes and Matplotlib version](figures/figure.json).
-Regenerate only the figure with `python3 plot.py` in an environment with
-Matplotlib. No qualification runner or withheld cases are read. The Matplotlib
-version in the manifest reproduces the committed PNG and SVG bytes.
-[figure_style.py](figure_style.py) holds the shared type, line-style, marker and
-file settings and an audit that refuses to save when anything printed touches
-anything else; [test_figure.py](test_figure.py) checks the plotted values
-against the trace CSV and the caption against this paragraph. The canvas
-carries only data, axes, panel letters and one legend; every title, condition
-and number moved to the caption under the owner's 2026-10-16 figure-rules
-instruction. The 2026-10-09 figure stays frozen at
+[Download PDF](figures/core-qualification.pdf) · [Full trace CSV](evidence/traces.csv) ·
+[Figure inputs, output hashes and MATLAB release](figures/figure.json).
+MATLAB R2025b draws the figure from the committed trace CSV and spec.json with
+[figures/matlab/make_core_qualification.m](figures/matlab/make_core_qualification.m).
+From the repository root, run
+`matlab -batch "addpath('figures/matlab'); render_figures"`, then
+`python3 plot.py` to rewrite the caption and the manifest.
+[figures/matlab/README.md](figures/matlab/README.md) lists every output.
+No qualification runner or withheld cases are read.
+[plot.py](plot.py) checks every caption statement against the traces and
+[test_figure.py](test_figure.py) checks the caption against this paragraph,
+the manifest hashes and the typeset result tables against their text form.
+The canvas carries only data, axes, panel letters and direct labels; every
+condition and number sits in the caption under the owner's 2026-10-16
+figure-rules instruction. The owner's 2026-11-02 request moved the figure
+to MATLAB and LaTeX type. The 2026-10-09 figure stays frozen at
 [evidence/core-qualification.png](evidence/core-qualification.png) with its
 manifest [evidence/figure.json](evidence/figure.json); the generator it records
 is in git history. Numerical values and bounds are unchanged.

@@ -4,14 +4,26 @@
 Sources: [pilot](pilot-summary.json), [randomized scale](campaign-summary.json),
 [independent recount and examples](independent-review.json), [cross-compiler](cross-summary.json).
 
+Each typeset table is drawn by [the MATLAB table writer](../../figures/matlab/make_observational_tables.m) from the same files; its text form sits below it.
+
+![Stage summary: traces, steps and run cost for the pilot and the randomized development run](../../figures/observational-stages.png)
+
+<details><summary>Table as text</summary>
+
 | Stage | Completed traces | Exact-covered steps | Signed-zero difference steps | Exact/rounded branch-difference steps | Branch-affected traces | Bound violations | Runtime (s) | Peak RSS (MiB) |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Directed + random pilot | 160 | 6,528 | 2 | 46 | 8 | 0 | 1.518 | 41.34 |
 | Randomized development | 6,144 | 1,572,864 | 0 | 8,316 | 1,016 | 0 | 227.619 | 128.77 |
 
+</details>
+
 Signed-zero counts compare C and binary32 on a common prior state. Independent
 rollouts give the same counts here. Both stages completed every admitted trace;
 no invalid or unclassified trace was omitted. Steps within a trace are dependent.
+
+![Randomized development by variant and stratum: traces, steps and branch differences](../../figures/observational-strata.png)
+
+<details><summary>Table as text</summary>
 
 | Variant / stratum | Traces | Steps | Branch-difference steps | Branch-affected traces |
 | :--- | ---: | ---: | ---: | ---: |
@@ -28,6 +40,12 @@ no invalid or unclassified trace was omitted. Steps within a trace are dependent
 | tracking_reset/smooth_growth | 512 | 131,072 | 0 | 0 |
 | tracking_reset/tiny_values | 512 | 131,072 | 0 | 0 |
 
+</details>
+
+![Discrepancy classes: step and trace counts for the pilot and the randomized run](../../figures/observational-classes.png)
+
+<details><summary>Table as text</summary>
+
 | Discrepancy class | Pilot steps | Pilot traces | Randomized steps | Randomized traces |
 | :--- | ---: | ---: | ---: | ---: |
 | signed_zero_common | 2 | 2 | 0 | 0 |
@@ -39,3 +57,5 @@ no invalid or unclassified trace was omitted. Steps within a trace are dependent
 | branch_requirement | 46 | 8 | 8,316 | 1,016 |
 | numeric_bound | 0 | 0 | 0 | 0 |
 | unclassified | 0 | 0 | 0 | 0 |
+
+</details>
