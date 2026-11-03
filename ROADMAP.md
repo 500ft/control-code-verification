@@ -176,6 +176,13 @@ publisher rules before collecting wrapper results.
   need separately authorized measurements.
 - For each admitted boundary, demonstrate detection of a justified known defect
   and record setup and execution cost separately.
+- Done in development: the [first detection-cost datum](evidence/detection-cost/README.md)
+  replayed both retained binary32 active counterexample inputs through the
+  registered 256-step comparison loop and the directed long-horizon cases
+  (#15, 2026-10-23). The 256-step comparison crossed the ceiling on neither
+  input; the directed cases reproduced both retained crossings. The
+  [result](evidence/detection-cost/results.json) owns the steps, evaluation
+  counts and wall-clock. One host, one timing run; no boundary is admitted.
 
 Completion evidence: resolved review findings, common frozen inputs, known-good and
 known-defect outcomes, exclusions, reproducible comparison logs and cost records

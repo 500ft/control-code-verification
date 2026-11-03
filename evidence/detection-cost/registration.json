@@ -1,0 +1,41 @@
+{
+  "registered_before_execution": true,
+  "parent_main": "862d3482c55a1d9d28d03e1312a84e77265578ce",
+  "question": "For each retained binary32 active counterexample input, does the original registered 256-step back-to-back comparison detect the continuous-ceiling violation, and does the directed long-horizon case that found it, at what execution cost on one host?",
+  "inputs": {
+    "continuous_ceiling_tie": "active/directed.json case positive_tie_accumulation: x0 1, u 8, dt 513/33554432 s, 24576 registered steps",
+    "px4_timestamp_gap": "active/px4_domain/directed.json case half_ulp_near_min: x0 5/4, commands +8/-8 alternating, 125/126 microsecond gaps through the compiled binary32 dt bits recorded in active/px4_domain/results.json, 50000 repetitions (100000 steps)"
+  },
+  "implementation_under_test": "active/generated/active_symmetric.c compiled with the active/qualify.py flags; exact intent and binary32 reference from core.py with tau 1/4, slew 2/2, state limit 2",
+  "boundaries": {
+    "registered_horizon_b2b": "the qualify.py per-step loop (two exact-intent evaluations, one binary32 reference, isolated and stateful compiled calls, bitwise C/reference assertions, local 32u step bound, accumulated horizon bound, branch threshold inspection) for the first 256 steps of each input",
+    "directed_long_horizon": "the active/qualify.py loop over all 24576 registered steps for the tie input, and the active/px4_domain/run.py loop stopping at the first failure for the gap input"
+  },
+  "detection_criterion": "absolute next-state error against exact intent exceeds the registered 0.001065 rad/s ceiling from active/spec.json; the step of first crossing is recorded",
+  "recorded_per_boundary": [
+    "ceiling crossed",
+    "first crossing step and error",
+    "steps executed",
+    "exact-intent, binary32 reference and compiled evaluations",
+    "wall-clock on the executing host, loop only, compile time separate"
+  ],
+  "prediction": {
+    "registered_horizon_b2b": "neither input crosses the ceiling within 256 steps. Tie input: absolute error after 256 steps is 256/16777216 = 1/65536 rad/s by the retained closed form in active/README.md. Gap input: about 3.4e-6 rad/s by linear extrapolation of the retained crossing (0.001065 rad/s at step 80161); an estimate, not a closed form. The original 256-step horizon bound (32 u per step) is not exceeded and C matches the binary32 reference bitwise on every step.",
+    "directed_long_horizon": "the tie input crosses at step 17868 with absolute error 4467/4194304 rad/s and the gap input at step 80161 with absolute error 36593663/34359738368 rad/s, equal to the retained results; C matches the binary32 reference on every step."
+  },
+  "would_change_conclusion": "a crossing inside the 256-step window, a directed crossing step or error different from the retained value, or any C/reference bitwise mismatch",
+  "host": "the macOS host that executes run.py; identity recorded in results.json",
+  "pinned_sha256": {
+    "spec.json": "0b5a952632348faa1178fe25d4236fd621ef300dd1fc0a1407df3bf396b54ce3",
+    "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
+    "active/spec.json": "ea725a3cb939f4a3b932c9c4a2ae39fdb6d9b6b5a3da23fcc175711796fafa42",
+    "active/directed.json": "5cd6cdb436bcd6b4859ba1208884db3567038161007e646564711ab1e0549cce",
+    "active/boundary.py": "c221e09b32832e3d98c4e28c2b31ddf8bebf09ae3c345b7fc32ab8259c9b0114",
+    "active/generated/active_symmetric.c": "f4fe10171cf7eed0a3decee3027a79c74ba1f505d590c1725343244ffb8c316a",
+    "active/results.json": "c1951e98a06159765a964a7acd985442a88c03a18bdc3720104b69672ab535ba",
+    "active/px4_domain/spec.json": "adf604a6a1138535d8b9af88c79d47b545f6bec5d606a0ba9ce877f940c8d4b3",
+    "active/px4_domain/directed.json": "aab7e68f4777e9862d54bdbcc1c540247b09103b2d3877884652412e21c4bdb5",
+    "active/px4_domain/results.json": "563b23b4ff51b2e86b4464a2165699f50bdf804a67fe2dd43123bc4ab144296e"
+  },
+  "rule": "No result was collected before this registration; final cases stay closed; no existing result file is modified."
+}

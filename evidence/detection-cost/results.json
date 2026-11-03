@@ -1,0 +1,128 @@
+{
+  "question": "which boundary detects each retained binary32 active counterexample, at what execution cost",
+  "detection_criterion": "absolute next-state error against exact intent exceeds 0.001065 rad/s",
+  "registration_sha256": "1e4f4f40e6c70892eccc684625699f019c1b40d38e878fb6789a1f70ea304022",
+  "driver_sha256": "65332743b43523dd3085c8911f12e9a1b7c22950195b03eb157681fa44b4a249",
+  "oracle_sha256": {
+    "core.py": "e5c8e0e997b424a725aa09b916b44cef7ed60039b44f0e96f35f29b2609f4a24",
+    "active/boundary.py": "c221e09b32832e3d98c4e28c2b31ddf8bebf09ae3c345b7fc32ab8259c9b0114"
+  },
+  "source_sha256": "f4fe10171cf7eed0a3decee3027a79c74ba1f505d590c1725343244ffb8c316a",
+  "binary_sha256": "21fb7dee2efbdd843bd1e8aec10bcf60bdc644031f24af56973f681bbf633756",
+  "compiler_command": [
+    "cc",
+    "-std=c99",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter",
+    "-Werror",
+    "-shared",
+    "-fPIC",
+    "/private/tmp/claude-501/-Users-redhose/e6282147-467f-415b-a340-08977b3ec33c/scratchpad/week1022/control-code-verification/active/generated/active_symmetric.c",
+    "-o",
+    "/private/tmp/claude-501/-Users-redhose/e6282147-467f-415b-a340-08977b3ec33c/scratchpad/week1022/control-code-verification/build/detection-cost/active_symmetric.so"
+  ],
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
+  "compile_wall_clock_s": 0.11789137497544289,
+  "host": {
+    "platform": "macOS-14.7.3-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu": "Apple M1 Pro",
+    "python": "3.13.7"
+  },
+  "gap_dt_bits_le": {
+    "125": "6f120339",
+    "126": "de1e0439"
+  },
+  "sequences": {
+    "continuous_ceiling_tie": {
+      "registered_horizon_b2b": {
+        "steps_executed": 256,
+        "ceiling_crossed": false,
+        "first_crossing": null,
+        "max_abs_error_rad_s": "1/65536",
+        "max_abs_error_float": 1.52587890625e-05,
+        "original_horizon_bound_rad_s": "1/2048",
+        "original_horizon_bound_exceeded": false,
+        "branch_flag_disagreements": 0,
+        "branch_threshold_contacts": 0,
+        "exact_intent_evaluations": 512,
+        "binary32_reference_evaluations": 256,
+        "compiled_calls": 512,
+        "wall_clock_s": 0.01684299996122718
+      },
+      "directed_long_horizon": {
+        "steps_executed": 24576,
+        "registered_steps": 24576,
+        "stops_on_first_failure": false,
+        "ceiling_crossed": true,
+        "first_crossing": {
+          "step": 17868,
+          "abs_error": "4467/4194304",
+          "c_state": 1.5452880859375
+        },
+        "max_abs_error_rad_s": "3/2048",
+        "max_abs_error_float": 0.00146484375,
+        "c_reference_mismatches": 0,
+        "retained_first_crossing": {
+          "step": 17868,
+          "abs_error": "4467/4194304"
+        },
+        "matches_retained": true,
+        "exact_intent_evaluations": 24576,
+        "binary32_reference_evaluations": 24576,
+        "compiled_calls": 24576,
+        "wall_clock_s": 0.7606570000061765
+      }
+    },
+    "px4_timestamp_gap": {
+      "registered_horizon_b2b": {
+        "steps_executed": 256,
+        "ceiling_crossed": false,
+        "first_crossing": null,
+        "max_abs_error_rad_s": "913/268435456",
+        "max_abs_error_float": 3.4011900424957275e-06,
+        "original_horizon_bound_rad_s": "1/2048",
+        "original_horizon_bound_exceeded": false,
+        "branch_flag_disagreements": 0,
+        "branch_threshold_contacts": 0,
+        "exact_intent_evaluations": 512,
+        "binary32_reference_evaluations": 256,
+        "compiled_calls": 512,
+        "wall_clock_s": 0.01700208301190287
+      },
+      "directed_long_horizon": {
+        "steps_executed": 80161,
+        "registered_steps": 100000,
+        "stops_on_first_failure": true,
+        "ceiling_crossed": true,
+        "first_crossing": {
+          "step": 80161,
+          "abs_error": "36593663/34359738368",
+          "c_state": 1.1690255403518677
+        },
+        "max_abs_error_rad_s": "36593663/34359738368",
+        "max_abs_error_float": 0.0010650157637428492,
+        "c_reference_mismatches": 0,
+        "retained_first_crossing": {
+          "step": 80161,
+          "abs_error": "36593663/34359738368"
+        },
+        "matches_retained": true,
+        "exact_intent_evaluations": 80161,
+        "binary32_reference_evaluations": 80161,
+        "compiled_calls": 80161,
+        "wall_clock_s": 2.621549040894024
+      }
+    }
+  },
+  "detected_by_registered_horizon_b2b": [],
+  "detected_by_directed_long_horizon": [
+    "continuous_ceiling_tie",
+    "px4_timestamp_gap"
+  ],
+  "prediction_held": true
+}
