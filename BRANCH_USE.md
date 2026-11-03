@@ -59,7 +59,7 @@ was changed, and the historical issue flags remain in the original evidence.
 | Emitted slew flag, output index 1 | [Zero-reset C](generated/zero_reset.c#L105), [tracking-reset C](generated/tracking_reset.c#L117); compared in [qualify.py](qualify.py#L119) | Verification observes the flag; no repository application consumes it for a control or mode transition. |
 | Emitted clamp flag, output index 2 | [Zero-reset C](generated/zero_reset.c#L119), [tracking-reset C](generated/tracking_reset.c#L131); same verifier | Same current verification use. Inactive at exact equality under the existing contract. |
 | Next state, output index 0 | [Zero-reset C](generated/zero_reset.c#L101), [tracking-reset C](generated/tracking_reset.c#L113); [sequence recurrence](qualify.py#L139) | Only this output is passed as the next state. The emitted flags are computed after the state store and do not feed it back. |
-| Conservative `branch_issue` diagnostic | [Interval inspection](qualify.py#L120), [figure input](plot.py#L24) | Marks requirement-review locations. It is distinct from either emitted flag and is never an input to the core. |
+| Conservative `branch_issue` diagnostic | [Interval inspection](qualify.py#L120), [figure input](figures/matlab/make_core_qualification.m#L28) | Marks requirement-review locations. It is distinct from either emitted flag and is never an input to the core. |
 | External flag or state consumer | No wrapper/application is present in this repository | Intended action, sensitivity to a flag change and functional acceptance remain unspecified. |
 
 The map applies to both emitted flags at every row of the generated table.

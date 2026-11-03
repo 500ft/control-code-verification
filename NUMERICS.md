@@ -7,16 +7,21 @@ and compiler flags live in [spec.json](spec.json). The variants change reset
 semantics and filter time constant. They were authored and frozen for this
 qualification; this does not establish absence from model training data.
 
-For state x, input u and time increment h, the non-reset update is
+For state $x$, input $u$ and time increment $h$, the non-reset update is
 
-```
-a = h / (tau + h)
-d = a * (u - x)
-z = x + clip(d, -slew_down*h, slew_up*h)
-x_next = clip(z, -limit, limit)
+```math
+\begin{aligned}
+a &= \frac{h}{\tau + h}, \\
+d &= a\,(u - x), \\
+z &= x + \operatorname{clip}\left(d,\ -s_{\downarrow} h,\ s_{\uparrow} h\right), \\
+x_{\mathrm{next}} &= \operatorname{clip}\left(z,\ -x_{\max},\ x_{\max}\right).
+\end{aligned}
 ```
 
-This is backward Euler for `tau * dx/dt = u - x`, with a reachable-increment
+Here $s_{\uparrow}$ and $s_{\downarrow}$ are `slew_up` and `slew_down`, and
+$x_{\max}$ is the rate clamp `state_abs_max` in spec.json.
+
+This is backward Euler for $\tau\,\dot{x} = u - x$, with a reachable-increment
 projection and an absolute rate clamp. It qualifies the discrete requirement;
 no continuous-time discretization-error or actuator-tracking claim is made.
 Reset takes precedence over zero-dt hold and the update. Zero reset clears
@@ -32,7 +37,7 @@ The bare generated C assumes these preconditions. It is not an integration
 wrapper and must not be called on arbitrary external data.
 
 `core.intent` uses exact rational arithmetic and independently forms the
-weighted next target `(tau*x + h*u)/(tau+h)`, then projects onto the reachable
+weighted next target $(\tau x + h u)/(\tau + h)$, then projects onto the reachable
 state interval. `core.reference` rounds each operation to NumPy binary32.
 The generator builds a separate symbolic expression. Frozen development
 inputs are dyadic so input conversion error is absent; deployment conversion
@@ -40,19 +45,19 @@ would need its own requirement. Constants are exactly representable.
 
 ## Error bound
 
-Let epsilon be binary32 unit roundoff from the register. Over the registered
-domain, `|u-x| <= 10`, `a <= 1/3`, and each signed slew increment has magnitude
-at most 1/4. Correctly rounded addition and division give
-`|a_hat-a| <= 2*epsilon`: the usual relative bound is
-`2*epsilon/(1-epsilon)` times a. Subtracting u-x contributes at most
-`10*epsilon`. Multiplying the rounded difference and coefficient therefore
-contributes less than `28*epsilon` rad/s absolute error to d, including the
+Let $\varepsilon$ be binary32 unit roundoff from the register. Over the registered
+domain, $\lvert u-x \rvert \le 10$, $a \le 1/3$, and each signed slew increment has magnitude
+at most $1/4$. Correctly rounded addition and division give
+$\lvert \hat{a}-a \rvert \le 2\varepsilon$: the usual relative bound is
+$2\varepsilon/(1-\varepsilon)$ times $a$. Subtracting $u-x$ contributes at most
+$10\varepsilon$. Multiplying the rounded difference and coefficient therefore
+contributes less than $28\varepsilon$ rad/s absolute error to $d$, including the
 product's rounding and cross terms.
 
 The slew multipliers are powers of two, hence exact here. Clipping is
 nonexpansive, so the delta bound also bounds its clipped value. Adding the
-state rounds by less than `3*epsilon` rad/s. The final projection is also
-nonexpansive. The registered `32*epsilon` local bound leaves room above that
+state rounds by less than $3\varepsilon$ rad/s. The final projection is also
+nonexpansive. The registered $32\varepsilon$ local bound leaves room above that
 sum; selections in generated C add a selected finite value to zero exactly.
 Reset and hold are exact.
 
@@ -62,8 +67,8 @@ the minimum subnormal, far below the slack above. Inputs and coefficients do
 not approach overflow. This assumes gradual underflow and nearest-even
 rounding; other floating-point modes are outside qualification.
 
-For the exact map, as x varies each region has slope either `1-a`, `1`, or
-`0`, with continuous joins. It is nonexpansive in x. Therefore cumulative
+For the exact map, as $x$ varies each region has slope either $1-a$, $1$, or
+$0$, with continuous joins. It is nonexpansive in $x$. Therefore cumulative
 state error is at most the preceding bound plus the local bound on each
 update. Reset returns the bound to zero; hold preserves it. The runner checks
 this recurrence against exact rational trajectories and reports the
@@ -72,7 +77,7 @@ registered worst-horizon bound in [results](evidence/results.json).
 The [specification](spec.json) limits a trace to 256 steps. The runner resets
 its bound accumulator when a reset occurs inside that trace. It does not admit
 an indefinite run merely because the last reset was recent. The registered
-`32*epsilon` local bound remains unchanged; a tighter informal estimate from
+$32\varepsilon$ local bound remains unchanged; a tighter informal estimate from
 the [Claude review](evidence/review/README.md) has not replaced it.
 
 Independent analytic checks use the geometric closed-form constant-input
